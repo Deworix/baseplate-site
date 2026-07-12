@@ -53,7 +53,7 @@
 <main class="contact-wrap">
   <p class="eyebrow"><span class="eyebrow-dot"></span>Support</p>
   <h1>Contact us</h1>
-  <p class="lede">Trouble with a license key, a billing question, a bug, or an idea — write it below and it lands straight with the team. Include your purchase email for anything billing-related.</p>
+  <p class="lede">Trouble with a license key, a billing question, a bug, or an idea — write it below and it lands straight with the team, or email us directly at <a href="mailto:contact@baseplatedev.com">contact@baseplatedev.com</a>. Include your purchase email for anything billing-related.</p>
 
   <form class="contact-form" id="contact-form">
     <div>
@@ -92,8 +92,7 @@
 
 <script>
   // Posts to the license worker's /support inbox (stored server-side + forwarded to
-  // the operator). No mail client needed — works even though there's no public
-  // support mailbox yet.
+  // the operator). No mail client needed; visitors can also email contact@baseplatedev.com directly.
   (function () {
     var WORKER = 'https://baseplate-license.baseplate-app.workers.dev';
     var form = document.getElementById('contact-form');
