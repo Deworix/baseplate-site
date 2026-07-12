@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Baseplate</title>
+<meta name="description" content="Get in touch with the Baseplate team — support, billing, licenses.">
+<meta name="robots" content="all">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  .contact-wrap { max-width: 640px; margin: 0 auto; padding: 96px 24px 80px; }
+  .contact-wrap h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 750; letter-spacing: -0.02em; }
+  .contact-wrap .lede { margin: 18px 0 34px; }
+  .contact-form { display: flex; flex-direction: column; gap: 14px; }
+  .contact-form label { font-size: 12.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--dim); }
+  .contact-form input, .contact-form textarea {
+    width: 100%; background: linear-gradient(180deg, var(--surface-1), var(--panel));
+    border: 1px solid var(--line); border-radius: var(--r-plate); color: var(--text);
+    font: inherit; font-size: 14.5px; padding: 13px 15px; outline: none;
+    transition: border-color .15s;
+  }
+  .contact-form input:focus, .contact-form textarea:focus { border-color: rgba(94,139,240,.55); }
+  .contact-form textarea { min-height: 160px; resize: vertical; }
+  .contact-form .hint { font-size: 13px; color: var(--dim); margin-top: -6px; }
+  .contact-form button[type=submit] { align-self: flex-start; margin-top: 6px; }
+  .form-note { font-family: var(--font-mono); font-size: 13.5px; padding: 16px 18px; border-radius: var(--r-plate);
+    border: 1px solid var(--line); color: var(--dim); }
+  .form-note.ok { border-color: rgba(63,217,162,.4); color: var(--mint); }
+  .form-note.err { border-color: rgba(240,94,94,.4); color: var(--text); }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#pricing">Pricing</a>
+    <a href="index.html#faq">FAQ</a>
+  </div>
+  <a class="btn btn-primary btn-sm" href="index.html#pricing">Get Baseplate</a>
+</nav>
+
+<main class="contact-wrap">
+  <p class="eyebrow"><span class="eyebrow-dot"></span>Support</p>
+  <h1>Contact us</h1>
+  <p class="lede">Trouble with a license key, a billing question, a bug, or an idea — write it below and it lands straight with the team. Include your purchase email for anything billing-related.</p>
+
+  <form class="contact-form" id="contact-form">
+    <div>
+      <label for="cf-email">Your email (so we can reply)</label>
+      <input id="cf-email" type="email" autocomplete="email" placeholder="you@example.com">
+    </div>
+    <div>
+      <label for="cf-msg">Message</label>
+      <textarea id="cf-msg" required maxlength="4000" placeholder="What's going on? For key issues, include the email you used at checkout."></textarea>
+      <p class="hint">Up to 4000 characters. We usually reply within a day.</p>
+    </div>
+    <button class="btn btn-primary" type="submit" id="cf-send">Send message</button>
+    <div class="form-note ok" id="cf-ok" hidden>✓ Sent — thanks! We'll get back to you at the email you gave.</div>
+    <div class="form-note err" id="cf-err" hidden></div>
+  </form>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg class="brand-mark" width="18" height="18" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+      <span>Baseplate</span>
+      <span class="footer-tag">Mission control for building Roblox with AI agents.</span>
+    </div>
+    <div class="footer-links">
+      <a href="index.html#pricing">Pricing</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="cookies.html">Cookies</a>
+      <a href="refunds.html">Refunds</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation. Roblox is a trademark of Roblox Corporation.</p>
+</footer>
+
+<script>
+  // Posts to the license worker's /support inbox (stored server-side + forwarded to
+  // the operator). No mail client needed — works even though there's no public
+  // support mailbox yet.
+  (function () {
+    var WORKER = 'https://baseplate-license.baseplate-app.workers.dev';
+    var form = document.getElementById('contact-form');
+    var ok = document.getElementById('cf-ok');
+    var err = document.getElementById('cf-err');
+    var btn = document.getElementById('cf-send');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      ok.hidden = true; err.hidden = true;
+      var message = document.getElementById('cf-msg').value.trim();
+      if (!message) return;
+      btn.disabled = true; btn.textContent = 'Sending…';
+      fetch(WORKER + '/support', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email: document.getElementById('cf-email').value.trim(), message: message }),
+      })
+        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(function () {
+          ok.hidden = false; form.reset();
+          btn.disabled = false; btn.textContent = 'Send message';
+        })
+        .catch(function () {
+          err.hidden = false;
+          err.textContent = "Couldn't send right now — please try again in a minute.";
+          btn.disabled = false; btn.textContent = 'Send message';
+        });
+    });
+  })();
+</script>
+</body>
+</html>

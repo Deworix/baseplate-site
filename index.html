@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Baseplate — Mission control for building Roblox games with AI agents</title>
+<meta name="description" content="Baseplate runs AI agents inside your Roblox workflow: they playtest your game, catch runtime errors and exploits, write the fix, and verify it live in Studio — while you watch.">
+<meta property="og:title" content="Baseplate — build Roblox games with AI agents">
+<meta property="og:description" content="Agents that playtest, find the bug, write the fix, and verify it live in Studio. Free to start.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="#top" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+  <div class="nav-links">
+    <a href="#copilot">Playtest Copilot</a>
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a class="btn btn-primary btn-sm" href="#pricing">Get Baseplate</a>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────────────────────────── -->
+<header class="hero" id="top">
+  <div class="hero-copy">
+    <p class="eyebrow"><span class="eyebrow-dot"></span>For Roblox developers</p>
+    <h1>Your game has bugs.<br>Your agents already<br>found them.</h1>
+    <p class="lede">Baseplate is mission control for building Roblox games with AI agents. They playtest your game, read the real error, write the fix in your Luau source, and verify it live in Studio — <em>while you watch</em>.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#pricing">Download free</a>
+      <a class="btn btn-ghost" href="#copilot">See the loop <span class="arrow">→</span></a>
+    </div>
+    <p class="hero-fineprint">Free forever plan · no card required · Windows &amp; macOS</p>
+  </div>
+
+  <!-- Live agent-tile mockup: the flagship loop, playing on repeat -->
+  <div class="hero-demo" aria-label="Demo: an agent fixing a runtime error automatically">
+    <div class="tile">
+      <div class="tile-bar">
+        <span class="tile-dot"></span>
+        <span class="tile-name">Nova</span>
+        <span class="tile-role">Playtest Copilot</span>
+        <span class="tile-status" id="demo-status">playtesting…</span>
+      </div>
+      <div class="tile-body" id="demo-body">
+        <!-- filled by site.js, static fallback below for no-JS -->
+        <noscript>
+          <div class="line sys">▶ playtest started · demo-tycoon</div>
+          <div class="line err">ServerScriptService.Tycoon:46: attempt to compare nil &lt; number</div>
+          <div class="line say">Cash isn't initialized before the dropper pays out. Fixing Tycoon.server.luau…</div>
+          <div class="line chip">✎ Edit · src/server/Tycoon.server.luau</div>
+          <div class="line ok">✓ re-ran playtest — console clean · PASS</div>
+        </noscript>
+      </div>
+    </div>
+    <div class="demo-caption">The Playtest Copilot loop — no clicking, no copy-pasting stack traces.</div>
+  </div>
+</header>
+
+<!-- ── Demo video ────────────────────────────────────────────────── -->
+<section class="section demo-section" id="demo">
+  <div class="section-head demo-head">
+    <p class="eyebrow">See it run</p>
+    <h2>Watch an agent fix a bug it found itself.</h2>
+  </div>
+  <div class="video-frame">
+    <video class="demo-video" autoplay muted loop playsinline preload="metadata" poster="demo-poster.jpg">
+      <source src="baseplate-demo.mp4" type="video/mp4">
+    </video>
+  </div>
+</section>
+
+<!-- ── Works with ───────────────────────────────────────────────── -->
+<section class="strip" aria-label="Works with">
+  <span class="strip-label">Plugs into the tools you already use</span>
+  <div class="strip-items">
+    <span>Roblox Studio</span><i></i><span>Rojo</span><i></i><span>Claude Code</span><i></i><span>Codex</span><i></i><span>Open Cloud</span>
+  </div>
+</section>
+
+<!-- ── Playtest Copilot (flagship) ──────────────────────────────── -->
+<section class="section" id="copilot">
+  <div class="section-head">
+    <p class="eyebrow">The flagship loop</p>
+    <h2>Playtest → error → fix → <span class="accent">PASS</span>.<br>Without you in the middle.</h2>
+    <p class="section-lede">Every Roblox dev knows the ritual: playtest, squint at the Output window, alt-tab, guess, repeat. Baseplate's bridge gives agents eyes inside Studio — they run the playtest, read the <strong>actual</strong> runtime error, fix the cause in your source, and re-run until the console is clean.</p>
+  </div>
+  <div class="loop-steps">
+    <div class="loop-step"><span class="loop-num mono">01</span><h3>Playtest</h3><p>The agent runs your game through the live Studio bridge and watches the console — the same output you'd read, minus the squinting.</p></div>
+    <div class="loop-step"><span class="loop-num mono">02</span><h3>Diagnose</h3><p>It reads the real stack trace, finds the cause in your Luau source, and explains it in plain language — not a cryptic dump.</p></div>
+    <div class="loop-step"><span class="loop-num mono">03</span><h3>Fix</h3><p>It edits <span class="mono">src/</span> directly. Rojo syncs the change into Studio the moment it's written.</p></div>
+    <div class="loop-step"><span class="loop-num mono">04</span><h3>Verify</h3><p>It playtests again and only reports PASS when the console is actually clean. No "should work now".</p></div>
+  </div>
+</section>
+
+<!-- ── Exploit Guard highlight ──────────────────────────────────── -->
+<section class="section split" id="exploit">
+  <div class="split-copy">
+    <p class="eyebrow eyebrow-rose">Exploit Guard</p>
+    <h2>Every unvalidated RemoteEvent is free money for exploiters.</h2>
+    <p>If your server trusts the client — prices, rewards, damage — someone will find it. Exploit Guard audits your live game like an attacker would: it maps every remote, tells you each hole as a plain-language attack story ranked by severity, and writes the server-side hardening for you.</p>
+    <ul class="checks">
+      <li>Finds remotes that trust the client before players do</li>
+      <li>Explains each exploit as the attack it enables — "a client can dictate its own price"</li>
+      <li>Writes validated, server-authoritative fixes into your source</li>
+    </ul>
+    <p class="free-tag"><span class="tag tag-mint">Included free</span> Exploit Guard ships in the Free plan. Protecting your revenue shouldn't be a paywall.</p>
+  </div>
+  <div class="split-visual" aria-hidden="true">
+    <div class="audit-card">
+      <div class="audit-head mono">EXPLOIT GUARD · 6 findings</div>
+      <div class="audit-row sev-crit"><span class="sev">CRITICAL</span><span class="what mono">BuyItem</span><span class="how">client dictates price → unlimited Cash</span></div>
+      <div class="audit-row sev-crit"><span class="sev">CRITICAL</span><span class="what mono">GiveReward</span><span class="how">client names its own reward</span></div>
+      <div class="audit-row sev-high"><span class="sev">HIGH</span><span class="what mono">SetSpeed</span><span class="how">no server clamp on WalkSpeed</span></div>
+      <div class="audit-row sev-med"><span class="sev">MED</span><span class="what mono">TeleportTo</span><span class="how">position not validated</span></div>
+      <div class="audit-fix mono">✎ writing server-side validation → src/server/Shop.server.luau</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Feature grid ─────────────────────────────────────────────── -->
+<section class="section" id="features">
+  <div class="section-head">
+    <p class="eyebrow">The full toolbelt</p>
+    <h2>One deck. Every job a Roblox studio<br>hires people for.</h2>
+    <p class="section-lede">Each of these is a one-click mission that runs on a real agent with eyes inside your game — not a chatbot guessing from the outside.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-ico" style="color:var(--accent-2)"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M4 5h7v7H4zM13 5h7v7h-7zM4 14h7v5H4zM13 14h7v5h-7z" opacity=".85"/></svg></div>
+      <h3>Crew — visible agent swarms</h3>
+      <p>A Foreman plans the mission and spawns builders in their own tiles, each owning its files. Watch a whole feature get built in parallel, narrated in a live mission feed.</p>
+    </div>
+    <div class="card">
+      <div class="card-ico" style="color:var(--mint)"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6l-8-4zm-1 13-3-3 1.4-1.4L11 12.2l4.6-4.6L17 9l-6 6z"/></svg></div>
+      <h3>Ship Gate</h3>
+      <p>"Is it safe to release?" answered honestly: one verdict across runtime, security, data safety and robustness — with every blocker named as its real-world consequence.</p>
+    </div>
+    <div class="card">
+      <div class="card-ico" style="color:var(--amber)"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M3 17h4v4H3zM9 12h4v9H9zM15 7h4v14h-4zM3 3l6 5 4-3 8 6-1.2 1.6L13 7.5l-4 3L4.2 4.6z"/></svg></div>
+      <h3>Economy Simulator</h3>
+      <p>Models every currency source and sink in your game, simulates a cohort of players, and flags inflation, progression walls and money-printer loops — with tuned numbers.</p>
+    </div>
+    <div class="card">
+      <div class="card-ico" style="color:var(--rose)"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 3a7 7 0 0 0-7 7c0 2.4 1.2 4.5 3 5.7V18a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.3c1.8-1.2 3-3.3 3-5.7a7 7 0 0 0-7-7zm-2 17h4v1a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1v-1z"/></svg></div>
+      <h3>Live-game Doctor</h3>
+      <p>Connects to your <em>published</em> game via Open Cloud, reads real player data, and diagnoses retention cliffs, stuck players, corrupted saves and live exploits.</p>
+    </div>
+    <div class="card">
+      <div class="card-ico" style="color:var(--violet)"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M4 4h16v12H5.2L4 17.2V4zm2 3v2h12V7H6zm0 4v2h8v-2H6z"/></svg></div>
+      <h3>Prompt-to-game</h3>
+      <p>Describe a game in one sentence. Baseplate scaffolds the workspace and a Crew builds the first playable slice — loop, saving, UI — before your coffee cools.</p>
+    </div>
+    <div class="card">
+      <div class="card-ico" style="color:var(--accent)"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 2a5 5 0 0 1 5 5v1h1a3 3 0 0 1 0 6h-1v1a5 5 0 0 1-10 0v-1H6a3 3 0 0 1 0-6h1V7a5 5 0 0 1 5-5zm-2 8v2h4v-2h-4z"/></svg></div>
+      <h3>Asset &amp; UI Generator</h3>
+      <p>Generates mobile-safe Roblox UI in Luau, then <em>looks at the result</em> through the bridge — overlap, off-screen, contrast — and iterates until the layout is clean.</p>
+    </div>
+    <div class="card">
+      <div class="card-ico" style="color:var(--mint)"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 3 2 8l10 5 8.4-4.2V15H22V8L12 3zM6 12.8V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-3.2l-6 3-6-3z"/></svg></div>
+      <h3>Ask your game</h3>
+      <p>A knowledge index of your source — ask "where is the shop logic?" and get file:line answers instead of an agent burning tokens re-reading every script.</p>
+    </div>
+    <div class="card">
+      <div class="card-ico" style="color:var(--amber)"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M7 4h10l3 5-8 11L4 9l3-5zm2.2 2L7.6 8.6h8.8L14.8 6H9.2z"/></svg></div>
+      <h3>Mission marketplace</h3>
+      <p>Battle-tested, one-click missions: gacha with pity, anti-dupe trading, daily streaks, rebirth, global leaderboards. The systems every hit game needs, pre-briefed.</p>
+    </div>
+    <div class="card">
+      <div class="card-ico" style="color:var(--rose)"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M4 6h16v2H4zm0 5h10v2H4zm0 5h16v2H4zm13.5-6.5 2 2-4.5 4.5H13v-2l4.5-4.5z"/></svg></div>
+      <h3>Multiplayer harness</h3>
+      <p>Simulated player load hunting the bugs only multiplayer surfaces: desyncs, two-players-buy-the-last-item races, client-authority holes, state leaks.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── How it feels ─────────────────────────────────────────────── -->
+<section class="section split" id="deck">
+  <div class="split-visual deck-visual" aria-hidden="true">
+    <div class="mini-deck">
+      <div class="mini-tile"><span class="mini-dot" style="background:var(--mint)"></span>Nova <em>· fixing Tycoon.server.luau</em></div>
+      <div class="mini-tile"><span class="mini-dot" style="background:var(--accent)"></span>Atlas <em>· building trade UI</em></div>
+      <div class="mini-tile"><span class="mini-dot" style="background:var(--amber)"></span>Vega <em>· auditing remotes</em></div>
+      <div class="mini-feed mono">
+        <div>» Foreman: split into 3 workstreams</div>
+        <div>» Nova: dropper payout validated ✓</div>
+        <div>» Vega: 2 critical remotes hardened ✓</div>
+      </div>
+    </div>
+  </div>
+  <div class="split-copy">
+    <p class="eyebrow">The deck</p>
+    <h2>It feels less like a tool,<br>more like a team.</h2>
+    <p>Agents live in tiles on a deck — real terminals when you want them, clean transcripts when you don't. A Kanban board dispatches work, a mission feed narrates progress, and the Studio panel shows your bridge, Rojo and plugin health at a glance.</p>
+    <ul class="checks">
+      <li>Native Claude Code terminals in tiles — every command and <span class="mono">/model</span> works 1:1</li>
+      <li>Tiles open instantly, pre-warmed and pre-approved</li>
+      <li>Voice dictation into any tile, command palette everywhere</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── Pricing ──────────────────────────────────────────────────── -->
+<section class="section" id="pricing">
+  <div class="section-head">
+    <p class="eyebrow">Pricing</p>
+    <h2>Start free. Upgrade when<br>your game earns it.</h2>
+    <p class="section-lede">Founder pricing — locked in for everyone who joins now, even as features keep landing.</p>
+    <div class="billing-toggle" role="radiogroup" aria-label="Billing period">
+      <button class="bt-opt" data-period="monthly" role="radio" aria-checked="false">Monthly</button>
+      <button class="bt-opt active" data-period="yearly" role="radio" aria-checked="true">Yearly <span class="save-pill">save ~33%</span></button>
+    </div>
+  </div>
+
+  <div class="plans">
+    <div class="plan">
+      <div class="plan-name">Free</div>
+      <div class="plan-price"><span class="amount">$0</span><span class="per">forever</span></div>
+      <p class="plan-blurb">Build, fix and secure one game at a time — with the full Studio bridge.</p>
+      <ul class="plan-list">
+        <li>One agent tile at a time</li>
+        <li>Live Studio bridge + Rojo sync</li>
+        <li>Playtest Copilot — fix &amp; explain runtime errors</li>
+        <li><strong>Exploit Guard security audit</strong></li>
+        <li>Demo game to start from</li>
+      </ul>
+      <a class="btn btn-ghost btn-block" href="#download">Download free</a>
+    </div>
+
+    <div class="plan plan-featured">
+      <div class="plan-flag">Most popular</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">
+        <span class="amount" data-monthly="$4.99" data-yearly="$3.33">$3.33</span><span class="per">/ month</span>
+      </div>
+      <div class="plan-subprice mono" data-monthly="billed monthly" data-yearly="$39.99 billed yearly">$39.99 billed yearly</div>
+      <p class="plan-blurb">Every agent-powered mission, review and live-ops tool. Less than one small dev-product commission.</p>
+      <ul class="plan-list">
+        <li><strong>Up to 5 agents in parallel</strong></li>
+        <li>Crew — multi-agent build swarms</li>
+        <li>Ship Gate release review</li>
+        <li>Economy &amp; multiplayer simulators</li>
+        <li>Live-game Doctor (Open Cloud)</li>
+        <li>Asset &amp; UI generator</li>
+        <li>Prompt-to-game + mission marketplace</li>
+      </ul>
+      <a class="btn btn-primary btn-block buy" data-plan="pro" href="#" rel="noopener">Get Pro</a>
+    </div>
+
+    <div class="plan">
+      <div class="plan-name">Studio</div>
+      <div class="plan-price">
+        <span class="amount" data-monthly="$12.99" data-yearly="$9.99">$9.99</span><span class="per">/ month</span>
+      </div>
+      <div class="plan-subprice mono" data-monthly="billed monthly" data-yearly="$119.99 billed yearly">$119.99 billed yearly</div>
+      <p class="plan-blurb">For teams shipping at scale — more parallel agents, bigger swarms.</p>
+      <ul class="plan-list">
+        <li><strong>Up to 10 agents in parallel</strong></li>
+        <li>Bigger Crew swarms (up to 8 builders)</li>
+        <li>Everything in Pro</li>
+        <li>Priority support</li>
+      </ul>
+      <a class="btn btn-ghost btn-block buy" data-plan="studio" href="#" rel="noopener">Get Studio</a>
+    </div>
+  </div>
+  <p class="pricing-fineprint">Cancel anytime. Your license key arrives by email the moment checkout completes — paste it into Baseplate and you're upgraded. 14-day refund, no questions.</p>
+</section>
+
+<!-- ── Download ─────────────────────────────────────────────────── -->
+<section class="section dl" id="download">
+  <div class="dl-inner">
+    <h2>Get Baseplate</h2>
+    <p class="section-lede">Runs locally on your machine. Your code and your Open Cloud key never leave it.</p>
+    <div class="dl-buttons">
+      <a class="btn btn-primary dl-btn" data-os="win" href="#" rel="noopener">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3 5.5 10.5 4.4v7.1H3zM3 12.5h7.5v7.1L3 18.5zM11.5 4.2 21 3v8.5h-9.5zM11.5 12.5H21V21l-9.5-1.3z"/></svg>
+        Download for Windows
+      </a>
+      <a class="btn btn-ghost dl-btn" data-os="mac" href="#" rel="noopener">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M16.4 12.9c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.9-1.6 0-3.1 1-4 2.4-1.7 2.9-.4 7.3 1.2 9.7.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.6-1-2.6-3.7zM14 5.6c.7-.8 1.1-1.9 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4z"/></svg>
+        Download for macOS
+      </a>
+    </div>
+    <p class="dl-note">Prerequisite: <a href="https://claude.com/claude-code" rel="noopener" target="_blank">Claude Code</a> installed and signed in — Baseplate orchestrates it. Windows may show a SmartScreen prompt on first run (we're a new, unsigned publisher — "More info → Run anyway").</p>
+  </div>
+</section>
+
+<!-- ── FAQ ──────────────────────────────────────────────────────── -->
+<section class="section faq-section" id="faq">
+  <div class="section-head"><p class="eyebrow">FAQ</p><h2>Fair questions.</h2></div>
+  <div class="faq">
+    <details>
+      <summary>Do I need my own AI subscription?</summary>
+      <p>Yes — Baseplate drives your existing <strong>Claude Code</strong> (or Codex) account. That keeps Baseplate cheap: you're not paying us a markup on tokens, and your usage limits are whatever your AI plan gives you.</p>
+    </details>
+    <details>
+      <summary>Does my code leave my machine?</summary>
+      <p>No. Baseplate runs entirely locally — the server, the bridge, your source, and your Open Cloud key all stay on your computer. The only network traffic is your own agent talking to your own AI provider.</p>
+    </details>
+    <details>
+      <summary>How is this different from just using Claude Code in a terminal?</summary>
+      <p>The bridge. A terminal agent can write Luau, but it's blind — it can't playtest, can't read the Output window, can't check the live DataModel. Baseplate gives agents eyes and hands inside Studio, plus the deck, board, swarms and one-click missions built on top.</p>
+    </details>
+    <details>
+      <summary>What happens when my Pro subscription lapses?</summary>
+      <p>You drop back to Free — one agent at a time, bridge and Exploit Guard still included. Your projects, workspaces and history stay untouched on your disk.</p>
+    </details>
+    <details>
+      <summary>Is the Studio plugin safe?</summary>
+      <p>The plugin only talks to <span class="mono">127.0.0.1</span> — your own machine — and Baseplate validates the origin of every connection. Nothing is exposed to the network, and the code that ships is the code we audit before every release.</p>
+    </details>
+    <details>
+      <summary>I'm a student / hobbyist. Is Free actually usable?</summary>
+      <p>Free is the full core loop: one agent with complete Studio access, the Playtest Copilot flow, Rojo sync and the Exploit Guard audit. It's deliberately generous — if Baseplate never earns your upgrade, it should still make your game better.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ── Final CTA ────────────────────────────────────────────────── -->
+<section class="final-cta">
+  <h2>The next bug in your game<br>doesn't have to be yours to fix.</h2>
+  <div class="hero-cta">
+    <a class="btn btn-primary" href="#download">Download Baseplate free</a>
+    <a class="btn btn-ghost" href="#pricing">Compare plans</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg class="brand-mark" width="18" height="18" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+      <span>Baseplate</span>
+      <span class="footer-tag">Mission control for building Roblox with AI agents.</span>
+    </div>
+    <div class="footer-links">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="cookies.html">Cookies</a>
+      <a href="refunds.html">Refunds</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation. Roblox is a trademark of Roblox Corporation.</p>
+</footer>
+
+<script src="config.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

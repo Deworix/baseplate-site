@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You're in — Baseplate</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  .success-wrap { max-width: 640px; margin: 0 auto; padding: 110px 24px; text-align: center; }
+  .success-badge {
+    width: 64px; height: 64px; margin: 0 auto 28px; display: grid; place-items: center;
+    background: rgba(63,217,162,.1); border: 1px solid rgba(63,217,162,.35);
+    border-radius: var(--r-plate-lg); color: var(--mint); font-size: 28px;
+    box-shadow: 0 0 40px -10px rgba(63,217,162,.4);
+  }
+  .success-wrap h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 750; letter-spacing: -0.02em; }
+  .success-wrap .lede { margin: 20px auto 36px; }
+  .steps { text-align: left; display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; }
+  .step {
+    display: flex; gap: 16px; align-items: baseline;
+    background: linear-gradient(180deg, var(--surface-1), var(--panel));
+    border: 1px solid var(--line); border-radius: var(--r-plate);
+    box-shadow: inset 0 1px 0 var(--hi); padding: 16px 18px;
+  }
+  .step b { font-family: var(--font-mono); color: var(--accent-2); font-weight: 500; font-size: 13px; flex: none; }
+  .step span { color: var(--dim); font-size: 14.5px; }
+  .step span strong { color: var(--text); }
+  /* License key panel */
+  .keybox { margin: 4px auto 34px; text-align: left; }
+  .keybox .label { font-size: 12.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--dim); margin-bottom: 8px; }
+  .keyrow {
+    display: flex; gap: 10px; align-items: stretch;
+    background: linear-gradient(180deg, var(--surface-1), var(--panel));
+    border: 1px solid rgba(63,217,162,.35); border-radius: var(--r-plate);
+    box-shadow: inset 0 1px 0 var(--hi), 0 0 40px -18px rgba(63,217,162,.5); padding: 6px 6px 6px 16px;
+  }
+  .keyrow code {
+    flex: 1; font-family: var(--font-mono); font-size: 15px; color: var(--mint);
+    letter-spacing: .5px; align-self: center; word-break: break-all; user-select: all;
+  }
+  .keyrow button {
+    flex: none; border: 1px solid var(--line); background: var(--surface-2, rgba(255,255,255,.04));
+    color: var(--text); border-radius: calc(var(--r-plate) - 4px); padding: 0 16px; font-weight: 600;
+    font-size: 13.5px; cursor: pointer; transition: background .15s, border-color .15s;
+  }
+  .keyrow button:hover { border-color: rgba(63,217,162,.5); }
+  .keyrow button.done { color: var(--mint); border-color: rgba(63,217,162,.5); }
+  .key-note { font-size: 13px; color: var(--dim); margin-top: 10px; }
+  .key-loading, .key-error { font-family: var(--font-mono); font-size: 13.5px; color: var(--dim); padding: 18px; text-align: center;
+    border: 1px dashed var(--line); border-radius: var(--r-plate); }
+  .key-error { color: var(--text); }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+</nav>
+<main class="success-wrap">
+  <div class="success-badge">✓</div>
+  <h1>You're in.</h1>
+  <p class="lede">Payment received. Here's your Baseplate license key — copy it and paste it into the app to unlock everything.</p>
+
+  <div class="keybox">
+    <div class="label">Your license key</div>
+    <div class="key-loading" id="key-loading">Fetching your key…</div>
+    <div class="keyrow" id="key-row" hidden>
+      <code id="key-value"></code>
+      <button id="key-copy" type="button">Copy</button>
+    </div>
+    <div class="key-error" id="key-error" hidden></div>
+    <p class="key-note" id="key-note" hidden>A copy is also emailed to you when email delivery is enabled. Keep this key — it works on every machine you use, as long as your subscription is active.</p>
+  </div>
+
+  <div class="steps">
+    <div class="step"><b>01</b><span>Copy the key above.</span></div>
+    <div class="step"><b>02</b><span>In Baseplate, click your plan badge (bottom-left) → paste the key → <strong>Activate</strong>.</span></div>
+    <div class="step"><b>03</b><span>That's it — your agents, swarms and missions unlock instantly. No restart needed.</span></div>
+  </div>
+  <a class="btn btn-primary" href="index.html#download">Don't have the app yet? Download it</a>
+  <p class="dl-note" style="margin-top:26px">Trouble with your key? <a href="contact.html">Contact us</a> and include your purchase email — we'll sort it fast.</p>
+</main>
+<script>
+  // The Stripe payment link redirects here with ?session_id=cs_… . Ask the license
+  // worker for the key tied to that paid session and show it on-screen (no email needed).
+  (function () {
+    var VALIDATOR = 'https://baseplate-license.baseplate-app.workers.dev';
+    var loading = document.getElementById('key-loading');
+    var row = document.getElementById('key-row');
+    var val = document.getElementById('key-value');
+    var copy = document.getElementById('key-copy');
+    var err = document.getElementById('key-error');
+    var note = document.getElementById('key-note');
+    var sid = new URLSearchParams(location.search).get('session_id');
+
+    function fail(msg) {
+      loading.hidden = true; row.hidden = true; note.hidden = true;
+      err.hidden = false; err.textContent = msg;
+    }
+    function show(key) {
+      loading.hidden = true; err.hidden = true;
+      row.hidden = false; note.hidden = false; val.textContent = key;
+    }
+
+    if (!sid) {
+      fail('Your key was emailed to you. If it didn’t arrive, use the contact link below.');
+      return;
+    }
+
+    var tries = 0;
+    (function get() {
+      tries++;
+      fetch(VALIDATOR + '/key?session_id=' + encodeURIComponent(sid))
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          if (res.ok && res.d.key) { show(res.d.key); return; }
+          // Payment may take a moment to settle — retry a few times.
+          if (tries < 4) { setTimeout(get, 1500); return; }
+          fail((res.d && res.d.error ? res.d.error + '. ' : '') + 'Use the contact link below with your purchase email and we’ll send your key.');
+        })
+        .catch(function () {
+          if (tries < 4) { setTimeout(get, 1500); return; }
+          fail('Couldn’t reach the license server. Use the contact link below and we’ll send your key.');
+        });
+    })();
+
+    copy.addEventListener('click', function () {
+      navigator.clipboard.writeText(val.textContent).then(function () {
+        copy.textContent = 'Copied'; copy.classList.add('done');
+        setTimeout(function () { copy.textContent = 'Copy'; copy.classList.remove('done'); }, 1800);
+      });
+    });
+  })();
+</script>
+</body>
+</html>
