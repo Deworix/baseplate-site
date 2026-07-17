@@ -53,6 +53,15 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+/* Kill horizontal scroll on mobile, three ways so nothing slips through:
+   1. overflow-x: clip  — clips any stray-wide child WITHOUT creating a scroll
+      container (so it won't break the sticky nav the way overflow-x:hidden does).
+   2. overscroll-behavior-x: none — stops iOS's horizontal rubber-band pan, the
+      "I can swipe sideways but there's nothing there" effect.
+   3. break-word — a long unbreakable token (a luau path, URL, email) can render
+      a hair wider on iOS than in Chrome and push the page out; let them wrap. */
+html, body { max-width: 100%; overflow-x: clip; overscroll-behavior-x: none; }
+body { overflow-wrap: break-word; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
@@ -388,7 +397,7 @@ nav, header, section, footer { position: relative; z-index: 1; }
 }
 .footer-brand { display: flex; align-items: center; gap: 9px; font-family: var(--font-display); font-weight: 700; }
 .footer-tag { color: var(--faint); font-family: var(--font-ui); font-weight: 450; font-size: 13px; margin-left: 6px; }
-.footer-links { margin-left: auto; display: flex; gap: 20px; }
+.footer-links { margin-left: auto; display: flex; flex-wrap: wrap; gap: 12px 20px; }
 .footer-links a { color: var(--dim); font-size: 13.5px; text-decoration: none; }
 .footer-links a:hover { color: var(--text); }
 .footer-legal { max-width: var(--maxw); margin: 0 auto; padding: 6px 24px 30px; color: var(--faint); font-size: 12px; }
@@ -407,6 +416,10 @@ nav, header, section, footer { position: relative; z-index: 1; }
   .loop-steps, .grid { grid-template-columns: 1fr; }
   .section { padding-top: 80px; }
   .dl-inner { padding: 40px 22px; }
+  /* footer: stack brand over links so the 8-link row never overflows the viewport */
+  .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .footer-links { margin-left: 0; }
+  .footer-tag { margin-left: 0; }
 }
 
 /* ── Legal pages (privacy / terms / cookies / refunds) ───────────────────

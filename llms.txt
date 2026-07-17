@@ -1,0 +1,56 @@
+# Baseplate
+
+> Mission control for building Roblox games with AI agents. Baseplate runs coding agents
+> inside your Roblox workflow: they playtest the game through a live Studio bridge, read the
+> runtime errors they caused, write the fix, and verify it in the running game. It drives your
+> own AI account (Claude Code, Codex, Grok or Cursor) and runs locally on your machine.
+
+Baseplate is a desktop app for Windows and macOS, made for Roblox developers. It is not a
+hosted service and not an AI subscription: you bring your own agent CLI account, and Baseplate
+orchestrates it against Roblox Studio.
+
+## What makes it different
+
+The bridge. A terminal agent can write Luau, but it can't press Play, read the Output window,
+or inspect the live DataModel. Baseplate connects agents to an open Roblox Studio session, so
+they can run code in the real game, see what broke, and prove the fix works.
+
+## Key capabilities
+
+- **Playtest Copilot**: an autonomous loop — build, playtest, read runtime errors, fix the root cause, re-verify, report "PLAYTEST PASS".
+- **Starter kits**: pick a genre (tycoon, simulator, obby, tower defense, horror escape, battlegrounds) and agents scaffold and build the real gameplay loop into it. Works on the Free plan.
+- **Exploit Guard**: security audit that finds client-trusting RemoteEvents, explains the attack in plain language, and writes the hardening.
+- **Crew / Swarm**: several agents building in parallel with enforced file ownership, each visible in its own tile.
+- **Ship Gate**: read-only release review answering "is this safe to ship?" across runtime, security, data-safety, debug and robustness.
+- **Economy & multiplayer simulators**: model the game economy and simulate concurrent players to find inflation, progression walls and desync.
+- **Live-game Doctor**: inspects a published game through Roblox Open Cloud (live DataStore reads, publish, asset upload).
+- **Team collaboration** (Studio plan): shared Kanban board, shared prompt library and live presence across a team.
+
+## Supported agent CLIs
+
+Claude Code, Codex, Grok and Cursor are all first-class structured engines and can be mixed
+inside one crew (for example a Claude foreman with Codex and Cursor builders). Gemini CLI runs
+as a terminal tile.
+
+## Privacy
+
+Baseplate runs locally. The server, the Studio bridge, your source code and your Roblox Open
+Cloud key stay on your computer; the only network traffic is your own agent talking to your own
+AI provider. The single exception is opt-in team collaboration (Studio plan), which syncs only
+Kanban cards, shared prompts and display names — never code, files or keys.
+
+## Pricing
+
+- **Free** — $0. One agent at a time, full Studio bridge, Rojo sync, Exploit Guard, starter kits.
+- **Pro** — $4.99/month or $39.99/year. Up to 5 agents in parallel, Crew swarms, Ship Gate, simulators, Live-game Doctor, asset generator, mission marketplace.
+- **Studio** — $12.99/month or $119.99/year. Team collaboration (shared board, shared prompts, presence), up to 10 agents, Crew swarms up to 8 builders.
+
+Cancel anytime. The license key is emailed at checkout and pasted into the app. 14-day refund.
+
+## Links
+
+- [Home](https://baseplatedev.com/): product overview, live demo video, pricing and download.
+- [Contact](https://baseplatedev.com/contact.html): support and business contact.
+- [Privacy policy](https://baseplatedev.com/privacy.html)
+- [Terms](https://baseplatedev.com/terms.html)
+- [Refunds](https://baseplatedev.com/refunds.html)

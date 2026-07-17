@@ -3,16 +3,116 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Baseplate — Mission control for building Roblox games with AI agents</title>
-<meta name="description" content="Baseplate runs AI agents inside your Roblox workflow: they playtest your game, catch runtime errors and exploits, write the fix, and verify it live in Studio — while you watch.">
+<title>Baseplate — AI agents that build and test your Roblox game</title>
+<meta name="description" content="Baseplate runs AI agents inside Roblox Studio: they playtest your game, catch runtime errors and exploits, write the fix, and verify it live. Free to start.">
 <meta property="og:title" content="Baseplate — build Roblox games with AI agents">
 <meta property="og:description" content="Agents that playtest, find the bug, write the fix, and verify it live in Studio. Free to start.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://baseplatedev.com/">
+<meta property="og:site_name" content="Baseplate">
+<!-- Social card. Baseplate spreads by people pasting the link into Discord, the DevForum and
+     Reddit — without this every one of those shares renders as bare text. 2x of the 1.91:1
+     card so it stays sharp on retina. Rebuild: scratchpad og-card.html → shot-og.mjs. -->
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:alt" content="Baseplate — your game has bugs, your agents already found them. AI agents that playtest, fix and verify live in Roblox Studio.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
+<link rel="canonical" href="https://baseplatedev.com/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<!-- Structured data. Search engines use it for rich results; LLMs use it to answer "what is
+     Baseplate / what does it cost / does it send my code anywhere" without guessing. Every
+     claim here mirrors what the page and the app actually do — no invented ratings or awards. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://baseplatedev.com/#organization",
+      "name": "Baseplate",
+      "url": "https://baseplatedev.com/",
+      "logo": "https://baseplatedev.com/favicon.svg",
+      "description": "Baseplate makes mission-control software that runs AI coding agents inside the Roblox Studio workflow.",
+      "email": "support@baseplatedev.com"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://baseplatedev.com/#website",
+      "url": "https://baseplatedev.com/",
+      "name": "Baseplate",
+      "publisher": { "@id": "https://baseplatedev.com/#organization" },
+      "inLanguage": "en"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://baseplatedev.com/#app",
+      "name": "Baseplate",
+      "applicationCategory": "DeveloperApplication",
+      "applicationSubCategory": "Roblox game development",
+      "operatingSystem": "Windows 10, Windows 11, macOS",
+      "url": "https://baseplatedev.com/",
+      "publisher": { "@id": "https://baseplatedev.com/#organization" },
+      "description": "Baseplate runs AI coding agents inside your Roblox workflow. Agents playtest the game through a live Studio bridge, read runtime errors, write the fix and verify it in the running game. It drives your own Claude Code, Codex, Grok or Cursor account and runs locally on your machine.",
+      "featureList": [
+        "Playtest Copilot — autonomous playtest, error, fix, verify loop",
+        "Live Roblox Studio bridge with Rojo sync",
+        "Exploit Guard security audit of RemoteEvents",
+        "Crew — multiple agents building in parallel",
+        "Ship Gate release review, Economy and multiplayer simulators",
+        "Starter kits — scaffold a tycoon, simulator, obby, tower defense, horror or battlegrounds game",
+        "Works with Claude Code, Codex, Grok and Cursor, mixable in one crew"
+      ],
+      "offers": [
+        { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD", "description": "One agent at a time, full Studio bridge, Rojo sync, Exploit Guard." },
+        { "@type": "Offer", "name": "Pro", "price": "4.99", "priceCurrency": "USD", "description": "Up to 5 agents in parallel, Crew swarms, Ship Gate, simulators, Live-game Doctor. Billed monthly." },
+        { "@type": "Offer", "name": "Studio", "price": "12.99", "priceCurrency": "USD", "description": "Team collaboration with a shared board and prompt library, up to 10 agents, bigger Crew swarms. Billed monthly." }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://baseplatedev.com/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do I need my own AI subscription?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes — Baseplate drives your existing Claude Code, Codex, Grok or Cursor account, and you can mix them in one crew. That keeps Baseplate cheap: you're not paying a markup on tokens, and your usage limits are whatever your AI plan gives you." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does my code leave my machine?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Baseplate runs entirely locally — the server, the bridge, your source and your Open Cloud key all stay on your computer. The only network traffic is your own agent talking to your own AI provider. The one exception is opt-in: if you turn on team collaboration (Studio plan), your Kanban cards, shared prompts and display name sync to your team — your code, files and keys still never leave your machine." }
+        },
+        {
+          "@type": "Question",
+          "name": "How is this different from just using Claude Code in a terminal?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The bridge. A terminal agent can write Luau, but it's blind — it can't playtest, can't read the Output window, can't check the live DataModel. Baseplate gives agents eyes and hands inside Roblox Studio, plus the deck, board, swarms and one-click missions built on top." }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens when my Pro subscription lapses?",
+          "acceptedAnswer": { "@type": "Answer", "text": "You drop back to Free — one agent at a time, with the bridge and Exploit Guard still included. Your projects, workspaces and history stay untouched on your disk." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the Roblox Studio plugin safe?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The plugin only talks to 127.0.0.1 — your own machine — and Baseplate validates the origin of every connection. Nothing is exposed to the network, and the code that ships is the code we audit before every release." }
+        },
+        {
+          "@type": "Question",
+          "name": "I'm a student or hobbyist. Is the Free plan actually usable?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Free is the full core loop: one agent with complete Studio access, the Playtest Copilot flow, Rojo sync and the Exploit Guard audit. It's deliberately generous — if Baseplate never earns your upgrade, it should still make your game better." }
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <div class="glow" aria-hidden="true"></div>
@@ -85,7 +185,7 @@
 <section class="strip" aria-label="Works with">
   <span class="strip-label">Plugs into the tools you already use</span>
   <div class="strip-items">
-    <span>Roblox Studio</span><i></i><span>Rojo</span><i></i><span>Claude Code</span><i></i><span>Codex</span><i></i><span>Open Cloud</span>
+    <span>Roblox Studio</span><i></i><span>Rojo</span><i></i><span>Claude Code</span><i></i><span>Codex</span><i></i><span>Grok</span><i></i><span>Cursor</span><i></i><span>Open Cloud</span>
   </div>
 </section>
 
@@ -163,6 +263,11 @@
       <p>Describe a game in one sentence. Baseplate scaffolds the workspace and a Crew builds the first playable slice — loop, saving, UI — before your coffee cools.</p>
     </div>
     <div class="card">
+      <div class="card-ico" style="color:var(--mint)"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M6 4h12a2 2 0 0 1 2 2v2H4V6a2 2 0 0 1 2-2zm-2 6h16v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8zm7 2v4h2v-4h-2z"/></svg></div>
+      <h3>Starter kits</h3>
+      <p>Pick your genre — tycoon, simulator, obby, tower defense, horror escape, battlegrounds. Baseplate scaffolds the project and agents build the real loop into it. <em>Free plan included.</em></p>
+    </div>
+    <div class="card">
       <div class="card-ico" style="color:var(--accent)"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 2a5 5 0 0 1 5 5v1h1a3 3 0 0 1 0 6h-1v1a5 5 0 0 1-10 0v-1H6a3 3 0 0 1 0-6h1V7a5 5 0 0 1 5-5zm-2 8v2h4v-2h-4z"/></svg></div>
       <h3>Asset &amp; UI Generator</h3>
       <p>Generates mobile-safe Roblox UI in Luau, then <em>looks at the result</em> through the bridge — overlap, off-screen, contrast — and iterates until the layout is clean.</p>
@@ -233,7 +338,7 @@
         <li>Live Studio bridge + Rojo sync</li>
         <li>Playtest Copilot — fix &amp; explain runtime errors</li>
         <li><strong>Exploit Guard security audit</strong></li>
-        <li>Demo game to start from</li>
+        <li>Starter kits + demo game to start from</li>
       </ul>
       <a class="btn btn-ghost btn-block" href="#download">Download free</a>
     </div>
@@ -264,9 +369,11 @@
         <span class="amount" data-monthly="$12.99" data-yearly="$9.99">$9.99</span><span class="per">/ month</span>
       </div>
       <div class="plan-subprice mono" data-monthly="billed monthly" data-yearly="$119.99 billed yearly">$119.99 billed yearly</div>
-      <p class="plan-blurb">For teams shipping at scale — more parallel agents, bigger swarms.</p>
+      <p class="plan-blurb">For teams shipping together — shared board, shared prompts, live presence.</p>
       <ul class="plan-list">
-        <li><strong>Up to 10 agents in parallel</strong></li>
+        <li><strong>Team collaboration</strong> — shared board &amp; prompt library</li>
+        <li>See who's online on your team</li>
+        <li>Up to 10 agents in parallel</li>
         <li>Bigger Crew swarms (up to 8 builders)</li>
         <li>Everything in Pro</li>
         <li>Priority support</li>
@@ -302,11 +409,11 @@
   <div class="faq">
     <details>
       <summary>Do I need my own AI subscription?</summary>
-      <p>Yes — Baseplate drives your existing <strong>Claude Code</strong> (or Codex) account. That keeps Baseplate cheap: you're not paying us a markup on tokens, and your usage limits are whatever your AI plan gives you.</p>
+      <p>Yes — Baseplate drives your existing <strong>Claude Code</strong>, <strong>Codex</strong>, <strong>Grok</strong> or <strong>Cursor</strong> account, and you can mix them in one crew. That keeps Baseplate cheap: you're not paying us a markup on tokens, and your usage limits are whatever your AI plan gives you.</p>
     </details>
     <details>
       <summary>Does my code leave my machine?</summary>
-      <p>No. Baseplate runs entirely locally — the server, the bridge, your source, and your Open Cloud key all stay on your computer. The only network traffic is your own agent talking to your own AI provider.</p>
+      <p>No. Baseplate runs entirely locally — the server, the bridge, your source, and your Open Cloud key all stay on your computer. The only network traffic is your own agent talking to your own AI provider. The one exception is opt-in: if you turn on <strong>team collaboration</strong> (Studio plan), your Kanban cards, shared prompts and display name sync to your team — your code, files and keys still never leave your machine.</p>
     </details>
     <details>
       <summary>How is this different from just using Claude Code in a terminal?</summary>
