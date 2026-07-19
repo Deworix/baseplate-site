@@ -89,5 +89,26 @@
     if (url) { a.href = url; a.target = '_blank'; }
   });
 
+  /* ── Subscription management (Stripe Customer Portal) ────────────────
+     Point every "billing portal" link at the configured portal URL. Until it's set, hide
+     the link and reveal the support fallback so the answer is never a dead link. */
+  const portal = (cfg.manage || '').trim();
+  document.querySelectorAll('.manage-portal').forEach((a) => {
+    if (portal) { a.href = portal; a.target = '_blank'; a.rel = 'noopener'; }
+    else { a.removeAttribute('href'); a.style.textDecoration = 'none'; a.style.color = 'inherit'; a.style.cursor = 'default'; }
+  });
+  if (!portal) document.querySelectorAll('.manage-fallback').forEach((el) => { el.hidden = false; });
+
+  /* A <details> FAQ item doesn't auto-open when you link to its id, so a "Manage
+     subscription" click would land on a collapsed accordion showing only the question.
+     Open it (and scroll to it) whenever the hash points at it. */
+  function openHashDetails() {
+    if (location.hash !== '#manage') return;
+    const d = document.getElementById('manage');
+    if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  }
+  window.addEventListener('hashchange', openHashDetails);
+  openHashDetails();
+
   applyPeriod();
 })();

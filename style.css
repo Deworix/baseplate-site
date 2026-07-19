@@ -353,6 +353,8 @@ nav, header, section, footer { position: relative; z-index: 1; }
 .plan-list li::before { content: '✓'; position: absolute; left: 0; color: var(--accent-2); font-weight: 700; }
 .plan-featured .plan-list li::before { color: var(--mint); }
 .pricing-fineprint { color: var(--faint); font-size: 13px; margin-top: 26px; max-width: 560px; }
+.pricing-fineprint .manage-link { color: var(--accent-2); text-decoration: none; border-bottom: 1px solid var(--accent-line); }
+.pricing-fineprint .manage-link:hover { color: var(--text); }
 
 /* ── Download ─────────────────────────────────────────────────── */
 .dl { padding-top: 96px; }

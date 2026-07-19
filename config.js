@@ -21,4 +21,10 @@ window.BASEPLATE_SITE = {
     win: 'https://github.com/Deworix/Baseplate/releases/latest',
     mac: 'https://github.com/Deworix/Baseplate/releases/latest',
   },
+
+  // Stripe Customer Portal login link — how customers cancel or change their plan
+  // themselves. Get it in Stripe: Dashboard → Settings → Billing → Customer portal →
+  // activate → copy the login page URL (https://billing.stripe.com/p/login/…). Until this
+  // is set, the "Manage subscription" links point at support instead, so nobody is stranded.
+  manage: '',
 };

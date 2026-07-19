@@ -95,6 +95,11 @@
         },
         {
           "@type": "Question",
+          "name": "How do I cancel or change my plan?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Anytime, yourself, through the Stripe billing portal — sign in with the email you paid with to cancel, switch between Pro and Studio, update your card, or download invoices. A cancellation keeps your plan active until the end of the period you already paid for, then drops you to Free. No email to support required." }
+        },
+        {
+          "@type": "Question",
           "name": "What happens when my Pro subscription lapses?",
           "acceptedAnswer": { "@type": "Answer", "text": "You drop back to Free — one agent at a time, with the bridge and Exploit Guard still included. Your projects, workspaces and history stay untouched on your disk." }
         },
@@ -381,7 +386,7 @@
       <a class="btn btn-ghost btn-block buy" data-plan="studio" href="#" rel="noopener">Get Studio</a>
     </div>
   </div>
-  <p class="pricing-fineprint">Cancel anytime. Your license key arrives by email the moment checkout completes — paste it into Baseplate and you're upgraded. 14-day refund, no questions.</p>
+  <p class="pricing-fineprint">Your license key arrives by email the moment checkout completes — paste it into Baseplate and you're upgraded. <a href="#manage" class="manage-link">Cancel or change your plan anytime</a>. 14-day refund, no questions.</p>
 </section>
 
 <!-- ── Download ─────────────────────────────────────────────────── -->
@@ -418,6 +423,10 @@
     <details>
       <summary>How is this different from just using Claude Code in a terminal?</summary>
       <p>The bridge. A terminal agent can write Luau, but it's blind — it can't playtest, can't read the Output window, can't check the live DataModel. Baseplate gives agents eyes and hands inside Studio, plus the deck, board, swarms and one-click missions built on top.</p>
+    </details>
+    <details id="manage">
+      <summary>How do I cancel or change my plan?</summary>
+      <p>Anytime, yourself — no email required. Open the <a href="#" class="manage-portal" rel="noopener">billing portal</a> and sign in with the email you paid with; from there you can cancel, switch between Pro and Studio, update your card, or download invoices. A cancellation keeps your plan active until the end of the period you've already paid for, then drops you to Free. <span class="manage-fallback" hidden>If the portal link isn't working yet, email <a href="mailto:support@baseplatedev.com">support@baseplatedev.com</a> and we'll sort it out.</span></p>
     </details>
     <details>
       <summary>What happens when my Pro subscription lapses?</summary>
@@ -458,6 +467,7 @@
       <a href="terms.html">Terms</a>
       <a href="cookies.html">Cookies</a>
       <a href="refunds.html">Refunds</a>
+      <a href="#manage">Manage subscription</a>
       <a href="contact.html">Contact</a>
     </div>
   </div>
