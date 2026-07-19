@@ -26,5 +26,5 @@ window.BASEPLATE_SITE = {
   // themselves. Get it in Stripe: Dashboard → Settings → Billing → Customer portal →
   // activate → copy the login page URL (https://billing.stripe.com/p/login/…). Until this
   // is set, the "Manage subscription" links point at support instead, so nobody is stranded.
-  manage: '',
+  manage: 'https://billing.stripe.com/p/login/eVq7sN1S9ctq36Zgjw4wM00',
 };
