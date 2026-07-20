@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>Why AI-written Luau breaks in Roblox Studio</title>
+<meta name="description" content="A practical Roblox Luau runtime checklist for code that looks correct in review but blocks retargeting, picks the wrong player, or destroys state early.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://baseplatedev.com/ai-written-luau-breaks-in-studio.html">
+<meta property="og:title" content="Why AI-written Luau breaks in Roblox Studio">
+<meta property="og:description" content="Four runtime failures static review misses, plus a copyable Studio verification checklist.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://baseplatedev.com/ai-written-luau-breaks-in-studio.html">
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  .guide-note { border:1px solid var(--line-2); background:var(--surface-1); border-radius:var(--r-plate); padding:18px 20px; margin:24px 0; }
+  .guide-note p { margin:0; }
+  .guide-code { overflow-x:auto; border:1px solid var(--line-2); background:#0b0d12; border-radius:var(--r-plate); padding:18px 20px; margin:16px 0; color:var(--dim); font:13px/1.65 var(--font-mono); }
+  .guide-checklist { list-style:none; padding-left:0 !important; }
+  .guide-checklist li { position:relative; padding-left:28px; }
+  .guide-checklist li::before { content:"□"; position:absolute; left:2px; color:var(--accent-2); font-family:var(--font-mono); }
+  .guide-cta { border:1px solid var(--accent-line); background:var(--accent-weak); border-radius:var(--r-plate); padding:24px; margin-top:42px; }
+  .guide-cta h2 { margin-top:0; }
+  .guide-cta .btn { margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+</nav>
+
+<main class="legal-wrap">
+  <p class="eyebrow"><span class="eyebrow-dot"></span>Roblox runtime guide</p>
+  <h1>Why AI-written Luau passes review but breaks in Studio</h1>
+  <p class="lede">A code review can prove that syntax is valid and the control flow looks plausible. It cannot prove that a call returns during play, that the right player wins a race, or that cleanup happens after the work is finished.</p>
+
+  <div class="guide-note"><p><strong>Evidence note:</strong> the chase example below was diagnosed from code shared in a public Roblox developer thread. It was not run through a live Baseplate playtest, so this page does not claim a verified PASS.</p></div>
+
+  <div class="legal-prose">
+    <h2>The bug that looks reasonable</h2>
+    <p>An NPC controller checks every player and calls a <code>BindableFunction</code> to move toward each target:</p>
+
+    <pre class="guide-code"><code>while entity.Parent do
+    for _, player in Players:GetPlayers() do
+        local character = player.Character
+        if character and character:GetAttribute("Hidden") then
+            lerpTo:Invoke(primary, workspace.Start)
+        elseif character then
+            lerpTo:Invoke(primary, character.HumanoidRootPart)
+        end
+    end
+    task.wait(0.1)
+end</code></pre>
+
+    <p>It reads like a continuous chase. In a running server it can freeze on the first destination, choose the last player in the list, and fail to notice that a target hid mid-movement.</p>
+
+    <h2>Failure 1: <code>Invoke()</code> is a hidden wait</h2>
+    <p><code>BindableFunction:Invoke()</code> does not fire and continue. It waits until the connected <code>OnInvoke</code> function returns. If <code>LerpTo.OnInvoke</code> only returns after movement finishes, the outer loop cannot re-check targets during that movement.</p>
+    <p><strong>Fast proof:</strong> print a timestamp immediately before and after the call. If the second line appears only when the NPC reaches its destination, the target-selection loop is blocked.</p>
+
+    <pre class="guide-code"><code>print("before Invoke", os.clock())
+lerpTo:Invoke(primary, target)
+print("after Invoke", os.clock())</code></pre>
+
+    <h2>Failure 2: looping over players does not choose a player</h2>
+    <p>Calling movement once for every player means several destinations compete in one update. In practice, the last qualifying entry returned by <code>Players:GetPlayers()</code> often becomes the apparent winner.</p>
+    <p>Selection should be a separate step: filter for a living character, reject <code>Hidden</code>, enforce the 200-stud radius, then select exactly one nearest root part.</p>
+
+    <pre class="guide-code"><code>local function nearestVisibleRoot(origin, radius)
+    local winner, winnerDistance = nil, radius
+
+    for _, player in Players:GetPlayers() do
+        local character = player.Character
+        local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+        local root = character and character:FindFirstChild("HumanoidRootPart")
+
+        if humanoid and humanoid.Health &gt; 0 and root
+            and not character:GetAttribute("Hidden") then
+            local distance = (root.Position - origin).Magnitude
+            if distance &lt; winnerDistance then
+                winner, winnerDistance = root, distance
+            end
+        end
+    end
+
+    return winner
+end</code></pre>
+
+    <h2>Failure 3: cleanup shares the critical path</h2>
+    <p>A spawned chase loop does not pause its caller. An unconditional <code>entity:Destroy()</code> after <code>task.spawn()</code> can run immediately and create misleading warnings such as an infinite yield on a child that belonged to the destroyed entity.</p>
+    <p>Keep lifetime management independent from target selection and movement:</p>
+
+    <pre class="guide-code"><code>task.delay(180, function()
+    if entity.Parent then
+        entity:Destroy()
+    end
+end)</code></pre>
+
+    <h2>Failure 4: the controller and movement job disagree</h2>
+    <p>Fixing the outer loop is not enough if the movement function still owns a stale destination until arrival. The durable shape is four separate responsibilities:</p>
+    <ol>
+      <li><strong>Observe:</strong> sample players and their live attributes.</li>
+      <li><strong>Select:</strong> publish one desired target for this update.</li>
+      <li><strong>Move:</strong> read the desired target repeatedly and support cancellation or retargeting.</li>
+      <li><strong>Clean up:</strong> stop connections and destroy the entity on a separate lifetime condition.</li>
+    </ol>
+    <p>The exact movement change belongs inside <code>LerpTo.OnInvoke</code>. Do not work around a blocking movement function by spawning a new <code>Invoke()</code> every 0.1 seconds; that creates overlapping tweens or movement jobs instead of true retargeting.</p>
+
+    <h2>Studio verification checklist</h2>
+    <ul class="guide-checklist">
+      <li>Test with two players on opposite sides of the NPC.</li>
+      <li>Hide the current target while the NPC is moving, not after it arrives.</li>
+      <li>Kill or remove the target and confirm another player is selected.</li>
+      <li>Move every valid player outside 200 studs and confirm the NPC returns to spawn.</li>
+      <li>Watch Output for overlapping movement, infinite yields, and access to destroyed instances.</li>
+      <li>Run the scenario twice; stale connections often appear only on the second spawn.</li>
+      <li>Only call it fixed after the final run is clean and behavior matches the assertions.</li>
+    </ul>
+
+    <h2>Copyable mission prompt</h2>
+    <pre class="guide-code"><code>Playtest this NPC chase controller in Roblox Studio.
+Use two players. While the NPC is moving, toggle Hidden on the current target,
+kill that target, and move all surviving players outside 200 studs.
+Verify that it retargets without waiting for the old destination, returns to spawn
+when nobody qualifies, creates only one movement job, and leaves Output clean.
+Do not report PASS until every assertion succeeds in a fresh rerun.</code></pre>
+
+    <div class="guide-cta">
+      <h2>Turn the checklist into a real Studio loop</h2>
+      <p>Baseplate's free core flow connects your agent to Roblox Studio, runs the playtest, reads the real Output, and requires a clean rerun before PASS.</p>
+      <a class="btn btn-primary" href="index.html?utm_source=guide&amp;utm_medium=organic&amp;utm_campaign=ai_luau_runtime_20260720#download">Run the free verification loop</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div>
+  <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation.</p>
+</footer>
+</body>
+</html>
+

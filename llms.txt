@@ -50,6 +50,7 @@ Cancel anytime. The license key is emailed at checkout and pasted into the app. 
 ## Links
 
 - [Home](https://baseplatedev.com/): product overview, live demo video, pricing and download.
+- [Why AI-written Luau breaks in Studio](https://baseplatedev.com/ai-written-luau-breaks-in-studio.html): runtime failure checklist, blocking Invoke example and a copyable playtest mission.
 - [Contact](https://baseplatedev.com/contact.html): support and business contact.
 - [Privacy policy](https://baseplatedev.com/privacy.html)
 - [Terms](https://baseplatedev.com/terms.html)

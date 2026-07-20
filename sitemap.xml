@@ -7,6 +7,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://baseplatedev.com/ai-written-luau-breaks-in-studio.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://baseplatedev.com/contact.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
