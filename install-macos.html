@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>Install Baseplate on macOS — Gatekeeper steps</title>
+<meta name="description" content="Download Baseplate for Apple Silicon or Intel and follow Apple's Open Anyway steps for the current unsigned macOS release.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://baseplatedev.com/install-macos.html">
+<meta property="og:title" content="Install Baseplate on macOS">
+<meta property="og:description" content="The honest install path for the current unsigned build, plus what changes after Apple notarization.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://baseplatedev.com/install-macos.html">
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  .install-actions { display:flex; flex-wrap:wrap; gap:12px; margin:28px 0 34px; }
+  .install-callout { border:1px solid var(--accent-line); background:var(--accent-weak); border-radius:var(--r-plate); padding:18px 20px; margin:24px 0; }
+  .install-callout p { margin:0; }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+  <a class="btn btn-primary btn-sm" href="index.html#pricing">Get Baseplate</a>
+</nav>
+
+<main class="legal-wrap">
+  <p class="eyebrow"><span class="eyebrow-dot"></span>macOS install</p>
+  <h1>Install Baseplate on macOS</h1>
+  <p class="lede">The current DMG is not yet signed with an Apple Developer ID or notarized. macOS will therefore block the first launch by default. These are Apple's per-app exception steps; you do not need to disable Gatekeeper.</p>
+
+  <div class="install-actions">
+    <a class="btn btn-primary" href="https://github.com/Deworix/Baseplate/releases/latest" target="_blank" rel="noopener">Download the latest DMG</a>
+    <a class="btn btn-ghost" href="https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/mac" target="_blank" rel="noopener">Apple's official instructions</a>
+  </div>
+
+  <div class="legal-prose">
+    <h2>Apple Silicon or Intel?</h2>
+    <p>Choose <code>mac-arm64.dmg</code> for Apple Silicon (M1, M2, M3, M4 and newer) or <code>mac-x64.dmg</code> for an Intel Mac.</p>
+
+    <h2>Open the current unsigned release</h2>
+    <ol>
+      <li>Open the DMG and drag Baseplate into <strong>Applications</strong>.</li>
+      <li>Try to open Baseplate once, then dismiss the macOS warning.</li>
+      <li>Open <strong>System Settings → Privacy &amp; Security</strong>.</li>
+      <li>Scroll to Security and click <strong>Open Anyway</strong> next to Baseplate.</li>
+      <li>Confirm with <strong>Open</strong>. macOS remembers this exception for the app.</li>
+    </ol>
+
+    <div class="install-callout"><p><strong>Do not disable Gatekeeper globally.</strong> Commands that disable quarantine or system-wide checks reduce protection for every download, not just Baseplate.</p></div>
+
+    <h2>Why can't the warning simply be removed?</h2>
+    <p>Apple only grants normal downloaded-app trust to software signed with a Developer ID certificate and notarized by Apple. That certificate requires the paid Apple Developer Program. An ad-hoc signature is free, but it does not identify the developer and does not remove Gatekeeper's warning.</p>
+
+    <h2>What will change later?</h2>
+    <p>The release workflow is ready to sign, notarize and staple both Mac builds as soon as valid Apple credentials are added. Until then this page states the limitation instead of hiding it.</p>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div>
+  <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation.</p>
+</footer>
+</body>
+</html>

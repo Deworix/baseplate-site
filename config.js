@@ -18,8 +18,11 @@ window.BASEPLATE_SITE = {
 
   // Installer downloads (GitHub Releases assets — the public releases repo).
   downloads: {
+    // Replace `win` with the Microsoft Store product URL after certification. Do not
+    // publish the unsigned local AppX: Partner Center re-signs the submitted package.
     win: 'https://github.com/Deworix/Baseplate/releases/latest',
-    mac: 'https://github.com/Deworix/Baseplate/releases/latest',
+    // Gatekeeper guidance first; that page links to the matching DMGs.
+    mac: 'install-macos.html',
   },
 
   // Stripe Customer Portal login link — how customers cancel or change their plan

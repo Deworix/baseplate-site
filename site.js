@@ -15,6 +15,53 @@
   const status = document.getElementById('demo-status');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // The 4 MB demo sits below the fold. Attach its source only shortly before it enters
+  // view so it never competes with the critical page assets. The poster keeps the layout
+  // stable and remains useful when JavaScript is unavailable or motion is reduced.
+  const demoVideo = document.querySelector('.demo-video');
+  if (demoVideo) {
+    const videoStage = document.querySelector('[data-video-frame]');
+    const videoButton = document.querySelector('[data-video-play]');
+    const videoButtonTitle = videoButton?.querySelector('b');
+    const videoButtonHint = videoButton?.querySelector('small');
+
+    const setVideoState = (state) => {
+      videoStage?.classList.toggle('is-playing', state === 'playing');
+      videoStage?.classList.toggle('is-error', state === 'error');
+      if (!videoButtonTitle || !videoButtonHint) return;
+      videoButtonTitle.textContent = state === 'error' ? 'Retry product demo' : 'Play product demo';
+      videoButtonHint.textContent = state === 'error' ? 'The video did not load' : 'See the real playtest loop';
+    };
+
+    const loadVideo = ({ play = !reduced } = {}) => {
+      const source = demoVideo.querySelector('source[data-src]');
+      if (source) {
+        source.src = source.dataset.src;
+        source.removeAttribute('data-src');
+        demoVideo.load();
+      }
+      if (play) demoVideo.play().catch(() => setVideoState('paused'));
+    };
+
+    demoVideo.addEventListener('play', () => setVideoState('playing'));
+    demoVideo.addEventListener('pause', () => setVideoState('paused'));
+    demoVideo.addEventListener('error', () => setVideoState('error'));
+    demoVideo.addEventListener('click', () => {
+      if (demoVideo.paused) loadVideo({ play: true });
+      else demoVideo.pause();
+    });
+    videoButton?.addEventListener('click', () => loadVideo({ play: true }));
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        loadVideo();
+      }, { rootMargin: '320px 0px' });
+      observer.observe(demoVideo);
+    } else loadVideo();
+  }
+
   function playDemo() {
     if (!body) return;
     body.innerHTML = '';
@@ -51,7 +98,7 @@
   }
 
   /* ── Billing toggle (monthly / yearly) ───────────────────────────── */
-  let period = 'yearly';
+  let period = 'monthly';
   const opts = document.querySelectorAll('.bt-opt');
   function applyPeriod() {
     opts.forEach((b) => {
