@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>Roblox RemoteEvent security checklist</title>
+<meta name="description" content="A practical server-side checklist for validating Roblox RemoteEvents, rate limiting requests, protecting currency, and testing exploit paths before release.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://baseplatedev.com/roblox-remoteevent-security-checklist.html">
+<meta property="og:title" content="Roblox RemoteEvent security checklist">
+<meta property="og:description" content="Seven checks for every client-to-server remote, plus a copyable secure handler pattern.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://baseplatedev.com/roblox-remoteevent-security-checklist.html">
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  .guide-note { border:1px solid var(--line-2); background:var(--surface-1); border-radius:var(--r-plate); padding:18px 20px; margin:24px 0; }
+  .guide-note p { margin:0; }
+  .guide-code { overflow-x:auto; border:1px solid var(--line-2); background:#0b0d12; border-radius:var(--r-plate); padding:18px 20px; margin:16px 0; color:var(--dim); font:13px/1.65 var(--font-mono); }
+  .guide-checklist { list-style:none; padding-left:0 !important; }
+  .guide-checklist li { position:relative; padding-left:28px; }
+  .guide-checklist li::before { content:"□"; position:absolute; left:2px; color:var(--accent-2); font-family:var(--font-mono); }
+  .guide-cta { border:1px solid var(--accent-line); background:var(--accent-weak); border-radius:var(--r-plate); padding:24px; margin-top:42px; }
+  .guide-cta h2 { margin-top:0; }
+  .guide-cta .btn { margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+</nav>
+
+<main class="legal-wrap">
+  <p class="eyebrow"><span class="eyebrow-dot"></span>Roblox security utility</p>
+  <h1>The RemoteEvent security checklist to run before every release</h1>
+  <p class="lede">A client request is never proof that a player owns an item, can afford a purchase, is close enough to interact, or waited for a cooldown. Treat every client-to-server remote as an untrusted request.</p>
+
+  <div class="guide-note"><p><strong>The rule:</strong> the client may describe intent. The server validates the player, types, values, permissions, current state and request rate before changing anything valuable.</p></div>
+
+  <div class="legal-prose">
+    <h2>Seven checks for every server handler</h2>
+    <ul class="guide-checklist">
+      <li><strong>Type:</strong> use <code>typeof()</code> and reject unexpected Instances, tables, NaN and infinity.</li>
+      <li><strong>Shape and size:</strong> cap string length, table depth, entry count and numeric ranges before expensive work.</li>
+      <li><strong>Permission:</strong> derive ownership, role and entitlement from server state—not a boolean or price supplied by the client.</li>
+      <li><strong>Context:</strong> verify distance, alive state, equipped item, round phase and every other condition the action requires.</li>
+      <li><strong>Rate:</strong> enforce the limit on the server per player and per action; a client cooldown is only interface feedback.</li>
+      <li><strong>Effect:</strong> calculate rewards, damage, prices and inventory changes on the server and make repeated requests safe.</li>
+      <li><strong>Failure:</strong> reject cheaply, avoid leaking sensitive state, and log aggregated abuse signals without storing raw payloads.</li>
+    </ul>
+
+    <h2>A safer purchase boundary</h2>
+    <p>The insecure version accepts the price and item from the buyer. The safer version accepts only an item identifier and derives the authoritative object, price and balance on the server.</p>
+
+    <pre class="guide-code"><code>local MAX_REQUESTS = 4
+local WINDOW_SECONDS = 2
+local buckets = {}
+
+local function allowed(player)
+    local now = os.clock()
+    local bucket = buckets[player.UserId]
+    if not bucket or now - bucket.started &gt;= WINDOW_SECONDS then
+        buckets[player.UserId] = { started = now, count = 1 }
+        return true
+    end
+    if bucket.count &gt;= MAX_REQUESTS then
+        return false
+    end
+    bucket.count += 1
+    return true
+end
+
+BuyItem.OnServerEvent:Connect(function(player, itemId)
+    if typeof(itemId) ~= "string" or #itemId &gt; 48 then return end
+    if not allowed(player) then return end
+
+    local item = Catalog[itemId]
+    local profile = Profiles[player]
+    if not item or not profile then return end
+    if profile.Coins &lt; item.Price then return end
+    if profile.Inventory[itemId] then return end
+
+    profile.Coins -= item.Price
+    profile.Inventory[itemId] = true
+end)</code></pre>
+
+    <h2>Exploit tests worth running</h2>
+    <ol>
+      <li>Send the wrong type, missing arguments, huge strings, deep tables, NaN and infinity.</li>
+      <li>Fire the request faster than a real player could and from two remotes at once.</li>
+      <li>Request an item the player cannot see, own or afford.</li>
+      <li>Trigger the action dead, across the map, during the wrong round phase and after leaving the relevant zone.</li>
+      <li>Repeat the same request and reconnect during the operation; currency and inventory must remain consistent.</li>
+      <li>Watch the server Output and DataStore budget while the invalid traffic runs.</li>
+    </ol>
+
+    <p>Roblox's own guidance likewise requires server-side validation of client data and server-enforced rate limits. See the official documentation for <a href="https://create.roblox.com/docs/scripting/security/client-server-boundary">securing the client-server boundary</a> and <a href="https://create.roblox.com/docs/scripting/events/remote">remote events and callbacks</a>.</p>
+
+    <div class="guide-cta">
+      <h2>Find the first risky handler locally</h2>
+      <p>Baseplate Verify scans Luau locally, orders the next release blocker, and keeps a static result separate from real Studio evidence. The core scan is free.</p>
+      <a class="btn btn-primary" href="index.html?utm_source=remoteevent_checklist&amp;utm_medium=organic&amp;utm_campaign=proof_network_20260721#verify">Run Baseplate Verify free</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="ai-written-luau-breaks-in-studio.html">Runtime guide</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div>
+  <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation.</p>
+</footer>
+</body>
+</html>

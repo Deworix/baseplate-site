@@ -18,6 +18,11 @@ they can run code in the real game, see what broke, and prove the fix works.
 ## Key capabilities
 
 - **Playtest Copilot**: an autonomous loop — build, playtest, read runtime errors, fix the root cause, re-verify, report "PLAYTEST PASS".
+- **Regression Lab**: save and replay deterministic Studio test recipes, including device/orientation matrices and up to 8 simulated clients, with per-step evidence and baseline history. Included in Free.
+- **Safe DataOps**: snapshots one explicit live DataStore key, previews JSON-patch migrations, verifies the entry has not changed, and supports confirmed rollback. Pro only.
+- **Growth Autopilot**: queries aggregated Roblox Analytics data and drafts approval-gated experiments; it never launches an experiment automatically. Pro only.
+- **Remote Contract Compiler**: scans Luau locally for unguarded server remote handlers and generates validator and Studio fuzz-test code. Included in Free.
+- **Performance CI**: captures sampled minimum FPS, P95 frame time, engine memory and runtime-error count in Studio, then applies deterministic release budgets. Pro only.
 - **Starter kits**: pick a genre (tycoon, simulator, obby, tower defense, horror escape, battlegrounds) and agents scaffold and build the real gameplay loop into it. Works on the Free plan.
 - **Exploit Guard**: security audit that finds client-trusting RemoteEvents, explains the attack in plain language, and writes the hardening.
 - **Crew / Swarm**: several agents building in parallel with enforced file ownership, each visible in its own tile.
@@ -28,21 +33,23 @@ they can run code in the real game, see what broke, and prove the fix works.
 
 ## Supported agent CLIs
 
-Claude Code, Codex, Grok and Cursor are all first-class structured engines and can be mixed
-inside one crew (for example a Claude foreman with Codex and Cursor builders). Gemini CLI runs
-as a terminal tile.
+Claude Code, Codex and Cursor are structured engines that can run the verified Playtest Copilot
+and can be mixed inside one crew. Grok has a structured transcript but does not expose tool-call
+evidence, so it works as a normal builder tile rather than a verified Copilot/Crew engine. Gemini
+CLI runs as a terminal tile.
 
 ## Privacy
 
-Baseplate runs locally. The server, the Studio bridge, your source code and your Roblox Open
-Cloud key stay on your computer; the only network traffic is your own agent talking to your own
-AI provider. The single exception is opt-in team collaboration (Studio plan), which syncs only
-Kanban cards, shared prompts and display names — never code, files or keys.
+Baseplate's server and Studio bridge run locally. Baseplate does not upload source files or API
+keys to its own services. The selected AI provider receives prompts, code and context needed for
+agent work. Paid-license checks send the license key and a random installation ID to Cloudflare.
+Optional Studio-plan collaboration syncs board cards, shared prompts and display names — never
+source files, Open Cloud keys, AI credentials or full agent transcripts.
 
 ## Pricing
 
-- **Free** — $0. One agent at a time, full Studio bridge, Rojo sync, Exploit Guard, starter kits.
-- **Pro** — $4.99/month or $39.99/year. Up to 5 agents in parallel, Crew swarms, Ship Gate, simulators, Live-game Doctor, asset generator, mission marketplace.
+- **Free** — $0. One agent at a time, full Studio bridge, Rojo sync, Regression Lab, Remote Contract Compiler and starter kits.
+- **Pro** — $4.99/month or $39.99/year. Up to 5 agents in parallel, all six Production Labs, Crew swarms, Ship Gate, simulators, Live-game Doctor, asset generator and mission marketplace.
 - **Studio** — $12.99/month or $119.99/year. Team collaboration (shared board, shared prompts, presence), up to 10 agents, Crew swarms up to 8 builders.
 
 Cancel anytime. The license key is emailed at checkout and pasted into the app. 14-day refund.
@@ -51,6 +58,7 @@ Cancel anytime. The license key is emailed at checkout and pasted into the app. 
 
 - [Home](https://baseplatedev.com/): product overview, live demo video, pricing and download.
 - [Why AI-written Luau breaks in Studio](https://baseplatedev.com/ai-written-luau-breaks-in-studio.html): runtime failure checklist, blocking Invoke example and a copyable playtest mission.
+- [Roblox RemoteEvent security checklist](https://baseplatedev.com/roblox-remoteevent-security-checklist.html): server-authority checklist, safer purchase handler and concrete exploit tests.
 - [Contact](https://baseplatedev.com/contact.html): support and business contact.
 - [Privacy policy](https://baseplatedev.com/privacy.html)
 - [Terms](https://baseplatedev.com/terms.html)

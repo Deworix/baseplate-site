@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-fZKuXPqf3XbOpI0mvIWHObf6cxE768YTA7bAXvokomU='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>Baseplate — AI agents that build and test your Roblox game</title>
 <meta name="description" content="Baseplate runs AI agents inside Roblox Studio: they playtest your game, catch runtime errors and exploits, write the fix, and verify it live. Free to start.">
 <meta property="og:title" content="Baseplate — build Roblox games with AI agents">
@@ -20,9 +21,6 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
 <link rel="canonical" href="https://baseplatedev.com/">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <!-- Structured data. Search engines use it for rich results; LLMs use it to answer "what is
@@ -58,19 +56,25 @@
       "operatingSystem": "Windows 10, Windows 11, macOS",
       "url": "https://baseplatedev.com/",
       "publisher": { "@id": "https://baseplatedev.com/#organization" },
-      "description": "Baseplate runs AI coding agents inside your Roblox workflow. Agents playtest the game through a live Studio bridge, read runtime errors, write the fix and verify it in the running game. It drives your own Claude Code, Codex, Grok or Cursor account and runs locally on your machine.",
+      "description": "Baseplate runs supported AI coding-agent CLIs inside your Roblox workflow. Its verified Playtest Copilot connects Claude Code, Codex or Cursor to Roblox Studio, checks a real Play session and only accepts PASS after a clean runtime-error check.",
       "featureList": [
         "Playtest Copilot — autonomous playtest, error, fix, verify loop",
+        "Regression Lab — reusable cross-device and multiplayer test recipes with evidence history",
+        "Safe DataOps — snapshots, dry-run migrations, hash checks and rollback for explicit live keys",
+        "Growth Autopilot — read-only Roblox analytics briefs with approval-gated experiment ideas",
+        "Remote Contract Compiler with validator and Studio fuzz-test generation",
+        "Performance CI — runtime capture and deterministic release budgets",
+        "Baseplate Verify — a local project health score and the shortest evidence-backed path to verified",
         "Live Roblox Studio bridge with Rojo sync",
         "Exploit Guard security audit of RemoteEvents",
         "Crew — multiple agents building in parallel",
         "Ship Gate release review, Economy and multiplayer simulators",
         "Starter kits — scaffold a tycoon, simulator, obby, tower defense, horror or battlegrounds game",
-        "Works with Claude Code, Codex, Grok and Cursor, mixable in one crew"
+        "Native tiles for Claude Code, Codex, Grok and Cursor; verified Playtest Copilot and mixed-engine Crew for Claude Code, Codex and Cursor"
       ],
       "offers": [
-        { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD", "description": "One agent at a time, full Studio bridge, Rojo sync, Exploit Guard." },
-        { "@type": "Offer", "name": "Pro", "price": "4.99", "priceCurrency": "USD", "description": "Up to 5 agents in parallel, Crew swarms, Ship Gate, simulators, Live-game Doctor. Billed monthly." },
+        { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD", "description": "One agent at a time, full Studio bridge, Rojo sync, Baseplate Verify, Regression Lab and Remote Contract Compiler." },
+        { "@type": "Offer", "name": "Pro", "price": "4.99", "priceCurrency": "USD", "description": "Up to 5 agents in parallel, six production labs, Crew swarms, Ship Gate and Live-game Doctor. Billed monthly." },
         { "@type": "Offer", "name": "Studio", "price": "12.99", "priceCurrency": "USD", "description": "Team collaboration with a shared board and prompt library, up to 10 agents, bigger Crew swarms. Billed monthly." }
       ]
     },
@@ -81,12 +85,12 @@
         {
           "@type": "Question",
           "name": "Do I need my own AI subscription?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes — Baseplate drives your existing Claude Code, Codex, Grok or Cursor account, and you can mix them in one crew. That keeps Baseplate cheap: you're not paying a markup on tokens, and your usage limits are whatever your AI plan gives you." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes — Baseplate drives your existing agent CLI account. Claude Code, Codex and Cursor support the verified Playtest Copilot and mixed-engine Crew; Grok is available as a normal builder tile. Baseplate does not resell AI tokens." }
         },
         {
           "@type": "Question",
           "name": "Does my code leave my machine?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. Baseplate runs entirely locally — the server, the bridge, your source and your Open Cloud key all stay on your computer. The only network traffic is your own agent talking to your own AI provider. The one exception is opt-in: if you turn on team collaboration (Studio plan), your Kanban cards, shared prompts and display name sync to your team — your code, files and keys still never leave your machine." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Baseplate does not upload your projects or keys to Baseplate. Your selected AI provider receives the prompts, code and context needed for the agent work. License validation sends the license key and a random installation identifier to Baseplate's Cloudflare service. If you enable team collaboration, board cards, shared prompts and display names sync through the team service; source files and API keys do not." }
         },
         {
           "@type": "Question",
@@ -101,17 +105,17 @@
         {
           "@type": "Question",
           "name": "What happens when my Pro subscription lapses?",
-          "acceptedAnswer": { "@type": "Answer", "text": "You drop back to Free — one agent at a time, with the bridge and Exploit Guard still included. Your projects, workspaces and history stay untouched on your disk." }
+          "acceptedAnswer": { "@type": "Answer", "text": "You drop back to Free — one agent at a time, with the bridge, Regression Lab and Remote Contract Compiler still included. Your projects, workspaces and history stay untouched on your disk." }
         },
         {
           "@type": "Question",
           "name": "Is the Roblox Studio plugin safe?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The plugin only talks to 127.0.0.1 — your own machine — and Baseplate validates the origin of every connection. Nothing is exposed to the network, and the code that ships is the code we audit before every release." }
+          "acceptedAnswer": { "@type": "Answer", "text": "The plugin only talks to Baseplate on 127.0.0.1. The local server rejects foreign Host and browser Origin values, the Electron renderer is sandboxed, and release packages use ASAR integrity checks. No security control can guarantee that software is invulnerable, so users should still review agent-generated changes before shipping." }
         },
         {
           "@type": "Question",
           "name": "I'm a student or hobbyist. Is the Free plan actually usable?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Free is the full core loop: one agent with complete Studio access, the Playtest Copilot flow, Rojo sync and the Exploit Guard audit. It's deliberately generous — if Baseplate never earns your upgrade, it should still make your game better." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Free is the full core loop: one agent with complete Studio access, Playtest Copilot, Rojo sync, Regression Lab and Remote Contract Compiler. It's deliberately generous — if Baseplate never earns your upgrade, it should still make your game better." }
         }
       ]
     }
@@ -128,6 +132,7 @@
     <span>Baseplate</span>
   </a>
   <div class="nav-links">
+    <a href="#live-demo">Live demo</a>
     <a href="#copilot">Playtest Copilot</a>
     <a href="#features">Features</a>
     <a href="#pricing">Pricing</a>
@@ -136,6 +141,7 @@
   <a class="btn btn-primary btn-sm" href="#pricing">Get Baseplate</a>
 </nav>
 
+<main>
 <!-- ── Hero ─────────────────────────────────────────────────────── -->
 <header class="hero" id="top">
   <div class="hero-copy">
@@ -173,6 +179,21 @@
   </div>
 </header>
 
+<section class="section verify-pitch" id="verify">
+  <div class="verify-pitch-copy">
+    <p class="eyebrow">New · free</p>
+    <h2>Know what blocks your release.<br>Then fix the right thing first.</h2>
+    <p>Baseplate Verify scores security, DataStore safety, code hygiene, regression evidence, performance and the live Studio bridge. It keeps static signals separate from proof, then gives you one ordered path to a verified build.</p>
+    <div class="hero-cta"><a class="btn btn-primary" data-funnel="verify" href="#download">Get your free health score</a><a class="btn btn-ghost" href="#pricing">See all six labs</a></div>
+    <p class="hero-fineprint">Local scan · no source upload · no AI credits required</p>
+    <p class="verify-onboarding"><a href="founding-10.html">Want us to set it up with you? Apply for one of 10 free hands-on onboardings →</a></p>
+  </div>
+  <div class="verify-proof" aria-label="Example Baseplate Verify report">
+    <div class="verify-proof-score"><strong>82</strong><span>/ 100</span><em>2 steps to verified</em></div>
+    <ol><li class="done"><b>Static safety scan</b><span>0 high-impact findings</span></li><li class="next"><b>Run core gameplay smoke test</b><span>Next · real Studio evidence</span></li><li><b>Capture performance budget</b><span>Then · release-ready proof</span></li></ol>
+  </div>
+</section>
+
 <!-- ── Demo video ────────────────────────────────────────────────── -->
 <section class="section demo-section" id="demo">
   <div class="section-head demo-head">
@@ -180,10 +201,47 @@
     <h2>Watch an agent fix a bug it found itself.</h2>
   </div>
   <div class="video-frame">
-    <video class="demo-video" autoplay muted loop playsinline preload="metadata" poster="demo-poster.jpg">
-      <source src="baseplate-demo.mp4" type="video/mp4">
+    <video class="demo-video" muted loop playsinline preload="none" poster="demo-poster.jpg" width="1280" height="720">
+      <source data-src="baseplate-demo.mp4" type="video/mp4">
     </video>
   </div>
+</section>
+
+<!-- ── Interactive product demo ─────────────────────────────────── -->
+<section class="section live-demo-section" id="live-demo">
+  <div class="section-head live-demo-head">
+    <div>
+      <p class="eyebrow">Drive it in your browser</p>
+      <h2>Prompt the build.<br>Watch the proof arrive.</h2>
+      <p class="section-lede">This interactive simulation runs entirely in your browser — no account, AI credits or source upload. Type a Roblox task and watch Baseplate coordinate the builder, Studio and Regression Lab.</p>
+    </div>
+    <div class="demo-privacy"><b>Local simulation</b><span>Your prompt never leaves this page.</span></div>
+  </div>
+  <div class="product-demo" data-live-demo>
+    <div class="pd-windowbar"><span class="pd-lights" aria-hidden="true"><i></i><i></i><i></i></span><b>Baseplate · demo-tycoon</b><span class="pd-progress" aria-live="polite"><i></i><span>Ready for a mission</span></span><button class="pd-reset" type="button">Reset</button></div>
+    <div class="pd-body">
+      <aside class="pd-sidebar">
+        <div class="pd-side-label">Try a mission</div>
+        <button type="button" class="pd-preset active" data-demo-preset="payout"><span>01</span><b>Fix payout bug</b><small>runtime regression</small></button>
+        <button type="button" class="pd-preset" data-demo-preset="sprint"><span>02</span><b>Add sprint</b><small>input + mobile UI</small></button>
+        <button type="button" class="pd-preset" data-demo-preset="remote"><span>03</span><b>Harden BuyItem</b><small>remote contract</small></button>
+        <div class="pd-side-proof"><b>Real app</b><span>Runs your installed agent CLIs and open Roblox Studio. This page is a simulation.</span></div>
+      </aside>
+      <div class="pd-workspace">
+        <div class="pd-grid">
+          <section class="pd-pane" data-pane="builder"><header><span class="pd-agent-dot blue"></span><b>Builder</b><small>Codex · demo-tycoon</small><em>working tree</em></header><div class="pd-terminal" aria-live="polite"><div class="pd-line muted">› Waiting for your prompt…</div></div><form class="pd-prompt"><span>›</span><input aria-label="Prompt the Builder" autocomplete="off" maxlength="240" placeholder="Describe a Roblox feature or bug…"><button type="submit">Run</button></form></section>
+          <section class="pd-pane" data-pane="studio"><header><span class="pd-agent-dot amber"></span><b>Studio</b><small>live bridge</small><em>connected</em></header><div class="pd-terminal" aria-live="polite"><div class="pd-line muted">› Play session idle · Output clean</div></div><div class="pd-pane-foot"><span class="pd-led"></span> Roblox Studio bridge</div></section>
+          <section class="pd-pane" data-pane="regression"><header><span class="pd-agent-dot mint"></span><b>Regression Lab</b><small>evidence chain</small><em>baseline #18</em></header><div class="pd-terminal" aria-live="polite"><div class="pd-line muted">› Scenario queued · 6 deterministic steps</div></div><div class="pd-evidence"><span>Epoch</span><span>Play</span><span>State</span><span>Stop</span><span>Errors</span></div></section>
+          <section class="pd-pane" data-pane="guard"><header><span class="pd-agent-dot violet"></span><b>Remote Contracts</b><small>server authority</small><em>local scan</em></header><div class="pd-terminal" aria-live="polite"><div class="pd-line muted">› 8 server handlers mapped · no source uploaded</div></div><div class="pd-pane-foot">type · range · rate limit · ownership</div></section>
+        </div>
+        <div class="pd-commandbar">
+          <form class="pd-global-prompt"><span class="pd-spark">✦</span><input aria-label="Try Baseplate live demo" autocomplete="off" maxlength="240" value="Fix the nil payout bug and prove it in Studio" placeholder="Tell Baseplate what to build or fix…"><button type="submit">Run mission <span>↵</span></button></form>
+          <div class="pd-hints"><span>Try:</span><button type="button" data-demo-text="Add sprint with a mobile-safe stamina bar">mobile UI</button><button type="button" data-demo-text="Harden the BuyItem remote against fake prices and spam">exploit guard</button><button type="button" data-demo-text="Fix the nil payout bug and prove it in Studio">runtime fix</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="demo-disclosure">Interactive product simulation. The desktop app performs these actions against your real local project and Studio session; this page does not execute code or contact an AI provider.</p>
 </section>
 
 <!-- ── Works with ───────────────────────────────────────────────── -->
@@ -326,10 +384,10 @@
   <div class="section-head">
     <p class="eyebrow">Pricing</p>
     <h2>Start free. Upgrade when<br>your game earns it.</h2>
-    <p class="section-lede">Founder pricing — locked in for everyone who joins now, even as features keep landing.</p>
+    <p class="section-lede">Simple monthly or yearly plans. Cancel or switch in the billing portal at any time.</p>
     <div class="billing-toggle" role="radiogroup" aria-label="Billing period">
-      <button class="bt-opt" data-period="monthly" role="radio" aria-checked="false">Monthly</button>
-      <button class="bt-opt active" data-period="yearly" role="radio" aria-checked="true">Yearly <span class="save-pill">save ~33%</span></button>
+      <button class="bt-opt active" data-period="monthly" role="radio" aria-checked="true">Monthly</button>
+      <button class="bt-opt" data-period="yearly" role="radio" aria-checked="false">Yearly <span class="save-pill">save ~33%</span></button>
     </div>
   </div>
 
@@ -343,6 +401,7 @@
         <li>Live Studio bridge + Rojo sync</li>
         <li>Playtest Copilot — fix &amp; explain runtime errors</li>
         <li><strong>Exploit Guard security audit</strong></li>
+        <li><strong>Baseplate Verify + Regression Lab + Remote Contracts</strong></li>
         <li>Starter kits + demo game to start from</li>
       </ul>
       <a class="btn btn-ghost btn-block" href="#download">Download free</a>
@@ -352,9 +411,9 @@
       <div class="plan-flag">Most popular</div>
       <div class="plan-name">Pro</div>
       <div class="plan-price">
-        <span class="amount" data-monthly="$4.99" data-yearly="$3.33">$3.33</span><span class="per">/ month</span>
+        <span class="amount" data-monthly="$4.99" data-yearly="$3.33">$4.99</span><span class="per">/ month</span>
       </div>
-      <div class="plan-subprice mono" data-monthly="billed monthly" data-yearly="$39.99 billed yearly">$39.99 billed yearly</div>
+      <div class="plan-subprice mono" data-monthly="billed monthly" data-yearly="$39.99 billed yearly">billed monthly</div>
       <p class="plan-blurb">Every agent-powered mission, review and live-ops tool. Less than one small dev-product commission.</p>
       <ul class="plan-list">
         <li><strong>Up to 5 agents in parallel</strong></li>
@@ -362,6 +421,8 @@
         <li>Ship Gate release review</li>
         <li>Economy &amp; multiplayer simulators</li>
         <li>Live-game Doctor (Open Cloud)</li>
+        <li>Safe DataOps + Growth Autopilot</li>
+        <li>Performance CI release budgets</li>
         <li>Asset &amp; UI generator</li>
         <li>Prompt-to-game + mission marketplace</li>
       </ul>
@@ -371,9 +432,9 @@
     <div class="plan">
       <div class="plan-name">Studio</div>
       <div class="plan-price">
-        <span class="amount" data-monthly="$12.99" data-yearly="$9.99">$9.99</span><span class="per">/ month</span>
+        <span class="amount" data-monthly="$12.99" data-yearly="$9.99">$12.99</span><span class="per">/ month</span>
       </div>
-      <div class="plan-subprice mono" data-monthly="billed monthly" data-yearly="$119.99 billed yearly">$119.99 billed yearly</div>
+      <div class="plan-subprice mono" data-monthly="billed monthly" data-yearly="$119.99 billed yearly">billed monthly</div>
       <p class="plan-blurb">For teams shipping together — shared board, shared prompts, live presence.</p>
       <ul class="plan-list">
         <li><strong>Team collaboration</strong> — shared board &amp; prompt library</li>
@@ -381,19 +442,18 @@
         <li>Up to 10 agents in parallel</li>
         <li>Bigger Crew swarms (up to 8 builders)</li>
         <li>Everything in Pro</li>
-        <li>Priority support</li>
       </ul>
       <a class="btn btn-ghost btn-block buy" data-plan="studio" href="#" rel="noopener">Get Studio</a>
     </div>
   </div>
-  <p class="pricing-fineprint">Your license key arrives by email the moment checkout completes — paste it into Baseplate and you're upgraded. <a href="#manage" class="manage-link">Cancel or change your plan anytime</a>. 14-day refund, no questions.</p>
+  <p class="pricing-fineprint">Your license key is shown immediately after a successful checkout, and we also attempt email delivery — paste it into Baseplate and you're upgraded. <a href="#manage" class="manage-link">Cancel or change your plan anytime</a>. 14-day refund, subject to the limited anti-abuse exception in our Refund Policy.</p>
 </section>
 
 <!-- ── Download ─────────────────────────────────────────────────── -->
 <section class="section dl" id="download">
   <div class="dl-inner">
     <h2>Get Baseplate</h2>
-    <p class="section-lede">Runs locally on your machine. Your code and your Open Cloud key never leave it.</p>
+    <p class="section-lede">The app and Studio bridge run locally. Project data goes only to the AI provider you choose; Baseplate does not host your source repository.</p>
     <div class="dl-buttons">
       <a class="btn btn-primary dl-btn" data-os="win" href="#" rel="noopener">
         <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3 5.5 10.5 4.4v7.1H3zM3 12.5h7.5v7.1L3 18.5zM11.5 4.2 21 3v8.5h-9.5zM11.5 12.5H21V21l-9.5-1.3z"/></svg>
@@ -404,7 +464,7 @@
         Download for macOS
       </a>
     </div>
-    <p class="dl-note">Prerequisite: <a href="https://claude.com/claude-code" rel="noopener" target="_blank">Claude Code</a> installed and signed in — Baseplate orchestrates it. Windows may show a SmartScreen prompt on first run (we're a new, unsigned publisher — "More info → Run anyway").</p>
+    <p class="dl-note">Prerequisites: Roblox Studio plus at least one supported agent CLI. Claude Code, Codex and Cursor can run the verified Playtest Copilot; Grok works as a builder tile. The current direct Windows installer may show SmartScreen until the Microsoft Store listing is certified. The current unsigned macOS build requires Apple's <a href="install-macos.html">Open Anyway steps</a>; only an Apple-notarized release can remove that warning.</p>
   </div>
 </section>
 
@@ -414,11 +474,11 @@
   <div class="faq">
     <details>
       <summary>Do I need my own AI subscription?</summary>
-      <p>Yes — Baseplate drives your existing <strong>Claude Code</strong>, <strong>Codex</strong>, <strong>Grok</strong> or <strong>Cursor</strong> account, and you can mix them in one crew. That keeps Baseplate cheap: you're not paying us a markup on tokens, and your usage limits are whatever your AI plan gives you.</p>
+      <p>Yes — Baseplate drives your existing agent CLI account. <strong>Claude Code</strong>, <strong>Codex</strong> and <strong>Cursor</strong> support the verified Playtest Copilot and can be mixed in one Crew; <strong>Grok</strong> is available as a normal builder tile. Baseplate does not resell AI tokens.</p>
     </details>
     <details>
       <summary>Does my code leave my machine?</summary>
-      <p>No. Baseplate runs entirely locally — the server, the bridge, your source, and your Open Cloud key all stay on your computer. The only network traffic is your own agent talking to your own AI provider. The one exception is opt-in: if you turn on <strong>team collaboration</strong> (Studio plan), your Kanban cards, shared prompts and display name sync to your team — your code, files and keys still never leave your machine.</p>
+      <p>Baseplate does not upload your projects or keys to Baseplate. Your selected AI provider receives prompts, code and context needed for the work. License validation sends your key and a random installation identifier to our Cloudflare service. If you enable <strong>team collaboration</strong>, board cards, shared prompts and display names sync through the team service; source files and API keys do not.</p>
     </details>
     <details>
       <summary>How is this different from just using Claude Code in a terminal?</summary>
@@ -430,15 +490,15 @@
     </details>
     <details>
       <summary>What happens when my Pro subscription lapses?</summary>
-      <p>You drop back to Free — one agent at a time, bridge and Exploit Guard still included. Your projects, workspaces and history stay untouched on your disk.</p>
+      <p>You drop back to Free — one agent at a time, with the bridge, Regression Lab and Remote Contract Compiler still included. Your projects, workspaces and history stay untouched on your disk.</p>
     </details>
     <details>
       <summary>Is the Studio plugin safe?</summary>
-      <p>The plugin only talks to <span class="mono">127.0.0.1</span> — your own machine — and Baseplate validates the origin of every connection. Nothing is exposed to the network, and the code that ships is the code we audit before every release.</p>
+      <p>The plugin only talks to Baseplate on <span class="mono">127.0.0.1</span>. The local server rejects foreign Host and browser Origin values, the Electron renderer is sandboxed, and release packages use ASAR integrity checks. No security control can guarantee invulnerability, so review agent-generated changes before you ship.</p>
     </details>
     <details>
       <summary>I'm a student / hobbyist. Is Free actually usable?</summary>
-      <p>Free is the full core loop: one agent with complete Studio access, the Playtest Copilot flow, Rojo sync and the Exploit Guard audit. It's deliberately generous — if Baseplate never earns your upgrade, it should still make your game better.</p>
+      <p>Free is the full core loop: one agent with complete Studio access, Playtest Copilot, Rojo sync, Regression Lab and Remote Contract Compiler. It's deliberately generous — if Baseplate never earns your upgrade, it should still make your game better.</p>
     </details>
   </div>
 </section>
@@ -452,6 +512,8 @@
   </div>
 </section>
 
+</main>
+
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand">
@@ -461,6 +523,7 @@
     </div>
     <div class="footer-links">
       <a href="ai-written-luau-breaks-in-studio.html">AI Luau runtime guide</a>
+      <a href="roblox-remoteevent-security-checklist.html">RemoteEvent security checklist</a>
       <a href="#features">Features</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
@@ -476,6 +539,8 @@
 </footer>
 
 <script src="config.js"></script>
+<script src="funnel.js"></script>
 <script src="site.js"></script>
+<script src="live-demo.js"></script>
 </body>
 </html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>Founding 10 Roblox developer onboarding — Baseplate</title>
+<meta name="description" content="Apply for one of ten free, hands-on Baseplate onboarding sessions for Roblox developers. Leave with a local project health score and one evidence-backed release path.">
+<link rel="canonical" href="https://baseplatedev.com/founding-10.html">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<style>
+  .f10-wrap{max-width:920px;margin:0 auto;padding:120px 24px 90px}.f10-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:start}.f10-hero h1{font-size:clamp(38px,6vw,66px);letter-spacing:-.045em;line-height:1}.f10-list{display:grid;gap:10px;margin:26px 0;padding:0;list-style:none}.f10-list li{padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface-1);color:var(--dim)}.f10-list b{color:var(--text)}.f10-card{padding:22px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.f10-form{display:grid;gap:14px}.f10-form label{display:grid;gap:6px;color:var(--dim);font-size:12px}.f10-form input,.f10-form textarea,.f10-form select{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:9px;background:var(--surface-1);color:var(--text);font:inherit}.f10-form textarea{min-height:120px;resize:vertical}.f10-consent{grid-template-columns:auto 1fr!important;align-items:start}.f10-consent input{width:auto;margin-top:3px}.f10-note{color:var(--faint);font-size:11px;line-height:1.5}.f10-result{padding:13px;border:1px solid rgba(63,217,162,.35);border-radius:9px;color:var(--mint)}.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}@media(max-width:760px){.f10-hero{grid-template-columns:1fr}.f10-wrap{padding-top:96px}}
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+<nav class="nav"><a class="nav-brand" href="index.html"><svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg><span>Baseplate</span></a><div class="nav-links"><a href="index.html#verify">Verify</a><a href="index.html#pricing">Pricing</a><a href="index.html#faq">FAQ</a></div><a class="btn btn-primary btn-sm" href="#apply">Apply free</a></nav>
+<main class="f10-wrap">
+  <div class="f10-hero">
+    <section>
+      <p class="eyebrow">Founding 10 · free</p>
+      <h1>Bring one Roblox project. Leave with proof.</h1>
+      <p class="lede">We are onboarding ten Roblox developers by hand. In one focused session, we connect Baseplate, run Verify on your real project and complete the highest-value evidence step together.</p>
+      <ul class="f10-list"><li><b>Before:</b> a short fit check and zero source upload.</li><li><b>During:</b> install, Studio bridge, local scan and one real smoke test.</li><li><b>After:</b> your score, prioritized blockers and a reproducible Best Path to Verified.</li></ul>
+      <p class="f10-note">No purchase, card, public review or promotion is required. You need Roblox Studio, a current project and one supported coding-agent CLI. We ask for candid feedback; permission for any case study is separate and optional.</p>
+    </section>
+    <section class="f10-card" id="apply">
+      <p class="eyebrow">Request a slot</p>
+      <form class="f10-form" id="f10-form">
+        <div class="hp" aria-hidden="true"><label>Company<input id="f10-company" tabindex="-1" autocomplete="off"></label></div>
+        <label>Email<input id="f10-email" type="email" required autocomplete="email" placeholder="you@example.com"></label>
+        <label>Project stage<select id="f10-stage"><option>Playable prototype</option><option>Preparing first release</option><option>Already live</option><option>Studio/team project</option></select></label>
+        <label>Biggest blocker right now<textarea id="f10-blocker" required maxlength="1800" placeholder="For example: a RemoteEvent exploit, unreliable saves, regressions after AI edits, or no repeatable release check."></textarea></label>
+        <label>Public creator/game link (optional)<input id="f10-link" type="url" maxlength="300" placeholder="https://www.roblox.com/... or portfolio"></label>
+        <label class="f10-consent"><input id="f10-consent" type="checkbox" required><span>I agree that Baseplate may use these details to assess my application and contact me about this onboarding. See the <a href="privacy.html">Privacy Policy</a>.</span></label>
+        <button class="btn btn-primary" id="f10-send" type="submit">Request a free session</button>
+        <div class="f10-result" id="f10-ok" hidden>Application received. We will reply by email if the project fits one of the ten sessions.</div>
+        <div class="f10-result" id="f10-error" hidden></div>
+      </form>
+    </section>
+  </div>
+</main>
+<footer class="footer"><div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="index.html#pricing">Pricing</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div><p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation.</p></footer>
+<script src="funnel.js"></script>
+<script src="founding-10.js"></script>
+</body>
+</html>

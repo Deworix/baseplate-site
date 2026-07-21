@@ -3,13 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>Privacy Policy — Baseplate</title>
-<meta name="description" content="How Baseplate handles your data. Baseplate is local-first: your code and keys stay on your machine.">
+<meta name="description" content="How Baseplate handles your data. Baseplate is local-first: project source stays on your machine and optional product measurement excludes persistent identity.">
 <meta name="robots" content="all">
 <link rel="canonical" href="https://baseplatedev.com/privacy.html">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
@@ -32,7 +30,7 @@
 <main class="legal-wrap">
   <p class="eyebrow"><span class="eyebrow-dot"></span>Legal</p>
   <h1>Privacy Policy</h1>
-  <p class="legal-meta">Last updated: 12 July 2026 · Applies to the Baseplate desktop app and baseplatedev.com</p>
+  <p class="legal-meta">Last updated: 21 July 2026 · Applies to the Baseplate desktop app and baseplatedev.com</p>
 
   <div class="legal-toc">
     <a href="#who">Who we are</a>
@@ -58,17 +56,16 @@
     <p>We are based in the European Union, so we process personal data under the EU General Data Protection Regulation (GDPR / RODO).</p>
 
     <h2 id="local">2. The local-first principle</h2>
-    <p>Baseplate runs entirely on your computer. The following <strong>never leave your machine and are never sent to us</strong>:</p>
+    <p>Baseplate's application server and Studio bridge run on your computer. The following are <strong>not uploaded to Baseplate's services</strong>:</p>
     <ul>
       <li>Your game source code, projects and workspaces.</li>
       <li>Your Roblox Open Cloud API key (stored locally on your device).</li>
-      <li>Your prompts, chat transcripts and agent activity.</li>
-      <li>Your Baseplate settings and history.</li>
+      <li>Your full local chat transcripts, agent terminal history and Baseplate settings.</li>
     </ul>
     <p>The app's local server binds only to <code>127.0.0.1</code> (your own machine) and validates the origin of every connection.</p>
 
     <h3>Your AI provider sees your prompts</h3>
-    <p>Baseplate drives your own <strong>Claude Code</strong> (Anthropic) or compatible AI account. When an agent runs, your prompts, code and context are sent to <strong>your</strong> AI provider under <strong>your</strong> agreement with them, to generate responses. This traffic goes directly from your machine to your AI provider — it does not pass through us. Their privacy policy governs that processing (e.g. <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">Anthropic's Privacy Policy</a>).</p>
+    <p>Baseplate drives your own Claude Code, Codex, Grok or Cursor CLI account. When an agent runs, the prompts, code and context selected for that work are sent directly from your machine to <strong>your selected AI provider</strong> under your agreement with them. They do not pass through Baseplate's service. That provider's privacy policy governs its processing.</p>
 
     <h2 id="collect">3. What we actually collect</h2>
     <p>We only process personal data in these limited situations:</p>
@@ -76,13 +73,22 @@
     <h3>a) When you buy a paid plan</h3>
     <p>Payments are handled by our payment provider (see below). We receive: your <strong>email address</strong> and <strong>which plan you bought</strong>, so we can issue and email your license key. We do <strong>not</strong> receive or store your card number or full payment details — the payment provider handles those.</p>
 
-    <h3>b) When the app checks for updates</h3>
-    <p>On launch, the app asks GitHub whether a newer version exists. GitHub receives the standard technical data of that request (such as your IP address and app version). This is necessary to deliver updates and security fixes.</p>
+    <h3>b) When the app validates a paid license</h3>
+    <p>The app sends your license key and a random per-installation identifier to our Cloudflare license service at activation and periodically while it runs. We use these to confirm the plan and enforce the stated device limit. The identifier is not derived from hardware serial numbers.</p>
 
-    <h3>c) When you visit this website</h3>
-    <p>Our hosting provider processes standard server logs (IP address, browser type, pages requested) to serve the site and keep it secure. The site loads web fonts from Google Fonts, which means Google receives your IP address when fonts load. We do <strong>not</strong> use advertising or cross-site tracking cookies. See our <a href="cookies.html">Cookie Policy</a>.</p>
+    <h3>c) Optional anonymous product milestones</h3>
+    <p>The app can send fixed product milestones such as first launch, workspace added, Studio connected, Verify scan completed, upgrade opened and license activated. The event deliberately excludes account and device identifiers, request IP from the analytics dataset, project names and paths, prompts, source code and file contents. This setting is visible in Baseplate Verify and can be disabled at any time.</p>
 
-    <h3>d) When you email us</h3>
+    <h3>d) When the app checks for updates</h3>
+    <p>Direct-download builds ask GitHub whether a newer version exists. A Microsoft Store build uses the Store's update mechanism instead. The relevant provider receives the standard technical data of that request (such as your IP address and app version). This is necessary to deliver updates and security fixes.</p>
+
+    <h3>e) When you enable team collaboration</h3>
+    <p>This optional Studio-plan feature sends board cards, shared prompts and your display name through our Cloudflare team service so teammates can see them. Source files, Open Cloud keys, AI credentials and full agent transcripts are not included. A random team ID and 256-bit team key protect access; teammates must receive both from you.</p>
+
+    <h3>f) When you visit this website</h3>
+    <p>Our hosting provider processes standard server logs (IP address, browser type, pages requested) to serve the site and keep it secure. We also count a small fixed set of aggregate product-funnel events (for example landing view, live-demo start, download and checkout click) with coarse campaign labels. We do not attach an account, device or session identifier, store the request IP in the analytics dataset, collect free-form text, or use cookies/local storage for this measurement. Global Privacy Control and browser Do Not Track are respected. The site uses local system fonts and no advertising or cross-site tracking cookies. See our <a href="cookies.html">Cookie Policy</a>.</p>
+
+    <h3>g) When you contact us</h3>
     <p>If you contact support, we process the email address and content you send, to answer you.</p>
 
     <h2 id="processors">4. Third parties we rely on (processors)</h2>
@@ -91,17 +97,17 @@
       <tr><th>Provider</th><th>Purpose</th><th>Data</th></tr>
       <tr><td>Our payment provider — Stripe</td><td>Process payments, tax &amp; invoicing</td><td>Email, name, payment details, country</td></tr>
       <tr><td>GitHub (Microsoft)</td><td>App downloads &amp; auto-updates</td><td>IP, app version (request logs)</td></tr>
-      <tr><td>Cloudflare</td><td>License key issuing/validation service</td><td>Email, plan, license key</td></tr>
+      <tr><td>Microsoft Store (when used)</td><td>Windows app download, signing and updates</td><td>Microsoft account and device/request data under Microsoft's terms</td></tr>
+      <tr><td>Cloudflare</td><td>Website hosting, aggregate funnel counts, license validation and optional team sync</td><td>Request IP in transient infrastructure logs; fixed event names and coarse campaign labels; email, plan, license key and installation ID; opt-in board cards, prompts and display name</td></tr>
       <tr><td>Resend</td><td>Delivering your license-key email</td><td>Email address, message content</td></tr>
-      <tr><td>Google Fonts</td><td>Website typography</td><td>IP address (on page load)</td></tr>
-      <tr><td>Your AI provider — Anthropic</td><td>Runs the agents you invoke</td><td>Your prompts &amp; code (direct from your machine)</td></tr>
+      <tr><td>Your selected AI provider</td><td>Runs the agents you invoke</td><td>Your prompts, code and context (direct from your machine)</td></tr>
     </table>
     <p>Some of these providers are located outside the European Economic Area (e.g. the United States). Where that is the case, transfers are covered by appropriate safeguards such as the EU Standard Contractual Clauses or the EU–US Data Privacy Framework.</p>
 
     <h2 id="legal-basis">5. Legal basis for processing (GDPR Art. 6)</h2>
     <ul>
       <li><strong>Performance of a contract</strong> — issuing your license key and delivering the software you purchased.</li>
-      <li><strong>Legitimate interests</strong> — delivering security updates, preventing fraud/abuse, and answering support requests.</li>
+      <li><strong>Legitimate interests</strong> — delivering security updates, preventing fraud/abuse, answering support requests, and improving the product using identifier-free aggregate funnel counts.</li>
       <li><strong>Legal obligation</strong> — keeping tax and accounting records where required.</li>
       <li><strong>Consent</strong> — any non-essential cookies or optional communications, which you can withdraw at any time.</li>
     </ul>
@@ -111,6 +117,7 @@
       <li><strong>Purchase &amp; license records:</strong> for as long as your license is valid and afterwards as required by tax/accounting law (in Poland, generally 5 years).</li>
       <li><strong>Support emails:</strong> up to 24 months after your last message.</li>
       <li><strong>Server &amp; update logs:</strong> a short period for security, then deleted or anonymised.</li>
+      <li><strong>Aggregate funnel events:</strong> retained only as long as useful for product decisions; they contain no account, device or session identifier.</li>
     </ul>
 
     <h2 id="rights">7. Your rights</h2>
