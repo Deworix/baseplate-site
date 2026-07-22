@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>AI Roblox script generator that proves the script runs | Baseplate</title>
+<meta name="description" content="Any AI can generate a Roblox script. Baseplate playtests it in a real Studio session, fixes the Luau, and only reports PASS when the console is clean. Free plan.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://baseplatedev.com/ai-roblox-script-generator.html">
+<meta property="og:title" content="AI Roblox script generator that proves the script runs">
+<meta property="og:description" content="Generate Luau from plain English — then watch it get playtested, fixed and verified live in Roblox Studio.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://baseplatedev.com/ai-roblox-script-generator.html">
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "AI Roblox script generator that proves the script runs",
+      "datePublished": "2026-07-22",
+      "dateModified": "2026-07-22",
+      "author": { "@type": "Organization", "name": "Baseplate", "url": "https://baseplatedev.com/" },
+      "publisher": { "@id": "https://baseplatedev.com/#organization" },
+      "mainEntityOfPage": "https://baseplatedev.com/ai-roblox-script-generator.html"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can AI really write working Roblox scripts?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Modern models write good Luau, but generated scripts routinely fail at runtime: nil references to instances that load later, wrong service paths, client/server mixups. Generation is the easy half. Baseplate closes the loop by playtesting the script in a real Roblox Studio session and fixing what actually breaks." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this free?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Baseplate's Free plan includes the full loop — one agent, the live Studio bridge, Playtest Copilot, Exploit Guard and Regression Lab. You bring your own AI plan (Claude Code, Codex or Cursor); Baseplate doesn't meter prompts or sell credits." }
+        },
+        {
+          "@type": "Question",
+          "name": "What do I need to start?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Roblox Studio, the free Baseplate app for Windows or macOS, and one supported agent CLI (Claude Code, Codex or Cursor). Baseplate connects them and installs its Studio plugin for you." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it work with my existing game?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Agents read your existing source, edit it in place, and Rojo syncs changes into the open Studio session. There's also a knowledge index so you can ask 'where is the shop logic?' and get file:line answers." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  .guide-note { border:1px solid var(--line-2); background:var(--surface-1); border-radius:var(--r-plate); padding:18px 20px; margin:24px 0; }
+  .guide-note p { margin:0; }
+  .guide-code { overflow-x:auto; border:1px solid var(--line-2); background:#0b0d12; border-radius:var(--r-plate); padding:18px 20px; margin:16px 0; color:var(--dim); font:13px/1.65 var(--font-mono); }
+  .guide-code .err { color:var(--rose); }
+  .guide-code .ok { color:var(--mint); }
+  .guide-cta { border:1px solid var(--accent-line); background:var(--accent-weak); border-radius:var(--r-plate); padding:24px; margin-top:42px; }
+  .guide-cta h2 { margin-top:0; }
+  .guide-cta .btn { margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+</nav>
+
+<main class="legal-wrap">
+  <p class="eyebrow"><span class="eyebrow-dot"></span>AI Roblox script generator</p>
+  <h1>Any AI can generate a Roblox script.<br>Baseplate proves it runs.</h1>
+  <p class="lede">Describe the feature in plain English. An agent writes the Luau into your source, Rojo syncs it into Roblox Studio, and the Playtest Copilot presses Play, reads the real Output window, fixes what breaks, and only reports PASS when the console is actually clean.</p>
+
+  <div class="guide-note"><p><strong>Why "generator" isn't enough:</strong> pasting AI Luau into Studio fails constantly — nil references to instances that haven't streamed in, wrong service paths, client code on the server. The model isn't bad; it's blind. It never saw your game run. Baseplate gives it eyes.</p></div>
+
+  <div class="legal-prose">
+    <h2>What the loop looks like</h2>
+    <pre class="guide-code"><code>› "Give the dropper a payout multiplier that doubles after each rebirth"
+✎ Edit · src/server/Tycoon.server.luau
+▶ playtest started · demo-tycoon
+<span class="err">ServerScriptService.Tycoon:46: attempt to compare nil &lt; number</span>
+› Rebirths isn't initialized for new players — fixing the profile default…
+✎ Edit · src/server/Profiles.server.luau
+▶ re-ran playtest
+<span class="ok">✓ console clean · payout doubles after rebirth · PLAYTEST PASS</span></code></pre>
+    <p>That second half — playtest, read the runtime error, fix the cause, re-verify — is what separates a script generator from something you can ship with. No copy-pasting stack traces into a chat window, no "should work now".</p>
+
+    <h2>Generate more than scripts</h2>
+    <ul>
+      <li><strong>Whole features:</strong> a Crew of agents builds UI, server logic and data saving in parallel, each in its own visible tile.</li>
+      <li><strong>Whole games:</strong> describe a game in one sentence, or pick a starter kit — tycoon, simulator, obby, tower defense, horror, battlegrounds — and agents build the first playable loop.</li>
+      <li><strong>Secure scripts:</strong> Exploit Guard audits every RemoteEvent like an attacker would and writes the server-side hardening. Free plan included.</li>
+      <li><strong>Your existing game:</strong> agents read your source, answer "where is the shop logic?" with file:line, and edit in place.</li>
+    </ul>
+
+    <h2>What you need</h2>
+    <ol>
+      <li><strong>Roblox Studio</strong> (Windows or macOS).</li>
+      <li><strong>Baseplate</strong> — free download; it installs its Studio plugin for you.</li>
+      <li><strong>One agent CLI you already use:</strong> Claude Code, Codex or Cursor. Baseplate drives your existing plan directly — it never meters your prompts or resells AI credits, which is why the Free plan is actually free and Pro is $4.99/mo, not $20.</li>
+    </ol>
+
+    <h2>Honest limits</h2>
+    <p>Baseplate is not magic. It needs your own AI subscription, a real Studio session for verified playtests, and you should still review generated code before shipping — the <a href="roblox-remoteevent-security-checklist.html">RemoteEvent security checklist</a> and <a href="ai-written-luau-breaks-in-studio.html">runtime failure guide</a> tell you exactly what to look for. If you'd rather buy hosted AI credits than bring a plan, see our <a href="baseplate-vs-ropilot.html">honest comparison with Ropilot</a>.</p>
+
+    <div class="guide-cta">
+      <h2>Generate your next feature — and watch it pass</h2>
+      <p>Free plan: one agent, full Studio bridge, Playtest Copilot, Exploit Guard, Regression Lab. No card, no credits, no meter.</p>
+      <a class="btn btn-primary" href="index.html?utm_source=script_generator&amp;utm_medium=organic&amp;utm_campaign=seo_20260722#download">Download Baseplate free</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="baseplate-vs-ropilot.html">Baseplate vs Ropilot</a><a href="ai-written-luau-breaks-in-studio.html">Runtime guide</a><a href="roblox-remoteevent-security-checklist.html">Security checklist</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div>
+  <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation.</p>
+</footer>
+</body>
+</html>

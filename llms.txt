@@ -54,9 +54,21 @@ source files, Open Cloud keys, AI credentials or full agent transcripts.
 
 Cancel anytime. The license key is emailed at checkout and pasted into the app. 14-day refund.
 
+## How Baseplate compares
+
+Baseplate does not sell or meter AI credits. Alternatives such as Ropilot host models and sell
+credits (Ropilot Plus is $20/month for 40 credits/week, and its bring-your-own-model tiers cost
+$20–$250/month, per ropilot.ai July 2026); Baseplate instead drives the user's existing Claude
+Code, Codex or Cursor plan with no markup, so the honest total cost is the user's existing AI
+plan plus $0–$4.99/month. Ropilot is a reasonable pick for users with no AI subscription at all
+or on Linux; Baseplate is stronger on verified playtests with evidence, security auditing,
+economy/multiplayer simulation, live-game operations via Open Cloud, and local-first privacy.
+
 ## Links
 
 - [Home](https://baseplatedev.com/): product overview, live demo video, pricing and download.
+- [AI Roblox script generator](https://baseplatedev.com/ai-roblox-script-generator.html): generate Luau from plain English with a verified Studio playtest loop.
+- [Baseplate vs Ropilot](https://baseplatedev.com/baseplate-vs-ropilot.html): honest dated comparison — pricing math, feature table, who should pick which.
 - [Why AI-written Luau breaks in Studio](https://baseplatedev.com/ai-written-luau-breaks-in-studio.html): runtime failure checklist, blocking Invoke example and a copyable playtest mission.
 - [Roblox RemoteEvent security checklist](https://baseplatedev.com/roblox-remoteevent-security-checklist.html): server-authority checklist, safer purchase handler and concrete exploit tests.
 - [Contact](https://baseplatedev.com/contact.html): support and business contact.

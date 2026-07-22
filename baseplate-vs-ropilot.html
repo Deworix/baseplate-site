@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>Baseplate vs Ropilot (2026) — an honest comparison for Roblox devs</title>
+<meta name="description" content="Ropilot sells credits to hosted AI models. Baseplate drives the Claude Code, Codex or Cursor plan you already own — $4.99/mo, not $20/mo. Honest side-by-side.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://baseplatedev.com/baseplate-vs-ropilot.html">
+<meta property="og:title" content="Baseplate vs Ropilot — an honest comparison for Roblox devs">
+<meta property="og:description" content="Two different bets: hosted AI credits vs driving the agent plan you already own. Pricing math, feature table, and who should pick which.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://baseplatedev.com/baseplate-vs-ropilot.html">
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Baseplate vs Ropilot (2026) — an honest comparison for Roblox devs",
+      "datePublished": "2026-07-22",
+      "dateModified": "2026-07-22",
+      "author": { "@type": "Organization", "name": "Baseplate", "url": "https://baseplatedev.com/" },
+      "publisher": { "@id": "https://baseplatedev.com/#organization" },
+      "mainEntityOfPage": "https://baseplatedev.com/baseplate-vs-ropilot.html"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Baseplate a Ropilot alternative?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, with a different model. Ropilot sells credits to AI models it hosts; Baseplate drives the Claude Code, Codex or Cursor subscription you already own, locally, with no token markup. Baseplate Free covers the full playtest-fix-verify loop; Pro is $4.99/month." }
+        },
+        {
+          "@type": "Question",
+          "name": "Which is cheaper, Baseplate or Ropilot?",
+          "acceptedAnswer": { "@type": "Answer", "text": "If you already pay for Claude, ChatGPT/Codex or Cursor, Baseplate is much cheaper: $0 or $4.99/month on top of the plan you already have, with no per-prompt credits. Ropilot Plus is $20/month for 40 credits a week, and Ropilot's bring-your-own-model tiers still cost $20 to $250 per month beyond a 500-action free allowance (per ropilot.ai, July 2026)." }
+        },
+        {
+          "@type": "Question",
+          "name": "When is Ropilot the better choice?",
+          "acceptedAnswer": { "@type": "Answer", "text": "If you have no AI subscription at all and don't want one, Ropilot's built-in credits are the fastest way to try AI scripting. Ropilot also ships a Linux build; Baseplate currently supports Windows and macOS." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Baseplate upload my game to its servers?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Baseplate runs locally; your source goes only to the AI provider you chose, under your own account and their retention terms. Baseplate does not host your project or resell inference." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  .vs-note { border:1px solid var(--line-2); background:var(--surface-1); border-radius:var(--r-plate); padding:18px 20px; margin:24px 0; }
+  .vs-note p { margin:0; }
+  .vs-table td:first-child { color:var(--text); font-weight:600; white-space:nowrap; }
+  .vs-yes { color:var(--mint); }
+  .vs-no { color:var(--dim); }
+  .vs-part { color:var(--amber); }
+  .vs-scroll { overflow-x:auto; }
+  .guide-cta { border:1px solid var(--accent-line); background:var(--accent-weak); border-radius:var(--r-plate); padding:24px; margin-top:42px; }
+  .guide-cta h2 { margin-top:0; }
+  .guide-cta .btn { margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+</nav>
+
+<main class="legal-wrap">
+  <p class="eyebrow"><span class="eyebrow-dot"></span>Honest comparison · July 2026</p>
+  <h1>Baseplate vs Ropilot: two different bets on AI for Roblox</h1>
+  <p class="lede">Both tools put an AI agent inside your Roblox Studio workflow. The difference is the business model — and it changes what you pay and what you can trust. Here's a fair side-by-side, including where Ropilot genuinely wins.</p>
+
+  <div class="vs-note"><p><strong>The short version:</strong> Ropilot sells credits to AI models it hosts — simple start, metered forever. Baseplate is mission control for the <em>Claude Code, Codex or Cursor plan you already pay for</em> — no token markup, a free plan with the full playtest→fix→verify loop, and Pro at $4.99/mo instead of $20/mo.</p></div>
+
+  <div class="legal-prose">
+    <h2>The pricing math</h2>
+    <p>Per <a href="https://ropilot.ai/" rel="noopener nofollow">ropilot.ai</a> (verified July&nbsp;22, 2026):</p>
+    <ul>
+      <li><strong>Ropilot Plus</strong> is <strong>$20/month for 40 credits a week</strong>, where 1 credit ≈ 2 advanced prompts. One-time packs start at $8 for 30 credits. Heavy weeks mean buying packs.</li>
+      <li>Ropilot's <strong>bring-your-own-model</strong> tiers still charge <strong>$20–$250/month</strong> past a 500-action monthly free allowance — <em>on top of</em> your Anthropic or OpenAI subscription.</li>
+    </ul>
+    <p><strong>Baseplate never meters your prompts.</strong> It drives your own agent CLI account directly — every prompt costs exactly what your Claude/Codex/Cursor plan already charges, and Baseplate adds <strong>$0 (Free)</strong> or <strong>$4.99/month (Pro)</strong> for the mission-control layer. If you already pay ~$20/mo for Claude or ChatGPT, adding Ropilot roughly doubles your bill; adding Baseplate Pro raises it by a quarter.</p>
+
+    <h2>Feature-by-feature</h2>
+    <div class="vs-scroll">
+    <table class="vs-table">
+      <tr><th></th><th>Baseplate</th><th>Ropilot</th></tr>
+      <tr><td>Writes Luau from plain English</td><td class="vs-yes">✓</td><td class="vs-yes">✓</td></tr>
+      <tr><td>Playtests inside Roblox Studio</td><td class="vs-yes">✓ live bridge — runs Play, reads the real Output window and DataModel</td><td class="vs-yes">✓ simulated input + screenshots</td></tr>
+      <tr><td>Verified PASS gate</td><td class="vs-yes">✓ PASS only after a clean runtime-error check; Regression Lab keeps per-step evidence and baselines</td><td class="vs-part">reruns tests until they pass; no published evidence chain</td></tr>
+      <tr><td>Security audit (RemoteEvents)</td><td class="vs-yes">✓ Exploit Guard — free plan</td><td class="vs-no">not advertised</td></tr>
+      <tr><td>Economy &amp; multiplayer simulation</td><td class="vs-yes">✓ economy cohort sim, up to 8 simulated clients</td><td class="vs-no">not advertised</td></tr>
+      <tr><td>Live published game (Open Cloud)</td><td class="vs-yes">✓ Live-game Doctor, Safe DataOps with snapshots &amp; rollback</td><td class="vs-no">not advertised</td></tr>
+      <tr><td>Release review</td><td class="vs-yes">✓ Ship Gate + Performance CI budgets</td><td class="vs-no">not advertised</td></tr>
+      <tr><td>Multi-agent parallel builds</td><td class="vs-yes">✓ Crew swarms in visible tiles, enforced file ownership</td><td class="vs-part">concurrent instances on higher BYO tiers</td></tr>
+      <tr><td>AI models</td><td class="vs-yes">your own Claude Code, Codex, Cursor, Grok — real CLIs, every native command works</td><td class="vs-yes">hosted Claude &amp; GPT access + proprietary Blaze model</td></tr>
+      <tr><td>Works without any AI subscription</td><td class="vs-no">✗ — bring your own plan</td><td class="vs-yes">✓ built-in credits</td></tr>
+      <tr><td>Where your code goes</td><td class="vs-yes">local app; source goes only to your chosen AI provider under your account</td><td class="vs-part">game data &amp; prompts go to Ropilot's inference partners; retained while your account is active</td></tr>
+      <tr><td>Pro workflow (Rojo, git-able <span class="mono">src/</span>)</td><td class="vs-yes">✓ Rojo sync is the core loop</td><td class="vs-part">edits inside Studio</td></tr>
+      <tr><td>Platforms</td><td class="vs-part">Windows, macOS</td><td class="vs-yes">Windows, macOS, Linux</td></tr>
+      <tr><td>Mission-control price</td><td class="vs-yes">$0 free · $4.99/mo Pro · $12.99/mo Studio (teams)</td><td class="vs-part">$20/mo Plus (metered credits) · BYO $20–$250/mo</td></tr>
+    </table>
+    </div>
+
+    <h2>Where Ropilot is genuinely better</h2>
+    <p>Fair is fair. If you have <strong>no AI subscription and don't want one</strong>, Ropilot's built-in credits are the fastest possible start — install, get starter credits, prompt. Baseplate requires a Claude Code, Codex or Cursor account first. Ropilot also ships a <strong>Linux build</strong>, which Baseplate doesn't yet, and its proprietary Blaze model makes cheap prompts cheaper.</p>
+    <p>If that's you, use Ropilot — and come back when you outgrow metered credits.</p>
+
+    <h2>Where Baseplate is better</h2>
+    <ul>
+      <li><strong>You stop paying twice for AI.</strong> Most people building seriously with AI already pay Anthropic or OpenAI. Baseplate refuses to resell those tokens back to you with a markup — it orchestrates the plan you own.</li>
+      <li><strong>Verification is the product, not a demo.</strong> The Playtest Copilot only reports PASS after a clean runtime-error check in a real Studio session, and Regression Lab keeps the evidence history so "it works" is something you can replay, not a screenshot.</li>
+      <li><strong>It covers the jobs after the script is written.</strong> Exploit Guard, Ship Gate, economy and multiplayer simulators, Performance CI, and a Live-game Doctor for your published game via Open Cloud. Script generation is step one of shipping a game, not the whole game.</li>
+      <li><strong>Local-first.</strong> Your repository never touches Baseplate's servers. Prompts and code go to the provider you chose, under your account, governed by their terms — not to an intermediary's inference partners.</li>
+      <li><strong>Real terminals.</strong> Agent tiles are actual Claude Code / Codex terminals — every native command, model switch and file mention works exactly as it does in your shell.</li>
+    </ul>
+
+    <h2>Who should pick which</h2>
+    <ul>
+      <li><strong>Total beginner, no AI accounts, wants to try prompting a game today:</strong> Ropilot's free credits, honestly.</li>
+      <li><strong>You already pay for Claude / ChatGPT / Cursor:</strong> Baseplate. Same-or-better models you already own, no meter, $0–$4.99.</li>
+      <li><strong>You ship a live game with real players and real Robux at stake:</strong> Baseplate — the security, regression, economy and live-ops tooling doesn't exist on the other side.</li>
+      <li><strong>Linux desktop:</strong> Ropilot, for now.</li>
+    </ul>
+
+    <p class="vs-note" style="display:block"><strong>About this page:</strong> written by the Baseplate team, so read it with that in mind. Every Ropilot claim above comes from ropilot.ai as of July&nbsp;22,&nbsp;2026 — if something is outdated or unfair, <a href="contact.html">tell us</a> and we'll correct it. Ropilot is a product of its respective owners; no affiliation.</p>
+
+    <div class="guide-cta">
+      <h2>Already have Claude Code, Codex or Cursor?</h2>
+      <p>Then the expensive part is done. Baseplate Free adds the Studio bridge, the verified playtest loop, Exploit Guard and Regression Lab on top of the plan you already pay for — no credits, no meter.</p>
+      <a class="btn btn-primary" href="index.html?utm_source=vs_ropilot&amp;utm_medium=organic&amp;utm_campaign=compare_20260722#download">Download Baseplate free</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="ai-roblox-script-generator.html">AI script generator</a><a href="ai-written-luau-breaks-in-studio.html">Runtime guide</a><a href="roblox-remoteevent-security-checklist.html">Security checklist</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div>
+  <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation or Ropilot.</p>
+</footer>
+</body>
+</html>
