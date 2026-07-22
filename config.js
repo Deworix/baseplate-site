@@ -16,11 +16,10 @@ window.BASEPLATE_SITE = {
     },
   },
 
-  // Installer downloads (GitHub Releases assets — the public releases repo).
+  // Trusted platform downloads.
   downloads: {
-    // Replace `win` with the Microsoft Store product URL after certification. Do not
-    // publish the unsigned local AppX: Partner Center re-signs the submitted package.
-    win: 'https://github.com/Deworix/Baseplate/releases/latest',
+    // Microsoft Store signs and distributes the accepted Windows package.
+    win: 'https://apps.microsoft.com/detail/9NCSPK5TWCVS',
     // Gatekeeper guidance first; that page links to the matching DMGs.
     mac: 'install-macos.html',
   },
