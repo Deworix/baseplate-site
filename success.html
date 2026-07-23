@@ -3,11 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>You're in — Baseplate</title>
 <meta name="robots" content="noindex">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
@@ -78,7 +76,7 @@
       <button id="key-copy" type="button">Copy</button>
     </div>
     <div class="key-error" id="key-error" hidden></div>
-    <p class="key-note" id="key-note" hidden>A copy is also emailed to you. Keep this key — use it on any of your machines, up to a couple at the same time (2 on Pro, 4 on Studio), while your subscription is active.</p>
+    <p class="key-note" id="key-note" hidden>We also attempt to email a copy to you. Save the key shown here — use it on any of your machines, up to a couple at the same time (2 on Pro, 4 on Studio), while your subscription is active.</p>
   </div>
 
   <div class="steps">
@@ -89,57 +87,6 @@
   <a class="btn btn-primary" href="index.html#download">Don't have the app yet? Download it</a>
   <p class="dl-note" style="margin-top:26px">Need to cancel or change your plan later? You can do it yourself anytime — see <a href="index.html#manage">manage your subscription</a>. Trouble with your key? <a href="contact.html">Contact us</a> with your purchase email and we'll sort it fast.</p>
 </main>
-<script>
-  // The Stripe payment link redirects here with ?session_id=cs_… . Ask the license
-  // worker for the key tied to that paid session and show it on-screen (no email needed).
-  (function () {
-    var VALIDATOR = 'https://baseplate-license.baseplate-app.workers.dev';
-    var loading = document.getElementById('key-loading');
-    var row = document.getElementById('key-row');
-    var val = document.getElementById('key-value');
-    var copy = document.getElementById('key-copy');
-    var err = document.getElementById('key-error');
-    var note = document.getElementById('key-note');
-    var sid = new URLSearchParams(location.search).get('session_id');
-
-    function fail(msg) {
-      loading.hidden = true; row.hidden = true; note.hidden = true;
-      err.hidden = false; err.textContent = msg;
-    }
-    function show(key) {
-      loading.hidden = true; err.hidden = true;
-      row.hidden = false; note.hidden = false; val.textContent = key;
-    }
-
-    if (!sid) {
-      fail('Your key was emailed to you. If it didn’t arrive, use the contact link below.');
-      return;
-    }
-
-    var tries = 0;
-    (function get() {
-      tries++;
-      fetch(VALIDATOR + '/key?session_id=' + encodeURIComponent(sid))
-        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
-        .then(function (res) {
-          if (res.ok && res.d.key) { show(res.d.key); return; }
-          // Payment may take a moment to settle — retry a few times.
-          if (tries < 4) { setTimeout(get, 1500); return; }
-          fail((res.d && res.d.error ? res.d.error + '. ' : '') + 'Use the contact link below with your purchase email and we’ll send your key.');
-        })
-        .catch(function () {
-          if (tries < 4) { setTimeout(get, 1500); return; }
-          fail('Couldn’t reach the license server. Use the contact link below and we’ll send your key.');
-        });
-    })();
-
-    copy.addEventListener('click', function () {
-      navigator.clipboard.writeText(val.textContent).then(function () {
-        copy.textContent = 'Copied'; copy.classList.add('done');
-        setTimeout(function () { copy.textContent = 'Copy'; copy.classList.remove('done'); }, 1800);
-      });
-    });
-  })();
-</script>
+<script src="success.js"></script>
 </body>
 </html>

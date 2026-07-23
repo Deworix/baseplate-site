@@ -3,7 +3,7 @@
 > Mission control for building Roblox games with AI agents. Baseplate runs coding agents
 > inside your Roblox workflow: they playtest the game through a live Studio bridge, read the
 > runtime errors they caused, write the fix, and verify it in the running game. It drives your
-> own AI account (Claude Code, Codex, Grok or Cursor) and runs locally on your machine.
+> own AI account (Claude Code, Codex, Gemini CLI, Grok or Cursor) and runs locally on your machine.
 
 Baseplate is a desktop app for Windows and macOS, made for Roblox developers. It is not a
 hosted service and not an AI subscription: you bring your own agent CLI account, and Baseplate

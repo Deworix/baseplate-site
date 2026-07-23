@@ -3,13 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>Contact — Baseplate</title>
 <meta name="description" content="Get in touch with the Baseplate team — support, billing, licenses.">
 <meta name="robots" content="all">
 <link rel="canonical" href="https://baseplatedev.com/contact.html">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
@@ -33,6 +31,7 @@
   .form-note.ok { border-color: rgba(63,217,162,.4); color: var(--mint); }
   .form-note.err { border-color: rgba(240,94,94,.4); color: var(--text); }
   [hidden] { display: none !important; }
+  .hp { position: absolute !important; left: -10000px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
 </style>
 </head>
 <body>
@@ -57,6 +56,10 @@
   <p class="lede">Trouble with a license key, a billing question, a bug, or an idea — write it below and it lands straight with the team, or email us directly at <a href="mailto:contact@baseplatedev.com">contact@baseplatedev.com</a>. Include your purchase email for anything billing-related.</p>
 
   <form class="contact-form" id="contact-form">
+    <div class="hp" aria-hidden="true">
+      <label for="cf-company">Company</label>
+      <input id="cf-company" name="company" type="text" tabindex="-1" autocomplete="off">
+    </div>
     <div>
       <label for="cf-email">Your email (so we can reply)</label>
       <input id="cf-email" type="email" autocomplete="email" placeholder="you@example.com">
@@ -64,7 +67,7 @@
     <div>
       <label for="cf-msg">Message</label>
       <textarea id="cf-msg" required maxlength="4000" placeholder="What's going on? For key issues, include the email you used at checkout."></textarea>
-      <p class="hint">Up to 4000 characters. We usually reply within a day.</p>
+      <p class="hint">Up to 4000 characters. Include enough detail for us to investigate.</p>
     </div>
     <button class="btn btn-primary" type="submit" id="cf-send">Send message</button>
     <div class="form-note ok" id="cf-ok" hidden>✓ Sent — thanks! We'll get back to you at the email you gave.</div>
@@ -91,38 +94,6 @@
   <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation. Roblox is a trademark of Roblox Corporation.</p>
 </footer>
 
-<script>
-  // Posts to the license worker's /support inbox (stored server-side + forwarded to
-  // the operator). No mail client needed; visitors can also email contact@baseplatedev.com directly.
-  (function () {
-    var WORKER = 'https://baseplate-license.baseplate-app.workers.dev';
-    var form = document.getElementById('contact-form');
-    var ok = document.getElementById('cf-ok');
-    var err = document.getElementById('cf-err');
-    var btn = document.getElementById('cf-send');
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      ok.hidden = true; err.hidden = true;
-      var message = document.getElementById('cf-msg').value.trim();
-      if (!message) return;
-      btn.disabled = true; btn.textContent = 'Sending…';
-      fetch(WORKER + '/support', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ email: document.getElementById('cf-email').value.trim(), message: message }),
-      })
-        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-        .then(function () {
-          ok.hidden = false; form.reset();
-          btn.disabled = false; btn.textContent = 'Send message';
-        })
-        .catch(function () {
-          err.hidden = false;
-          err.textContent = "Couldn't send right now — please try again in a minute.";
-          btn.disabled = false; btn.textContent = 'Send message';
-        });
-    });
-  })();
-</script>
+<script src="contact.js"></script>
 </body>
 </html>

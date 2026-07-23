@@ -1,9 +1,4 @@
-# Baseplate — https://baseplatedev.com
-# Everything is public and crawlable except the post-checkout page, which is
-# per-customer and has nothing to rank.
-
 User-agent: *
-Allow: /
 Disallow: /success.html
 
 Sitemap: https://baseplatedev.com/sitemap.xml
