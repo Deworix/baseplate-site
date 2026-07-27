@@ -15,8 +15,68 @@
 <meta property="og:image" content="https://baseplatedev.com/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
-<link rel="stylesheet" href="style.css?v=20260723">
+<link rel="stylesheet" href="style.css?v=20260727">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://baseplatedev.com/#organization",
+      "name": "Baseplate",
+      "url": "https://baseplatedev.com/",
+      "logo": "https://baseplatedev.com/favicon.svg",
+      "sameAs": [
+        "https://www.youtube.com/@BaseplateDevs",
+        "https://x.com/BaseplateDevs",
+        "https://bsky.app/profile/baseplateapp.bsky.social"
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Why AI-written Luau passes review but breaks in Studio",
+      "datePublished": "2026-07-20",
+      "dateModified": "2026-07-27",
+      "author": { "@type": "Organization", "name": "Baseplate", "url": "https://baseplatedev.com/" },
+      "publisher": { "@id": "https://baseplatedev.com/#organization" },
+      "mainEntityOfPage": "https://baseplatedev.com/ai-written-luau-breaks-in-studio.html"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Baseplate", "item": "https://baseplatedev.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Why AI-written Luau breaks in Roblox Studio", "item": "https://baseplatedev.com/ai-written-luau-breaks-in-studio.html" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does AI-generated Luau look correct but fail when I press Play?",
+          "acceptedAnswer": { "@type": "Answer", "text": "A review can prove the syntax is valid and the control flow is plausible. It cannot prove that a call returns during play, that the right player wins a race, or that cleanup happens after the work finishes. Those are runtime properties, and they only show up in a real Studio session." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does BindableFunction:Invoke() freeze my loop?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Invoke() is a hidden wait: it does not fire and continue, it blocks until the connected OnInvoke function returns. If the movement handler only returns after movement finishes, the outer loop cannot re-check targets during that movement. Print os.clock() immediately before and after the call — if the second line appears only on arrival, the loop is blocked." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my NPC chase the wrong player?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Calling movement once for every player in Players:GetPlayers() means several destinations compete in one update, and the last qualifying entry usually appears to win. Selection has to be its own step: filter for a living character, reject hidden targets, enforce the radius, then pick exactly one nearest root part." }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I verify an AI fix actually worked?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Run the scenario with two players, change the situation while the NPC is moving rather than after it arrives, and rerun the whole scenario a second time — stale connections often appear only on the second spawn. Only call it fixed when the final rerun is clean and behavior matches every assertion." }
+        }
+      ]
+    }
+  ]
+}
+</script>
 <style>
   .guide-note { border:1px solid var(--line-2); background:var(--surface-1); border-radius:var(--r-plate); padding:18px 20px; margin:24px 0; }
   .guide-note p { margin:0; }

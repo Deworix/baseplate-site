@@ -22,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
 <link rel="canonical" href="https://baseplatedev.com/">
-<link rel="stylesheet" href="style.css?v=20260723">
+<link rel="stylesheet" href="style.css?v=20260727">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <!-- Structured data. Search engines use it for rich results; LLMs use it to answer "what is
      Baseplate / what does it cost / does it send my code anywhere" without guessing. Every
@@ -38,7 +38,12 @@
       "url": "https://baseplatedev.com/",
       "logo": "https://baseplatedev.com/favicon.svg",
       "description": "Baseplate makes mission-control software that runs AI coding agents inside the Roblox Studio workflow.",
-      "email": "support@baseplatedev.com"
+      "email": "support@baseplatedev.com",
+      "sameAs": [
+        "https://www.youtube.com/@BaseplateDevs",
+        "https://x.com/BaseplateDevs",
+        "https://bsky.app/profile/baseplateapp.bsky.social"
+      ]
     },
     {
       "@type": "WebSite",
@@ -119,6 +124,18 @@
           "acceptedAnswer": { "@type": "Answer", "text": "Free is the full core loop: one agent with complete Studio access, Playtest Copilot, Rojo sync, Regression Lab and Remote Contract Compiler. It's deliberately generous — if Baseplate never earns your upgrade, it should still make your game better." }
         }
       ]
+    },
+    {
+      "@type": "VideoObject",
+      "@id": "https://baseplatedev.com/#demo-video",
+      "name": "Baseplate product walkthrough — an agent finds and fixes a bug it caused",
+      "description": "A recorded Baseplate session: an AI agent playtests a Roblox game through the live Studio bridge, reads the runtime error, edits the Luau source, and re-runs the playtest until the console is clean.",
+      "thumbnailUrl": "https://baseplatedev.com/demo-poster.jpg",
+      "uploadDate": "2026-07-12",
+      "duration": "PT1M4S",
+      "contentUrl": "https://baseplatedev.com/baseplate-demo.mp4",
+      "embedUrl": "https://baseplatedev.com/#demo",
+      "publisher": { "@id": "https://baseplatedev.com/#organization" }
     }
   ]
 }
@@ -551,6 +568,12 @@
       <a href="#manage">Manage subscription</a>
       <a href="contact.html">Contact</a>
     </div>
+  </div>
+  <div class="footer-social">
+    <span>Follow the build:</span>
+    <a href="https://www.youtube.com/@BaseplateDevs" rel="me noopener" target="_blank">YouTube</a>
+    <a href="https://x.com/BaseplateDevs" rel="me noopener" target="_blank">X</a>
+    <a href="https://bsky.app/profile/baseplateapp.bsky.social" rel="me noopener" target="_blank">Bluesky</a>
   </div>
   <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation. Roblox is a trademark of Roblox Corporation.</p>
 </footer>

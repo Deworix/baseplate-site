@@ -484,6 +484,13 @@ nav, header, section, footer { position: relative; z-index: 1; }
 .footer-links { margin-left: auto; display: flex; flex-wrap: wrap; gap: 12px 20px; }
 .footer-links a { color: var(--dim); font-size: 13.5px; text-decoration: none; }
 .footer-links a:hover { color: var(--text); }
+/* Social row. Every share of Baseplate happens off-site — the channel, the X account
+   and Bluesky are where people find it, and search engines use these same links to
+   connect the site to those profiles as one entity. */
+.footer-social { max-width: var(--maxw); margin: 0 auto; padding: 14px 24px 2px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
+.footer-social > span { color: var(--faint); font-size: 12px; }
+.footer-social a { color: var(--dim); font-size: 13px; text-decoration: none; border: 1px solid var(--line-2); border-radius: 999px; padding: 4px 12px; transition: color .15s ease, border-color .15s ease; }
+.footer-social a:hover { color: var(--text); border-color: var(--line); }
 .footer-legal { max-width: var(--maxw); margin: 0 auto; padding: 6px 24px 30px; color: var(--faint); font-size: 12px; }
 
 /* ── Responsive ───────────────────────────────────────────────── */
