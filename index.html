@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-gmy4Hk0ksIChOW+9bFav+OGvLmX8CqB+ZM0Ck+nKOmU='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>Baseplate — AI agents that build and test your Roblox game</title>
-<meta name="description" content="Baseplate runs AI agents inside Roblox Studio: they playtest your game, catch runtime errors and exploits, write the fix, and verify it live. Free to start.">
+<meta name="description" content="Point the Claude Code, Codex or Cursor plan you already pay for at a live Roblox Studio session: playtest, real error, fix, verified re-run. No AI credits, no quota.">
 <meta property="og:title" content="Baseplate — build Roblox games with AI agents">
-<meta property="og:description" content="Agents that playtest, find the bug, write the fix, and verify it live in Studio. Free to start.">
+<meta property="og:description" content="Use the AI plan you already pay for to playtest, fix and verify your Roblox game in a live Studio session. No credits, no quota. Free to start.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://baseplatedev.com/">
 <meta property="og:site_name" content="Baseplate">
@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://baseplatedev.com/og.jpg">
 <meta property="og:image:width" content="2400">
 <meta property="og:image:height" content="1260">
-<meta property="og:image:alt" content="Baseplate — your game has bugs, our agents already found them. AI agents that playtest, fix and verify live in Roblox Studio.">
+<meta property="og:image:alt" content="Baseplate — your AI already writes Luau, make it prove the game runs. Point the AI plan you already pay for at a live Roblox Studio session.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
 <link rel="canonical" href="https://baseplatedev.com/">
@@ -100,6 +100,11 @@
         },
         {
           "@type": "Question",
+          "name": "Why not just use Roblox Studio's built-in Assistant?",
+          "acceptedAnswer": { "@type": "Answer", "text": "For many developers you should — it is free, already open in Studio, and since April 2026 its playtesting agent can read output logs, capture screenshots and drive input to find bugs. Two things push developers to Baseplate instead. First, the meter: Assistant is metered and developers report hitting the usage limit mid-prototype with stuck runs still consuming quota, while Baseplate spends the Claude, Codex or Cursor plan you already own. Second, the work around the code rather than in it: security auditing of remotes, economy and multiplayer simulation, replayable regression recipes and live-game operations through Open Cloud." }
+        },
+        {
+          "@type": "Question",
           "name": "How is this different from just using Claude Code in a terminal?",
           "acceptedAnswer": { "@type": "Answer", "text": "The bridge. A terminal agent can write Luau, but it's blind — it can't playtest, can't read the Output window, can't check the live DataModel. Baseplate gives agents eyes and hands inside Roblox Studio, plus the deck, board, swarms and one-click missions built on top." }
         },
@@ -157,7 +162,7 @@
     <a href="guides.html">Guides</a>
     <a href="#faq">FAQ</a>
   </div>
-  <a class="btn btn-primary btn-sm" href="#pricing">Get Baseplate</a>
+  <a class="btn btn-primary btn-sm" href="#download">Get Baseplate free</a>
 </nav>
 
 <main>
@@ -165,10 +170,10 @@
 <header class="hero" id="top">
   <div class="hero-copy">
     <p class="eyebrow"><span class="eyebrow-dot"></span>For Roblox developers</p>
-    <h1>Your game has bugs.<br>Our agents already<br>found them.</h1>
-    <p class="lede">Baseplate is mission control for building Roblox games with AI agents. They playtest your game, read the real error, write the fix in your Luau source, and verify it live in Studio — <em>while you watch</em>.</p>
+    <h1>Your AI already<br>writes Luau. Make it<br>prove the game runs.</h1>
+    <p class="lede">Baseplate points the <strong>Claude Code, Codex or Cursor plan you already pay for</strong> at a live Roblox Studio session: playtest, real runtime error, fix in your source, re-verify. No AI credits to buy, and no quota that runs out halfway through a build.</p>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="#pricing">Download free</a>
+      <a class="btn btn-primary" href="#download">Download free</a>
       <a class="btn btn-ghost" href="#copilot">See the loop <span class="arrow">→</span></a>
     </div>
     <p class="hero-fineprint">Free forever plan · no card required · Windows &amp; macOS</p>
@@ -514,6 +519,10 @@
       <p>Baseplate does not upload your projects or keys to Baseplate. Your selected AI provider receives prompts, code and context needed for the work. License validation sends your key and a random installation identifier to our Cloudflare service. If you enable <strong>team collaboration</strong>, board cards, shared prompts and display names sync through the team service; source files and API keys do not.</p>
     </details>
     <details>
+      <summary>Why not just use Roblox Studio's built-in Assistant?</summary>
+      <p>For a lot of people, you should — it is free, already open, and since April 2026 its playtesting agent can read logs, capture screenshots and drive input to find bugs. We are not going to pretend otherwise. Two things push developers here instead: <strong>the meter</strong> — Assistant is metered, and developers report hitting the limit mid-prototype with stuck runs still consuming quota, whereas Baseplate spends the AI plan you already own — and <strong>the work around the code</strong>: security auditing of remotes, economy and multiplayer simulation, replayable regression recipes and live-game operations. <a href="baseplate-vs-roblox-assistant.html">Read the full comparison, including where Roblox wins</a>.</p>
+    </details>
+    <details>
       <summary>How is this different from just using Claude Code in a terminal?</summary>
       <p>The bridge. A terminal agent can write Luau, but it's blind — it can't playtest, can't read the Output window, can't check the live DataModel. Baseplate gives agents eyes and hands inside Studio, plus the deck, board, swarms and one-click missions built on top.</p>
     </details>
@@ -557,6 +566,7 @@
     <div class="footer-links">
       <a href="guides.html">Guides</a>
       <a href="remote-scanner.html">Free RemoteEvent scanner</a>
+      <a href="luau-error-decoder.html">Free Luau error decoder</a>
       <a href="changelog.html">Changelog</a>
       <a href="claude-code-roblox-studio.html">Claude Code + Roblox Studio</a>
       <a href="codex-roblox-studio.html">Codex + Roblox Studio</a>

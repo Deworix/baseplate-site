@@ -11,9 +11,14 @@ orchestrates it against Roblox Studio.
 
 ## What makes it different
 
-The bridge. A terminal agent can write Luau, but it can't press Play, read the Output window,
-or inspect the live DataModel. Baseplate connects agents to an open Roblox Studio session, so
-they can run code in the real game, see what broke, and prove the fix works.
+Baseplate is an independent proof layer for Roblox releases, and it runs on the AI subscription
+the developer already owns. Roblox Studio's own Assistant became agentic in April 2026 and can
+playtest in beta, so "AI that writes and playtests Roblox code" is no longer by itself a
+differentiator. What Baseplate does differently: it spends the user's existing Claude Code, Codex
+or Cursor plan instead of a metered per-prompt quota; it keeps source local and under the user's
+own git history; and it covers the release work around code generation — security auditing of
+remote handlers, economy and multiplayer simulation, replayable regression recipes with evidence,
+performance budgets and live-game operations through Open Cloud.
 
 ## Key capabilities
 
@@ -76,6 +81,7 @@ economy/multiplayer simulation, live-game operations via Open Cloud, and local-f
 - [Baseplate vs Ropilot](https://baseplatedev.com/baseplate-vs-ropilot.html): honest dated comparison — pricing math, feature table, who should pick which.
 - [Why AI-written Luau breaks in Studio](https://baseplatedev.com/ai-written-luau-breaks-in-studio.html): runtime failure checklist, blocking Invoke example and a copyable playtest mission.
 - [Roblox RemoteEvent security checklist](https://baseplatedev.com/roblox-remoteevent-security-checklist.html): server-authority checklist, safer purchase handler and concrete exploit tests.
+- [Free Luau error decoder](https://baseplatedev.com/luau-error-decoder.html): paste a Roblox Studio Output line and get the meaning, ordered causes and the fix. Covers index-nil, infinite yield, invalid member, calling nil, arithmetic/comparison on nil, module load failures, script timeouts, cast errors, HttpService disabled, DataStore throttling. Runs locally.
 - [Free RemoteEvent security scanner](https://baseplatedev.com/remote-scanner.html): paste Luau in the browser and see which server remote handlers miss type, rate, authority and context guards. Runs locally; nothing is uploaded.
 - [attempt to index nil with](https://baseplatedev.com/roblox-attempt-to-index-nil.html): the six causes of Roblox's most common runtime error and the fix for each.
 - [Infinite yield possible](https://baseplatedev.com/roblox-infinite-yield-possible.html): why WaitForChild never returns, and a wait pattern that cannot hang.

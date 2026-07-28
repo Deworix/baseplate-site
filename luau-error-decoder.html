@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>Roblox Luau error decoder — paste the Output line, get the cause</title>
+<meta name="description" content="Paste a Roblox Studio Output error and get what it means, the likely causes and the fix. Free, no sign-up, runs entirely in your browser.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://baseplatedev.com/luau-error-decoder.html">
+<meta property="og:title" content="Roblox Luau error decoder">
+<meta property="og:description" content="Paste the Output line. Get the meaning, the likely causes and the fix — free, in your browser.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://baseplatedev.com/luau-error-decoder.html">
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
+<link rel="stylesheet" href="style.css?v=20260727">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://baseplatedev.com/#organization",
+      "name": "Baseplate",
+      "url": "https://baseplatedev.com/",
+      "logo": "https://baseplatedev.com/favicon.svg",
+      "sameAs": [
+        "https://www.youtube.com/@BaseplateDevs",
+        "https://x.com/BaseplateDevs",
+        "https://bsky.app/profile/baseplateapp.bsky.social"
+      ]
+    },
+    {
+      "@type": "WebApplication",
+      "name": "Roblox Luau error decoder",
+      "url": "https://baseplatedev.com/luau-error-decoder.html",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any modern browser",
+      "browserRequirements": "Requires JavaScript",
+      "description": "Paste a Roblox Studio Output error and get an explanation, likely causes and the fix. Runs locally in the browser; nothing is uploaded.",
+      "publisher": { "@id": "https://baseplatedev.com/#organization" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Baseplate", "item": "https://baseplatedev.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://baseplatedev.com/guides.html" },
+        { "@type": "ListItem", "position": 3, "name": "Luau error decoder", "item": "https://baseplatedev.com/luau-error-decoder.html" }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  .dec-note { border:1px solid var(--line-2); background:var(--surface-1); border-radius:var(--r-plate); padding:18px 20px; margin:24px 0; }
+  .dec-note p { margin:0; }
+  #dec-input {
+    width:100%; min-height:110px; resize:vertical; box-sizing:border-box;
+    border:1px solid var(--line-2); background:#0b0d12; color:var(--text);
+    border-radius:var(--r-plate); padding:16px 18px; font:13px/1.6 var(--font-mono);
+  }
+  #dec-input:focus { outline:none; border-color:var(--accent-line); }
+  .dec-actions { display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 8px; }
+  .dec-card { border:1px solid var(--line-2); background:var(--surface-1); border-radius:var(--r-plate); padding:22px 24px; margin-top:22px; }
+  .dec-title { margin:0 0 10px; font-size:21px; line-height:1.3; }
+  .dec-meta { display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; margin:0 0 14px; }
+  .dec-meta code { font:12.5px var(--font-mono); color:var(--dim); border:1px solid var(--line-2); border-radius:6px; padding:3px 8px; }
+  .dec-side { font:11px var(--font-mono); letter-spacing:.05em; text-transform:uppercase; color:var(--accent-2); }
+  .dec-why { margin:0 0 6px; line-height:1.7; }
+  .dec-card h3 { font-size:14px; margin:20px 0 8px; }
+  .dec-causes { margin:0; padding-left:20px; }
+  .dec-causes li { margin:7px 0; color:var(--dim); line-height:1.65; }
+  .dec-fix { margin:18px 0 0; padding:12px 14px; border-left:2px solid var(--accent-2); background:var(--accent-weak); border-radius:0 8px 8px 0; line-height:1.65; }
+  .dec-link { display:inline-block; margin-top:18px; color:var(--accent-2); text-decoration:none; font-size:14px; }
+  .dec-link:hover { text-decoration:underline; }
+  .dec-hint { color:var(--faint); font-size:13px; line-height:1.65; }
+  .dec-empty { border:1px dashed var(--line-2); border-radius:var(--r-plate); padding:20px; margin-top:22px; }
+  .dec-empty p { margin:0 0 8px; }
+  .guide-cta { border:1px solid var(--accent-line); background:var(--accent-weak); border-radius:var(--r-plate); padding:24px; margin-top:44px; }
+  .guide-cta h2 { margin-top:0; }
+  .guide-cta .btn { margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+  <a class="btn btn-primary btn-sm" href="guides.html">All guides</a>
+</nav>
+
+<main class="legal-wrap">
+  <p class="eyebrow"><span class="eyebrow-dot"></span>Free tool</p>
+  <h1>Roblox Luau error decoder</h1>
+  <p class="lede">Paste the red line from the Output window. You get what it actually means, the causes worth checking in order, and the fix — without reading four forum threads first.</p>
+
+  <label for="dec-input" class="eyebrow">Paste the Output line</label>
+  <textarea id="dec-input" spellcheck="false" autocomplete="off" placeholder="ServerScriptService.Tycoon:46: attempt to index nil with 'Humanoid'"></textarea>
+  <div class="dec-actions">
+    <button class="btn btn-primary btn-sm" type="button" id="dec-run">Decode</button>
+    <button class="btn btn-ghost btn-sm" type="button" id="dec-demo">Try an example</button>
+  </div>
+  <div id="dec-output" aria-live="polite"></div>
+
+  <div class="dec-note"><p><strong>Nothing is uploaded.</strong> This page declares <span class="mono">connect-src 'none'</span>, so it cannot make a network request at all — your code and error messages stay in the browser.</p></div>
+
+  <div class="legal-prose">
+    <h2>What it covers</h2>
+    <p>The messages AI-written Luau produces most often, plus the ones that mislead people the most: <span class="mono">attempt to index nil with</span>, infinite yield warnings, “is not a valid member of”, calling a nil value, arithmetic and comparison on nil, module load failures, script timeouts, cast errors, HttpService being disabled, DataStore throttling and missing remote arguments.</p>
+    <p>Two of these are worth knowing about even before you hit them. An <strong>infinite yield</strong> is only a warning, so your script silently stops forever instead of erroring. And <strong>“requested module experienced an error while loading”</strong> is never the real problem — the real error is the first one in Output, above it.</p>
+
+    <h2>Why AI-written code lands here so often</h2>
+    <p>A model can write syntactically perfect Luau while guessing your instance names, your folder layout and the order things load in. Those guesses only fail at runtime, which is exactly what a code review cannot catch. If you want the pattern rather than the individual message, the <a href="ai-written-luau-breaks-in-studio.html">runtime failure guide</a> works through four of them with copyable tests.</p>
+
+    <div class="guide-cta">
+      <h2>Or let the agent read the error itself</h2>
+      <p>Baseplate points the AI plan you already pay for at a live Roblox Studio session: it playtests, reads the real stack trace, fixes the cause and re-runs until the console is clean. Free plan, no credits.</p>
+      <a class="btn btn-primary" href="index.html?utm_source=error_decoder&amp;utm_medium=organic&amp;utm_campaign=tool_20260728#download">Download Baseplate free</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="guides.html">Guides</a><a href="remote-scanner.html">RemoteEvent scanner</a><a href="roblox-attempt-to-index-nil.html">Index nil</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div>
+  <div class="footer-social">
+    <span>Follow the build:</span>
+    <a href="https://www.youtube.com/@BaseplateDevs" rel="me noopener" target="_blank">YouTube</a>
+    <a href="https://x.com/BaseplateDevs" rel="me noopener" target="_blank">X</a>
+    <a href="https://bsky.app/profile/baseplateapp.bsky.social" rel="me noopener" target="_blank">Bluesky</a>
+  </div>
+  <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation. Roblox is a trademark of Roblox Corporation.</p>
+</footer>
+
+<script src="luau-error-decoder.js"></script>
+</body>
+</html>
