@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>Free Roblox RemoteEvent security scanner — paste your Luau</title>
+<meta name="description" content="Paste a Luau script and see which server remote handlers trust the client. Free, no sign-up, and the code never leaves your browser. Based on a seven-point checklist.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://baseplatedev.com/remote-scanner.html">
+<meta property="og:title" content="Free Roblox RemoteEvent security scanner">
+<meta property="og:description" content="Paste Luau, see which remote handlers trust the client. Runs entirely in your browser — nothing is uploaded.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://baseplatedev.com/remote-scanner.html">
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
+<link rel="stylesheet" href="style.css?v=20260727">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://baseplatedev.com/#organization",
+      "name": "Baseplate",
+      "url": "https://baseplatedev.com/",
+      "logo": "https://baseplatedev.com/favicon.svg",
+      "sameAs": [
+        "https://www.youtube.com/@BaseplateDevs",
+        "https://x.com/BaseplateDevs",
+        "https://bsky.app/profile/baseplateapp.bsky.social"
+      ]
+    },
+    {
+      "@type": "WebApplication",
+      "name": "Roblox RemoteEvent security scanner",
+      "url": "https://baseplatedev.com/remote-scanner.html",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any modern browser",
+      "browserRequirements": "Requires JavaScript",
+      "description": "A free in-browser heuristic scanner that finds Roblox server remote handlers and reports which server-authority guards are missing. The pasted source is analysed locally and never uploaded.",
+      "publisher": { "@id": "https://baseplatedev.com/#organization" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Baseplate", "item": "https://baseplatedev.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://baseplatedev.com/guides.html" },
+        { "@type": "ListItem", "position": 3, "name": "RemoteEvent scanner", "item": "https://baseplatedev.com/remote-scanner.html" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does my code get uploaded anywhere?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. The scanner is a JavaScript file that runs in your browser, and the page ships a Content-Security-Policy with connect-src 'none', which blocks the page from making any network request at all. You can disconnect from the internet and it still works." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this a real security audit?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No, and it should not be presented as one. It is a text-level heuristic: it locates server remote handlers and checks whether obvious guards appear inside them. A validation helper called from the handler will read as missing, and a check that exists can still be wrong. It finds the handler that trusts a client-supplied price; it cannot prove a handler is safe." }
+        },
+        {
+          "@type": "Question",
+          "name": "What does it check?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The seven-point checklist for client-to-server remotes: argument types, shape and size limits, values that must be derived from server state rather than sent by the client, server-side rate limiting, contextual conditions such as distance and alive state, effects computed on the server, and cheap rejection of invalid input." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do RemoteEvents need this at all?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Because a client request is never proof that a player owns an item, can afford a purchase, is close enough to interact or waited for a cooldown. An exploiter can fire any remote with any arguments at any rate, so every client-to-server remote is untrusted input by definition." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  .scan-wrap { margin: 28px 0 0; }
+  .scan-note { border:1px solid var(--line-2); background:var(--surface-1); border-radius:var(--r-plate); padding:18px 20px; margin:24px 0; }
+  .scan-note p { margin:0; }
+  #scan-input {
+    width:100%; min-height:230px; resize:vertical; box-sizing:border-box;
+    border:1px solid var(--line-2); background:#0b0d12; color:var(--text);
+    border-radius:var(--r-plate); padding:16px 18px;
+    font:13px/1.6 var(--font-mono);
+  }
+  #scan-input:focus { outline:none; border-color:var(--accent-line); }
+  .scan-actions { display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 8px; align-items:center; }
+  .scan-actions .scan-kbd { color:var(--faint); font-size:12.5px; margin-left:auto; }
+  .scan-verdict {
+    display:flex; flex-wrap:wrap; gap:6px 14px; align-items:baseline;
+    border:1px solid var(--line-2); border-radius:var(--r-plate); padding:14px 18px; margin:22px 0 16px;
+  }
+  .scan-verdict span { color:var(--dim); font-size:14px; }
+  .scan-verdict.scan-ok { border-color:#1f6f43; }
+  .scan-verdict.scan-warn { border-color:#7a6220; }
+  .scan-verdict.scan-bad { border-color:#7d2f2f; }
+  .scan-card { border:1px solid var(--line-2); border-radius:var(--r-plate); padding:18px 20px; margin:12px 0; background:var(--surface-1); }
+  .scan-card-head { display:flex; flex-wrap:wrap; gap:10px; align-items:baseline; }
+  .scan-card-head code { font:13px var(--font-mono); color:var(--text); }
+  .scan-line { color:var(--faint); font-size:12px; font-family:var(--font-mono); }
+  .scan-params { margin:10px 0 0; font-size:13.5px; color:var(--faint); }
+  .scan-params code { font-family:var(--font-mono); color:var(--dim); }
+  .scan-checks { list-style:none; padding:0; margin:14px 0 0; display:grid; gap:9px; }
+  .scan-checks li { display:grid; grid-template-columns:auto 1fr; gap:4px 12px; align-items:baseline; padding-left:20px; position:relative; font-size:14px; }
+  .scan-checks li::before { position:absolute; left:0; font-family:var(--font-mono); font-size:13px; }
+  .scan-checks li.scan-pass::before { content:"✓"; color:#3fb27f; }
+  .scan-checks li.scan-warn::before { content:"!"; color:#d6a740; }
+  .scan-checks li.scan-fail::before { content:"✕"; color:#e06c6c; }
+  .scan-checks b { font-weight:600; white-space:nowrap; }
+  .scan-checks span { color:var(--dim); line-height:1.6; }
+  .scan-hint { color:var(--faint); font-size:13px; line-height:1.65; margin-top:16px; }
+  .scan-empty { border:1px dashed var(--line-2); border-radius:var(--r-plate); padding:20px; }
+  .scan-empty p { margin:0 0 8px; }
+  .guide-cta { border:1px solid var(--accent-line); background:var(--accent-weak); border-radius:var(--r-plate); padding:24px; margin-top:44px; }
+  .guide-cta h2 { margin-top:0; }
+  .guide-cta .btn { margin-top:14px; }
+  @media (max-width: 560px) {
+    .scan-checks li { grid-template-columns:1fr; }
+    .scan-actions .scan-kbd { display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+  <a class="btn btn-primary btn-sm" href="guides.html">All guides</a>
+</nav>
+
+<main class="legal-wrap">
+  <p class="eyebrow"><span class="eyebrow-dot"></span>Free tool</p>
+  <h1>Roblox RemoteEvent security scanner</h1>
+  <p class="lede">Paste a server script. This finds every client-to-server remote handler in it and tells you which of the seven server-authority guards are missing. No sign-up, no upload, no account.</p>
+
+  <div class="scan-note"><p><strong>Your code stays in your browser.</strong> This page loads one JavaScript file and declares <span class="mono">connect-src 'none'</span>, which blocks it from making any network request whatsoever. Turn off your internet and it still works — that is the easiest way to prove it.</p></div>
+
+  <div class="scan-wrap">
+    <label for="scan-input" class="eyebrow">Paste Luau</label>
+    <textarea id="scan-input" spellcheck="false" autocomplete="off" placeholder="-- paste a server script that connects to RemoteEvents&#10;BuyItem.OnServerEvent:Connect(function(player, itemId)&#10;    ...&#10;end)"></textarea>
+    <div class="scan-actions">
+      <button class="btn btn-primary btn-sm" type="button" id="scan-run">Scan</button>
+      <button class="btn btn-ghost btn-sm" type="button" id="scan-demo">Try a vulnerable example</button>
+      <button class="btn btn-ghost btn-sm" type="button" id="scan-clear">Clear</button>
+      <span class="scan-kbd">Ctrl + Enter to scan</span>
+    </div>
+    <div id="scan-output" aria-live="polite"></div>
+  </div>
+
+  <div class="legal-prose">
+    <h2>What it can and cannot tell you</h2>
+    <p>This is a text-level heuristic, not a parser and not an audit. It locates <span class="mono">OnServerEvent</span> and <span class="mono">OnServerInvoke</span> handlers and asks whether the obvious guards appear inside each one.</p>
+    <ul>
+      <li><strong>It reliably finds</strong> the classic mistake: a handler that accepts a price, an amount or a damage number from the client and acts on it.</li>
+      <li><strong>It will report a false alarm</strong> when your validation lives in a helper function called from the handler — the guard is real, the scanner just cannot see into it.</li>
+      <li><strong>It cannot prove anything is safe.</strong> A <span class="mono">typeof</span> check that tests the wrong argument still reads as present. Passing every item means the obvious guards exist, not that the boundary is correct.</li>
+    </ul>
+    <p>For what each of the seven checks actually requires — and a purchase handler written the safer way — read the <a href="roblox-remoteevent-security-checklist.html">RemoteEvent security checklist</a>.</p>
+
+    <h2>Why remotes are the exploit surface</h2>
+    <p>A client request is never proof of anything. It is not proof that the player owns the item, can afford it, is standing close enough, or waited out a cooldown. An exploiter can fire any remote, with any arguments, as fast as they like. Every value that crosses the boundary is untrusted input, and the server has to re-derive the truth rather than believe what it was told.</p>
+
+    <div class="guide-cta">
+      <h2>Find them across the whole project, not one file</h2>
+      <p>Baseplate's Remote Contract Compiler scans your Luau locally and generates validators plus Studio fuzz tests, and Exploit Guard explains each attack in plain language and writes the hardening. Both are in the free plan.</p>
+      <a class="btn btn-primary" href="index.html?utm_source=remote_scanner&amp;utm_medium=organic&amp;utm_campaign=tool_20260728#download">Download Baseplate free</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="guides.html">Guides</a><a href="roblox-remoteevent-security-checklist.html">Security checklist</a><a href="roblox-datastore-not-saving.html">DataStore not saving</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div>
+  <div class="footer-social">
+    <span>Follow the build:</span>
+    <a href="https://www.youtube.com/@BaseplateDevs" rel="me noopener" target="_blank">YouTube</a>
+    <a href="https://x.com/BaseplateDevs" rel="me noopener" target="_blank">X</a>
+    <a href="https://bsky.app/profile/baseplateapp.bsky.social" rel="me noopener" target="_blank">Bluesky</a>
+  </div>
+  <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation. Roblox is a trademark of Roblox Corporation.</p>
+</footer>
+
+<script src="remote-scanner.js"></script>
+</body>
+</html>

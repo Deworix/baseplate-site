@@ -57,8 +57,12 @@
         { "@type": "ListItem", "position": 4, "name": "Why AI-written Luau breaks in Roblox Studio", "url": "https://baseplatedev.com/ai-written-luau-breaks-in-studio.html" },
         { "@type": "ListItem", "position": 5, "name": "Roblox RemoteEvent security checklist", "url": "https://baseplatedev.com/roblox-remoteevent-security-checklist.html" },
         { "@type": "ListItem", "position": 6, "name": "AI Roblox script generator", "url": "https://baseplatedev.com/ai-roblox-script-generator.html" },
-        { "@type": "ListItem", "position": 7, "name": "Baseplate vs Roblox Assistant", "url": "https://baseplatedev.com/baseplate-vs-roblox-assistant.html" },
-        { "@type": "ListItem", "position": 8, "name": "Baseplate vs Ropilot", "url": "https://baseplatedev.com/baseplate-vs-ropilot.html" }
+        { "@type": "ListItem", "position": 7, "name": "Free RemoteEvent security scanner", "url": "https://baseplatedev.com/remote-scanner.html" },
+        { "@type": "ListItem", "position": 8, "name": "attempt to index nil with", "url": "https://baseplatedev.com/roblox-attempt-to-index-nil.html" },
+        { "@type": "ListItem", "position": 9, "name": "Infinite yield possible", "url": "https://baseplatedev.com/roblox-infinite-yield-possible.html" },
+        { "@type": "ListItem", "position": 10, "name": "Roblox DataStore not saving", "url": "https://baseplatedev.com/roblox-datastore-not-saving.html" },
+        { "@type": "ListItem", "position": 11, "name": "Baseplate vs Roblox Assistant", "url": "https://baseplatedev.com/baseplate-vs-roblox-assistant.html" },
+        { "@type": "ListItem", "position": 12, "name": "Baseplate vs Ropilot", "url": "https://baseplatedev.com/baseplate-vs-ropilot.html" }
       ]
     }
   ]
@@ -137,6 +141,40 @@
         <span class="card-tag">Workflow</span>
         <h3>AI Roblox script generator</h3>
         <p>Generating Luau from plain English is solved. Proving the script runs in a real Studio session is the part that still needs a loop.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="guide-group">
+    <h2>Runtime error reference</h2>
+    <p class="group-note">The messages you actually see in Output, and what each one really means.</p>
+    <div class="guide-index">
+      <a class="guide-card" href="roblox-attempt-to-index-nil.html">
+        <span class="card-tag">Error</span>
+        <h3>attempt to index nil with …</h3>
+        <p>The message points at the wrong half of the problem. Six causes, from replication races to destroyed instances, with the fix for each.</p>
+      </a>
+      <a class="guide-card" href="roblox-infinite-yield-possible.html">
+        <span class="card-tag">Error</span>
+        <h3>Infinite yield possible on …</h3>
+        <p>A warning, not an error — which is why your script silently stops forever. Plus a wait pattern that tells you which link in the chain is missing.</p>
+      </a>
+      <a class="guide-card" href="roblox-datastore-not-saving.html">
+        <span class="card-tag">Error</span>
+        <h3>DataStore not saving</h3>
+        <p>Why data survives Studio but vanishes in production: no BindToClose, missing pcall, SetAsync races, throttling and session locking.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="guide-group">
+    <h2>Free tools</h2>
+    <p class="group-note">No sign-up, no upload, no account.</p>
+    <div class="guide-index">
+      <a class="guide-card" href="remote-scanner.html">
+        <span class="card-tag">Tool</span>
+        <h3>RemoteEvent security scanner</h3>
+        <p>Paste a server script and see which remote handlers trust the client. Runs entirely in your browser — the code never leaves the page.</p>
       </a>
     </div>
   </section>

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>Roblox: Infinite yield possible on WaitForChild — how to fix it</title>
+<meta name="description" content="The infinite yield warning means your script is stuck forever, not that it failed. The six reasons WaitForChild never returns, and how to write one that cannot hang.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://baseplatedev.com/roblox-infinite-yield-possible.html">
+<meta property="og:title" content="Roblox: Infinite yield possible on WaitForChild">
+<meta property="og:description" content="It is a warning, not an error — which is why the rest of your script silently never runs.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://baseplatedev.com/roblox-infinite-yield-possible.html">
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
+<link rel="stylesheet" href="style.css?v=20260727">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://baseplatedev.com/#organization",
+      "name": "Baseplate",
+      "url": "https://baseplatedev.com/",
+      "logo": "https://baseplatedev.com/favicon.svg",
+      "sameAs": [
+        "https://www.youtube.com/@BaseplateDevs",
+        "https://x.com/BaseplateDevs",
+        "https://bsky.app/profile/baseplateapp.bsky.social"
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Roblox: Infinite yield possible on WaitForChild — how to fix it",
+      "datePublished": "2026-07-28",
+      "dateModified": "2026-07-28",
+      "author": { "@type": "Organization", "name": "Baseplate", "url": "https://baseplatedev.com/" },
+      "publisher": { "@id": "https://baseplatedev.com/#organization" },
+      "mainEntityOfPage": "https://baseplatedev.com/roblox-infinite-yield-possible.html"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Baseplate", "item": "https://baseplatedev.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://baseplatedev.com/guides.html" },
+        { "@type": "ListItem", "position": 3, "name": "Infinite yield possible", "item": "https://baseplatedev.com/roblox-infinite-yield-possible.html" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What does \"Infinite yield possible\" mean in Roblox?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It means a WaitForChild call has been waiting more than five seconds and Roblox is telling you it may never return. It is a warning, not an error: the script has not crashed, it is paused at that line and everything after it will never run. That is why the symptom is usually a feature that silently does nothing rather than a red message." }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I stop WaitForChild from yielding forever?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Pass a timeout as the second argument and handle the nil result: local gui = playerGui:WaitForChild(\"MainGui\", 10). With a timeout it returns nil instead of hanging, so you can warn with a useful message and stop rather than freezing the rest of the script." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does the object never arrive?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Common causes are a misspelled or wrong-case name, a different parent than the script assumes, an object that only exists on the server, an instance that a script was supposed to create but errored before it got there, streaming not having loaded that part of the world yet, or waiting on a descendant several levels down when only the top-level object exists." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is infinite yield an error?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No, and that is what makes it dangerous. Because it is only a warning, error handling does not trigger, pcall does not catch it, and the thread simply stays parked. A test that only checks for red errors in Output will pass while the feature is entirely dead." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  .guide-note { border:1px solid var(--line-2); background:var(--surface-1); border-radius:var(--r-plate); padding:18px 20px; margin:24px 0; }
+  .guide-note p { margin:0; }
+  .guide-code { overflow-x:auto; border:1px solid var(--line-2); background:#0b0d12; border-radius:var(--r-plate); padding:18px 20px; margin:16px 0; color:var(--dim); font:13px/1.65 var(--font-mono); }
+  .guide-checklist { list-style:none; padding-left:0 !important; }
+  .guide-checklist li { position:relative; padding-left:28px; }
+  .guide-checklist li::before { content:"□"; position:absolute; left:2px; color:var(--accent-2); font-family:var(--font-mono); }
+  .guide-cta { border:1px solid var(--accent-line); background:var(--accent-weak); border-radius:var(--r-plate); padding:24px; margin-top:42px; }
+  .guide-cta h2 { margin-top:0; }
+  .guide-cta .btn { margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+  <a class="btn btn-primary btn-sm" href="guides.html">All guides</a>
+</nav>
+
+<main class="legal-wrap">
+  <p class="eyebrow"><span class="eyebrow-dot"></span>Error reference</p>
+  <h1>Roblox: “Infinite yield possible on …”</h1>
+  <p class="lede">This one is worse than an error, because it is only a warning. Your script did not crash — it stopped, permanently, at that line. Everything below it will never run, nothing turns red, and the bug presents as a button that simply does nothing.</p>
+
+  <div class="guide-note"><p><strong>What it means:</strong> a <span class="mono">WaitForChild</span> has been waiting more than five seconds. Roblox prints the warning once and keeps waiting. <span class="mono">pcall</span> will not catch it, error handlers will not fire, and the thread stays parked until the place shuts down.</p></div>
+
+  <div class="legal-prose">
+    <h2>The fix that applies in every case</h2>
+    <p>Pass a timeout and handle the failure. This turns a silent hang into a message you can act on.</p>
+    <pre class="guide-code"><code>-- hangs forever if MainGui never arrives
+local gui = playerGui:WaitForChild("MainGui")
+
+-- returns nil after 10 seconds so the script can react
+local gui = playerGui:WaitForChild("MainGui", 10)
+if not gui then
+    warn("MainGui never replicated — is the server creating it for this player?")
+    return
+end</code></pre>
+    <p>A timeout is not a fix for the underlying cause, but it converts an invisible failure into a visible one — and on a live server that is the difference between a bug report you can act on and a player saying “the shop is broken sometimes”.</p>
+
+    <h2>Why it never arrives</h2>
+    <ol>
+      <li><strong>Name or case is wrong.</strong> <span class="mono">WaitForChild("mainGui")</span> waits forever for something called <span class="mono">MainGui</span>. Lookups are exact.</li>
+      <li><strong>Wrong parent.</strong> The script assumes a flat layout, someone moved the object into a folder, and the wait is now aimed at the wrong place.</li>
+      <li><strong>It only exists on the server.</strong> Nothing in <span class="mono">ServerStorage</span> or <span class="mono">ServerScriptService</span> replicates to a client, so a LocalScript waits on it indefinitely.</li>
+      <li><strong>The script that creates it died first.</strong> If an earlier error killed the creating script, the object never gets made — read the <em>first</em> error in Output, not this warning.</li>
+      <li><strong>Streaming has not loaded it.</strong> With StreamingEnabled, distant parts of the world are not there yet, and may never be while the player stands where they are.</li>
+      <li><strong>You are waiting too deep.</strong> <span class="mono">:WaitForChild("Frame")</span> on an object whose <em>parent</em> has not arrived yet cannot succeed. Wait down the chain, one level at a time.</li>
+    </ol>
+
+    <h2>A pattern that cannot hang</h2>
+    <pre class="guide-code"><code>local function waitForPath(root, path, timeout)
+    local current = root
+    local deadline = os.clock() + (timeout or 10)
+    for _, name in path do
+        local remaining = deadline - os.clock()
+        if remaining &lt;= 0 then return nil, name end
+        current = current:WaitForChild(name, remaining)
+        if not current then return nil, name end
+    end
+    return current
+end
+
+local frame, missing = waitForPath(playerGui, { "MainGui", "Shop", "Frame" }, 10)
+if not frame then
+    warn(("shop UI never loaded — stopped waiting at %q"):format(missing))
+    return
+end</code></pre>
+    <p>The useful part is <span class="mono">missing</span>: it tells you exactly which link in the chain is absent, which is the answer you actually wanted from the original warning.</p>
+
+    <h2>Why this shows up so much in AI-written code</h2>
+    <p>Generated Luau reaches confidently into hierarchies it has never seen. The names are plausible, the structure is plausible, and the code reviews perfectly — it just does not match your game. Worse, because an infinite yield is not an error, a model that “verifies” its work by checking that nothing went red will report success on a script that is frozen at line three. The <a href="ai-written-luau-breaks-in-studio.html">runtime failure guide</a> covers the same class of problem for blocking calls, and <a href="roblox-attempt-to-index-nil.html">attempt to index nil</a> is what you get when the same guess fails loudly instead of quietly.</p>
+
+    <div class="guide-cta">
+      <h2>A clean Output is not the same as a working game</h2>
+      <p>Baseplate's playtest loop runs your game through a live Studio session and checks the actual behaviour, not just the absence of red text. Free plan, your own AI account.</p>
+      <a class="btn btn-primary" href="index.html?utm_source=err_infinite_yield&amp;utm_medium=organic&amp;utm_campaign=errors_20260728#download">Download Baseplate free</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="guides.html">Guides</a><a href="roblox-attempt-to-index-nil.html">Index nil</a><a href="roblox-datastore-not-saving.html">DataStore not saving</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div>
+  <div class="footer-social">
+    <span>Follow the build:</span>
+    <a href="https://www.youtube.com/@BaseplateDevs" rel="me noopener" target="_blank">YouTube</a>
+    <a href="https://x.com/BaseplateDevs" rel="me noopener" target="_blank">X</a>
+    <a href="https://bsky.app/profile/baseplateapp.bsky.social" rel="me noopener" target="_blank">Bluesky</a>
+  </div>
+  <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation. Roblox is a trademark of Roblox Corporation.</p>
+</footer>
+</body>
+</html>

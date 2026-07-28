@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>Roblox: attempt to index nil with — what it means and how to fix it</title>
+<meta name="description" content="The six real causes of &quot;attempt to index nil with&quot; in Roblox Luau — replication timing, wrong paths, missing characters — with the fix for each and how to verify it.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://baseplatedev.com/roblox-attempt-to-index-nil.html">
+<meta property="og:title" content="Roblox: attempt to index nil with — how to fix it">
+<meta property="og:description" content="The error means the thing before the dot does not exist yet. Here are the six reasons why, and the fix for each.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://baseplatedev.com/roblox-attempt-to-index-nil.html">
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
+<link rel="stylesheet" href="style.css?v=20260727">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://baseplatedev.com/#organization",
+      "name": "Baseplate",
+      "url": "https://baseplatedev.com/",
+      "logo": "https://baseplatedev.com/favicon.svg",
+      "sameAs": [
+        "https://www.youtube.com/@BaseplateDevs",
+        "https://x.com/BaseplateDevs",
+        "https://bsky.app/profile/baseplateapp.bsky.social"
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Roblox: attempt to index nil with — what it means and how to fix it",
+      "datePublished": "2026-07-28",
+      "dateModified": "2026-07-28",
+      "author": { "@type": "Organization", "name": "Baseplate", "url": "https://baseplatedev.com/" },
+      "publisher": { "@id": "https://baseplatedev.com/#organization" },
+      "mainEntityOfPage": "https://baseplatedev.com/roblox-attempt-to-index-nil.html"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Baseplate", "item": "https://baseplatedev.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://baseplatedev.com/guides.html" },
+        { "@type": "ListItem", "position": 3, "name": "Attempt to index nil with", "item": "https://baseplatedev.com/roblox-attempt-to-index-nil.html" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What does \"attempt to index nil with\" mean in Roblox?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It means the value to the left of the dot is nil, so there is nothing to look a member up on. In attempt to index nil with 'Humanoid', the problem is not Humanoid — it is whatever came before it. Read the error backwards: the named member is the thing you asked for, and the nil is the thing you asked it of." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is player.Character nil?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Because a Player object exists before its character model does. If a script reads player.Character the moment the player joins, the character has usually not spawned yet. Use player.CharacterAdded, or player.Character or player.CharacterAdded:Wait(), instead of assuming it is there." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does WaitForChild fix attempt to index nil?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It fixes the timing cause, not the others. WaitForChild yields until the instance replicates, which solves the case where a client runs before the object arrives. It does nothing about a misspelled name, a wrong parent, an instance that was destroyed, or a function that legitimately returned nil — and with no timeout it will yield forever while printing an infinite yield warning." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does the error only happen sometimes?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Because it is a race. Replication order, streaming, character respawns and player counts change how long things take, so a script that wins the race on your machine can lose it on a full server. Intermittent nil errors are timing bugs, and they are the reason a script that looks correct in review still breaks in a real playtest." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  .guide-note { border:1px solid var(--line-2); background:var(--surface-1); border-radius:var(--r-plate); padding:18px 20px; margin:24px 0; }
+  .guide-note p { margin:0; }
+  .guide-code { overflow-x:auto; border:1px solid var(--line-2); background:#0b0d12; border-radius:var(--r-plate); padding:18px 20px; margin:16px 0; color:var(--dim); font:13px/1.65 var(--font-mono); }
+  .guide-checklist { list-style:none; padding-left:0 !important; }
+  .guide-checklist li { position:relative; padding-left:28px; }
+  .guide-checklist li::before { content:"□"; position:absolute; left:2px; color:var(--accent-2); font-family:var(--font-mono); }
+  .guide-cta { border:1px solid var(--accent-line); background:var(--accent-weak); border-radius:var(--r-plate); padding:24px; margin-top:42px; }
+  .guide-cta h2 { margin-top:0; }
+  .guide-cta .btn { margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+  <a class="btn btn-primary btn-sm" href="guides.html">All guides</a>
+</nav>
+
+<main class="legal-wrap">
+  <p class="eyebrow"><span class="eyebrow-dot"></span>Error reference</p>
+  <h1>Roblox: “attempt to index nil with …”</h1>
+  <p class="lede">This is the most common runtime error in Luau, and the message points at the wrong half of the problem. Read it backwards and it becomes obvious — then there are exactly six reasons it happens.</p>
+
+  <div class="guide-note"><p><strong>What it actually says:</strong> in <span class="mono">attempt to index nil with 'Humanoid'</span>, <span class="mono">Humanoid</span> is what you <em>asked for</em>. The thing that is <span class="mono">nil</span> is whatever stood to the left of the dot. Nothing is wrong with Humanoid; something before it does not exist.</p></div>
+
+  <div class="legal-prose">
+    <h2>1. The instance has not replicated yet</h2>
+    <p>The classic. A LocalScript runs the moment it is loaded, which can be before the object it needs has arrived from the server.</p>
+    <pre class="guide-code"><code>-- breaks intermittently
+local gui = playerGui.MainGui.Frame
+
+-- waits for it instead of assuming
+local mainGui = playerGui:WaitForChild("MainGui", 10)
+if not mainGui then
+    warn("MainGui never arrived — check that the server actually creates it")
+    return
+end
+local frame = mainGui:WaitForChild("Frame", 10)</code></pre>
+    <p>Always pass a timeout. Without one, <span class="mono">WaitForChild</span> yields forever and you trade a clear error for a script that silently stops — see <a href="roblox-infinite-yield-possible.html">infinite yield possible</a>.</p>
+
+    <h2>2. <span class="mono">player.Character</span> does not exist yet</h2>
+    <p>A <span class="mono">Player</span> object exists before its character model does. Reading <span class="mono">player.Character.Humanoid</span> on join is a race you usually lose.</p>
+    <pre class="guide-code"><code>-- breaks on join — attempt to index nil with 'Humanoid'
+-- player.Character.Humanoid.WalkSpeed = 32
+
+-- waits for whichever comes first: an existing character, or the next one
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- and handle respawns, because the old character is destroyed
+player.CharacterAdded:Connect(function(newCharacter)
+    local newHumanoid = newCharacter:WaitForChild("Humanoid")
+end)</code></pre>
+    <p>The respawn half matters more than people expect: a reference captured once points at a character that no longer exists after the first death.</p>
+
+    <h2>3. The name or the path is wrong</h2>
+    <p>Instance lookup is case-sensitive and exact. <span class="mono">workspace.SpawnPoint</span> does not find an object named <span class="mono">Spawnpoint</span>, and a script that assumes a flat hierarchy breaks the moment someone groups things into a folder. This is the most common cause in AI-generated code, because the model guessed a plausible layout instead of reading yours.</p>
+
+    <h2>4. A function returned nil and you kept going</h2>
+    <p><span class="mono">FindFirstChild</span> returns <span class="mono">nil</span> when there is no match — that is its job. So does a table lookup with a key that is not there, and any function whose early <span class="mono">return</span> path you forgot about.</p>
+    <pre class="guide-code"><code>-- FindFirstChild is allowed to return nil; act like it
+local tool = backpack:FindFirstChild("Sword")
+if not tool then return end
+tool.Handle.Transparency = 0
+
+-- guard the config lookup too
+local config = ItemConfig[itemId]
+if not config then
+    warn(("unknown item %q"):format(tostring(itemId)))
+    return
+end</code></pre>
+
+    <h2>5. The instance was destroyed</h2>
+    <p>After <span class="mono">:Destroy()</span> the variable still holds a reference, but the object is parented to nil and its children are gone. Anything that survives the destruction — a loop, a connection, a <span class="mono">task.delay</span> — will index it and fail. Disconnect connections and check <span class="mono">instance.Parent</span> before touching an object that another code path can remove.</p>
+
+    <h2>6. You are on the wrong side of the client-server boundary</h2>
+    <p><span class="mono">ServerStorage</span> and <span class="mono">ServerScriptService</span> do not replicate to clients, so a LocalScript reaching into them gets nil. The same applies in reverse to things that exist only on one client. If a value must cross, it crosses through a remote — and then it must be validated on arrival, which is a separate problem covered in the <a href="roblox-remoteevent-security-checklist.html">RemoteEvent security checklist</a>.</p>
+
+    <h2>How to find yours in under a minute</h2>
+    <ol>
+      <li>Read the line in the error and identify the token immediately <em>before</em> the reported member. That is your nil.</li>
+      <li>Print it: <span class="mono">print(playerGui:FindFirstChild("MainGui"))</span>. Nil means it is missing or misnamed; an instance means the problem is further down the chain.</li>
+      <li>Check the Explorer while the game is running, not while it is stopped — the runtime hierarchy is what matters.</li>
+      <li>If it only fails sometimes, treat it as a race and fix the timing, not the symptom.</li>
+    </ol>
+
+    <div class="guide-note"><p><strong>Why AI-written code hits this so often:</strong> a model can produce syntactically perfect Luau while guessing your instance names, your folder structure and the order things load in. Those guesses only fail at runtime, which is exactly what a code review cannot catch — the <a href="ai-written-luau-breaks-in-studio.html">runtime failure guide</a> works through four of these in detail.</p></div>
+
+    <div class="guide-cta">
+      <h2>Let the agent hit the error instead of you</h2>
+      <p>Baseplate runs your AI agent against a live Roblox Studio session: it playtests, reads the real stack trace, fixes the cause and re-tests until the console is clean. Free plan, your own AI account.</p>
+      <a class="btn btn-primary" href="index.html?utm_source=err_index_nil&amp;utm_medium=organic&amp;utm_campaign=errors_20260728#download">Download Baseplate free</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="guides.html">Guides</a><a href="roblox-infinite-yield-possible.html">Infinite yield</a><a href="roblox-datastore-not-saving.html">DataStore not saving</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div>
+  <div class="footer-social">
+    <span>Follow the build:</span>
+    <a href="https://www.youtube.com/@BaseplateDevs" rel="me noopener" target="_blank">YouTube</a>
+    <a href="https://x.com/BaseplateDevs" rel="me noopener" target="_blank">X</a>
+    <a href="https://bsky.app/profile/baseplateapp.bsky.social" rel="me noopener" target="_blank">Bluesky</a>
+  </div>
+  <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation. Roblox is a trademark of Roblox Corporation.</p>
+</footer>
+</body>
+</html>

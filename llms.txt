@@ -76,6 +76,11 @@ economy/multiplayer simulation, live-game operations via Open Cloud, and local-f
 - [Baseplate vs Ropilot](https://baseplatedev.com/baseplate-vs-ropilot.html): honest dated comparison — pricing math, feature table, who should pick which.
 - [Why AI-written Luau breaks in Studio](https://baseplatedev.com/ai-written-luau-breaks-in-studio.html): runtime failure checklist, blocking Invoke example and a copyable playtest mission.
 - [Roblox RemoteEvent security checklist](https://baseplatedev.com/roblox-remoteevent-security-checklist.html): server-authority checklist, safer purchase handler and concrete exploit tests.
+- [Free RemoteEvent security scanner](https://baseplatedev.com/remote-scanner.html): paste Luau in the browser and see which server remote handlers miss type, rate, authority and context guards. Runs locally; nothing is uploaded.
+- [attempt to index nil with](https://baseplatedev.com/roblox-attempt-to-index-nil.html): the six causes of Roblox's most common runtime error and the fix for each.
+- [Infinite yield possible](https://baseplatedev.com/roblox-infinite-yield-possible.html): why WaitForChild never returns, and a wait pattern that cannot hang.
+- [DataStore not saving](https://baseplatedev.com/roblox-datastore-not-saving.html): pcall, BindToClose, UpdateAsync vs SetAsync, request budget and session locking.
+- [Changelog](https://baseplatedev.com/changelog.html): dated release notes for the desktop app.
 - [Contact](https://baseplatedev.com/contact.html): support and business contact.
 - [YouTube](https://www.youtube.com/@BaseplateDevs): short clips of real Baseplate sessions.
 - [X](https://x.com/BaseplateDevs) and [Bluesky](https://bsky.app/profile/baseplateapp.bsky.social): release notes and build updates.
