@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>Baseplate vs Roblox Assistant (2026) — an honest comparison</title>
+<meta name="description" content="Roblox Assistant is free, built in and now agentic. Where it wins, where a bring-your-own-AI tool wins, and the quota problem nobody mentions. Dated July 2026.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://baseplatedev.com/baseplate-vs-roblox-assistant.html">
+<meta property="og:title" content="Baseplate vs Roblox Assistant (2026)">
+<meta property="og:description" content="The built-in Assistant plays your game now too. Here is the honest read on where each one actually wins.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://baseplatedev.com/baseplate-vs-roblox-assistant.html">
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
+<link rel="stylesheet" href="style.css?v=20260727">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://baseplatedev.com/#organization",
+      "name": "Baseplate",
+      "url": "https://baseplatedev.com/",
+      "logo": "https://baseplatedev.com/favicon.svg",
+      "sameAs": [
+        "https://www.youtube.com/@BaseplateDevs",
+        "https://x.com/BaseplateDevs",
+        "https://bsky.app/profile/baseplateapp.bsky.social"
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Baseplate vs Roblox Assistant (2026): an honest comparison",
+      "datePublished": "2026-07-28",
+      "dateModified": "2026-07-28",
+      "author": { "@type": "Organization", "name": "Baseplate", "url": "https://baseplatedev.com/" },
+      "publisher": { "@id": "https://baseplatedev.com/#organization" },
+      "mainEntityOfPage": "https://baseplatedev.com/baseplate-vs-roblox-assistant.html"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Baseplate", "item": "https://baseplatedev.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Baseplate vs Roblox Assistant", "item": "https://baseplatedev.com/baseplate-vs-roblox-assistant.html" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can Roblox Assistant playtest a game by itself?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes, in beta. Roblox announced agentic Assistant workflows in April 2026: Planning Mode is generally available, and a playtesting agent in beta reads output logs, captures screenshots, drives keyboard and mouse input, identifies bugs and feeds them back so Assistant can fix them. In July 2026 Roblox announced a further Playtesting Agent, Analytics Agent and Experiment Agent for professional creators, with testing starting in a public alpha limited to New Zealand." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Roblox Assistant free?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It is included in Studio, but it is metered rather than unlimited — developers publicly report hitting usage limits mid-prototype, and that failed or stuck generations still consume quota. For the newer Build tooling Roblox has said a base-level version will be free with paid options for power users, without publishing prices as of July 2026." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why use a third-party tool when the Assistant is built in?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Mainly the cost model and where the work happens. Baseplate drives the Claude, Codex or Cursor subscription you already pay for, so there is no Roblox-side quota to exhaust and no per-prompt credits. It also works on the whole project as files under Rojo and git rather than only inside Studio, and adds work the Assistant does not do: security auditing of remotes, economy and multiplayer simulation, reusable regression recipes and live-game operations through Open Cloud." }
+        },
+        {
+          "@type": "Question",
+          "name": "Will Roblox's own agent eventually make third-party tools pointless?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It closes some of the gap. Roblox has said it is working on parallel agent execution, cloud-based long-running workflows, and integration with third-party tools such as Claude and Cursor. Anyone claiming a permanent moat over a platform's first-party tooling is selling something. The durable differences are the bring-your-own-subscription cost model, local-first control of your source, and the release-engineering work around the code rather than the code generation itself." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  .guide-note { border:1px solid var(--line-2); background:var(--surface-1); border-radius:var(--r-plate); padding:18px 20px; margin:24px 0; }
+  .guide-note p { margin:0; }
+  .vs-table { width:100%; border-collapse:collapse; margin:22px 0; font-size:14.5px; }
+  .vs-table th, .vs-table td { border:1px solid var(--line-2); padding:11px 13px; text-align:left; vertical-align:top; }
+  .vs-table th { background:var(--surface-1); font-weight:600; }
+  .vs-table td:first-child { color:var(--dim); }
+  .vs-wrap { overflow-x:auto; }
+  .vs-note { color:var(--faint); font-size:13px; }
+  .guide-cta { border:1px solid var(--accent-line); background:var(--accent-weak); border-radius:var(--r-plate); padding:24px; margin-top:42px; }
+  .guide-cta h2 { margin-top:0; }
+  .guide-cta .btn { margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+  <a class="btn btn-primary btn-sm" href="index.html#download">Download free</a>
+</nav>
+
+<main class="legal-wrap">
+  <p class="eyebrow"><span class="eyebrow-dot"></span>Comparison · July 2026</p>
+  <h1>Baseplate vs Roblox Assistant: the built-in agent plays your game now too</h1>
+  <p class="lede">For a while the honest pitch for third-party AI tooling in Roblox was simple: the built-in Assistant could write code, but it could not run your game. That stopped being true in April 2026. If you are choosing between them, you deserve the current picture rather than last year's.</p>
+
+  <div class="guide-note"><p><strong>Written by the Baseplate team</strong>, so read it with that in mind. Every Roblox claim below is sourced and dated at the bottom of the page. If something here is outdated or unfair, <a href="contact.html">tell us</a> and we will correct it.</p></div>
+
+  <div class="legal-prose">
+    <h2>What changed</h2>
+    <p>In April 2026 Roblox announced agentic workflows for Studio Assistant. <strong>Planning Mode</strong> is generally available: it reads your code and data model, asks clarifying questions and turns a prompt into an editable action plan. A <strong>playtesting agent</strong> shipped in beta that reads output logs, captures screenshots, drives keyboard and mouse input, finds bugs and hands them back to Assistant to fix. In the same announcement Roblox said 44% of the top 1,000 creators already use Assistant or third-party AI tools over MCP.</p>
+    <p>In July 2026 Roblox went further, announcing a Playtesting Agent, an Analytics Agent and an Experiment Agent for professional creators — with testing starting in a public alpha limited to New Zealand, and a stated intention that a base level of the new Build tooling stays free with paid options for power users.</p>
+    <p>So the “it can't press Play” argument is dead. What remains is a more boring and more useful question: who pays for the tokens, where does your source live, and what happens around the code.</p>
+
+    <h2>Side by side</h2>
+    <div class="vs-wrap">
+      <table class="vs-table">
+        <thead><tr><th></th><th>Roblox Assistant</th><th>Baseplate</th></tr></thead>
+        <tbody>
+          <tr><td>Where it runs</td><td>Inside Studio, Roblox-hosted</td><td>Locally on your machine, driving your own agent CLI</td></tr>
+          <tr><td>Who pays for inference</td><td>Roblox, metered as your usage quota</td><td>You already do — your Claude, Codex or Cursor plan, no markup</td></tr>
+          <tr><td>Running out mid-task</td><td>Reported by developers; failed or stuck runs still consume quota</td><td>Bounded by your own AI plan, not by a Roblox-side meter</td></tr>
+          <tr><td>Setup</td><td>None. It is already there</td><td>Install the app and bridge plugin, enable Studio as an MCP server</td></tr>
+          <tr><td>Playtest → fix → verify</td><td>Yes, beta</td><td>Yes, with a clean-console rerun required before PASS</td></tr>
+          <tr><td>Scope of the code</td><td>Studio-centric</td><td>Whole project as files, under Rojo and your own git history</td></tr>
+          <tr><td>Parallel agents</td><td>Announced as planned</td><td>Crew swarms today, with enforced file ownership</td></tr>
+          <tr><td>Security auditing of remotes</td><td>Not a distinct feature</td><td>Exploit Guard and the Remote Contract Compiler</td></tr>
+          <tr><td>Economy / multiplayer simulation</td><td>No</td><td>Yes</td></tr>
+          <tr><td>Reusable regression recipes</td><td>No</td><td>Regression Lab, with evidence history</td></tr>
+          <tr><td>Live-game operations</td><td>Analytics Agent announced</td><td>Open Cloud reads, safe DataStore migrations with rollback</td></tr>
+          <tr><td>Your source leaves your machine</td><td>To Roblox</td><td>To the AI provider you chose, under your own account</td></tr>
+          <tr><td>Price</td><td>Included; new Build tooling free at a base level, paid tiers unpriced so far</td><td>$0, or $4.99/month for Pro on top of the AI plan you have</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Pick the Assistant if…</h2>
+    <ul>
+      <li><strong>You have no AI subscription and don't want one.</strong> This is the big one. Assistant is in the box and costs nothing extra to try; Baseplate is worthless to you without a Claude, Codex or Cursor account.</li>
+      <li><strong>You work entirely inside Studio</strong>, without Rojo, an external editor or a git history you care about.</li>
+      <li><strong>You want zero setup.</strong> There is no honest way to make “install an app, install a plugin, restart Studio twice” compete with a panel that is already open.</li>
+      <li><strong>You mostly need scaffolding</strong> — a first draft to refine by hand. That is what Assistant is genuinely good at.</li>
+    </ul>
+
+    <h2>Pick Baseplate if…</h2>
+    <ul>
+      <li><strong>You already pay for Claude, Codex or Cursor.</strong> You are paying for that inference whether or not you use it in Roblox. Driving it costs $0–$4.99/month instead of consuming a separate quota.</li>
+      <li><strong>Quota interruptions are your actual problem.</strong> Developers report hitting Assistant limits mid-prototype, with stuck and incomplete runs still burning allowance. A bring-your-own-plan tool moves that ceiling to a place you control.</li>
+      <li><strong>The work is around the code, not just in it</strong> — auditing remotes before release, simulating an economy, replaying a regression suite across devices, migrating a live DataStore key with a rollback path.</li>
+      <li><strong>You want several agents working at once</strong> with enforced file ownership, today rather than when it ships.</li>
+      <li><strong>Local-first matters to you.</strong> Your project stays on your disk and goes only to the AI provider you picked.</li>
+    </ul>
+
+    <h2>The part most comparison pages leave out</h2>
+    <p>Roblox has said it is working on parallel agent execution, cloud-based long-running workflows, node-graph workflow visualisation, and integration with third-party tools including Claude and Cursor. Several rows in the table above are things Roblox has publicly said it intends to build.</p>
+    <p>Anyone who tells you a third-party tool has a permanent moat over a platform's own first-party tooling is selling something. What we think actually holds up over time is narrower and duller: the cost model of driving a subscription you already own instead of a metered service, keeping your source and your history under your control, and the release-engineering work — security, regression, economy, live operations — that sits around code generation rather than inside it.</p>
+    <p>If Roblox ships all of that for free tomorrow, the right advice will be to use theirs, and we will say so on this page.</p>
+
+    <h2>Sources</h2>
+    <ul class="vs-note">
+      <li><a href="https://about.roblox.com/newsroom/2026/04/roblox-studio-going-agentic" rel="nofollow noopener" target="_blank">Roblox Newsroom — “Roblox Studio is Going Agentic”</a> (April 2026): Planning Mode generally available, playtesting agent in beta, 44% of top 1,000 creators, planned parallel agents, cloud workflows and third-party integrations.</li>
+      <li><a href="https://about.roblox.com/newsroom/2026/07/build-without-limits-on-roblox" rel="nofollow noopener" target="_blank">Roblox Newsroom — “Build Without Limits on Roblox”</a> (July 2026): Playtesting, Analytics and Experiment Agents; public alpha limited to New Zealand; base level free with paid options for power users.</li>
+      <li><a href="https://techcrunch.com/2026/04/16/robloxs-ai-assistant-gets-new-agentic-tools-to-plan-build-and-test-games/" rel="nofollow noopener" target="_blank">TechCrunch</a> (April 16, 2026): the playtesting tools read output logs, capture screenshots and use keyboard and mouse input to identify bugs.</li>
+      <li><a href="https://devforum.roblox.com/t/studio-assistant-limits-and-reliability/4743968" rel="nofollow noopener" target="_blank">Roblox DevForum — “Studio Assistant Limits and Reliability”</a>: developer reports of hitting usage limits mid-prototype and of incomplete or stuck runs consuming quota.</li>
+    </ul>
+    <p class="vs-note">Roblox and Roblox Studio are trademarks of Roblox Corporation. Baseplate is not affiliated with or endorsed by Roblox Corporation. Details accurate to the best of our knowledge on July&nbsp;28,&nbsp;2026.</p>
+
+    <div class="guide-cta">
+      <h2>Already paying for Claude, Codex or Cursor?</h2>
+      <p>Then the inference is bought. Baseplate points it at a live Studio session — verified playtests, security audits and crews — starting at $0.</p>
+      <a class="btn btn-primary" href="index.html?utm_source=vs_assistant&amp;utm_medium=organic&amp;utm_campaign=compare_20260728#download">Download Baseplate free</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="guides.html">Guides</a><a href="baseplate-vs-ropilot.html">Baseplate vs Ropilot</a><a href="claude-code-roblox-studio.html">Claude Code guide</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div>
+  <div class="footer-social">
+    <span>Follow the build:</span>
+    <a href="https://www.youtube.com/@BaseplateDevs" rel="me noopener" target="_blank">YouTube</a>
+    <a href="https://x.com/BaseplateDevs" rel="me noopener" target="_blank">X</a>
+    <a href="https://bsky.app/profile/baseplateapp.bsky.social" rel="me noopener" target="_blank">Bluesky</a>
+  </div>
+  <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation. Roblox is a trademark of Roblox Corporation.</p>
+</footer>
+</body>
+</html>
