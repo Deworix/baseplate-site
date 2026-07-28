@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>How to use Cursor with Roblox Studio | Baseplate</title>
+<meta name="description" content="Connect Cursor to a live Roblox Studio session: why it ignores .mcp.json, where its MCP config really lives, the approval flag, and how verified playtests work.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://baseplatedev.com/cursor-roblox-studio.html">
+<meta property="og:title" content="How to use Cursor with Roblox Studio">
+<meta property="og:description" content="Cursor has no mcp add command and ignores .mcp.json. Here is the configuration that actually works for Roblox.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://baseplatedev.com/cursor-roblox-studio.html">
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
+<link rel="stylesheet" href="style.css?v=20260727">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://baseplatedev.com/#organization",
+      "name": "Baseplate",
+      "url": "https://baseplatedev.com/",
+      "logo": "https://baseplatedev.com/favicon.svg",
+      "sameAs": [
+        "https://www.youtube.com/@BaseplateDevs",
+        "https://x.com/BaseplateDevs",
+        "https://bsky.app/profile/baseplateapp.bsky.social"
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "How to use Cursor with Roblox Studio",
+      "datePublished": "2026-07-28",
+      "dateModified": "2026-07-28",
+      "author": { "@type": "Organization", "name": "Baseplate", "url": "https://baseplatedev.com/" },
+      "publisher": { "@id": "https://baseplatedev.com/#organization" },
+      "mainEntityOfPage": "https://baseplatedev.com/cursor-roblox-studio.html"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Baseplate", "item": "https://baseplatedev.com/" },
+        { "@type": "ListItem", "position": 2, "name": "How to use Cursor with Roblox Studio", "item": "https://baseplatedev.com/cursor-roblox-studio.html" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Where does Cursor read MCP servers from?",
+          "acceptedAnswer": { "@type": "Answer", "text": "From .cursor/mcp.json inside the project, or the global ~/.cursor/mcp.json. Cursor ignores the .mcp.json file that Claude Code uses, and unlike Codex or Grok it has no mcp add command — its mcp subcommand only lists, enables and disables servers. So configuring Cursor means writing that project-scoped file yourself." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does Cursor say my MCP server needs approval?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Because a newly added server is not trusted until it is approved. Running the agent with --approve-mcps loads it without an interactive prompt; without that flag, cursor mcp list reports the server as needing approval and tool calls do not go through." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can Cursor playtest a Roblox game?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Not by itself — no terminal agent can press Play. With Roblox Studio's built-in MCP server enabled and a bridge plugin relaying console output, Cursor can run Luau in the live session, read the real errors and re-test its own fix. Cursor emits checkable tool-call events, so it can produce a verified PASS, as can Claude Code and Codex." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Baseplate overwrite my Cursor settings?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It writes only a project-scoped .cursor/mcp.json in the workspace you opened, never your global Cursor configuration, and it preserves existing entries in that file — only its own baseplate key is rewritten when the workspace changes." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  .guide-note { border:1px solid var(--line-2); background:var(--surface-1); border-radius:var(--r-plate); padding:18px 20px; margin:24px 0; }
+  .guide-note p { margin:0; }
+  .guide-code { overflow-x:auto; border:1px solid var(--line-2); background:#0b0d12; border-radius:var(--r-plate); padding:18px 20px; margin:16px 0; color:var(--dim); font:13px/1.65 var(--font-mono); }
+  .guide-checklist { list-style:none; padding-left:0 !important; }
+  .guide-checklist li { position:relative; padding-left:28px; }
+  .guide-checklist li::before { content:"□"; position:absolute; left:2px; color:var(--accent-2); font-family:var(--font-mono); }
+  .guide-cta { border:1px solid var(--accent-line); background:var(--accent-weak); border-radius:var(--r-plate); padding:24px; margin-top:42px; }
+  .guide-cta h2 { margin-top:0; }
+  .guide-cta .btn { margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+</nav>
+
+<main class="legal-wrap">
+  <p class="eyebrow"><span class="eyebrow-dot"></span>Setup guide</p>
+  <h1>How to use Cursor with Roblox Studio</h1>
+  <p class="lede">Cursor is comfortable in a big Luau codebase and its agent mode is happy to work unattended. The friction is connecting it to the game: Cursor is the odd one out among agent CLIs, and instructions written for Claude Code or Codex will quietly not work.</p>
+
+  <div class="guide-note"><p><strong>Same bridges, different plumbing.</strong> Every agent needs Roblox Studio's built-in MCP server plus a plugin that carries file changes and console output out of Studio. The <a href="claude-code-roblox-studio.html">Claude Code guide</a> covers those shared steps; this page is about what Cursor does differently.</p></div>
+
+  <div class="legal-prose">
+    <h2>1. Cursor ignores <span class="mono">.mcp.json</span></h2>
+    <p>The file Claude Code reads is not the file Cursor reads. Cursor looks in <span class="mono">&lt;workspace&gt;/.cursor/mcp.json</span> (or a global <span class="mono">~/.cursor/mcp.json</span>), and it has <strong>no <span class="mono">mcp add</span> command</strong> — its <span class="mono">mcp</span> subcommand only lists, enables and disables what is already there. Codex and Grok both give you a supported add command; with Cursor you write the file.</p>
+
+    <pre class="guide-code"><code>// &lt;workspace&gt;/.cursor/mcp.json
+{
+  "mcpServers": {
+    "baseplate": {
+      "url": "http://127.0.0.1:34901/mcp?ws=&lt;url-encoded-workspace-path&gt;"
+    }
+  }
+}</code></pre>
+
+    <p>Keep it project-scoped. Editing the global config to reach one Roblox project is how you end up with a stale bridge URL pointing at a workspace you closed last week. Any tooling that writes this for you should preserve entries it did not create — Baseplate rewrites only its own <span class="mono">baseplate</span> key.</p>
+
+    <h2>2. The approval flag</h2>
+    <p>A newly configured server is not trusted yet. Run <span class="mono">cursor mcp list</span> after adding it and you will most likely see the server reported as needing approval — and until it is approved, tool calls simply do not reach it. Launching the agent with <span class="mono">--approve-mcps</span> loads it without an interactive prompt.</p>
+    <div class="guide-note"><p><strong>Symptom worth recognising:</strong> the agent behaves like the tools do not exist — it describes what it would check instead of checking it, and never mentions Studio. That is an unapproved server, not a model being lazy.</p></div>
+
+    <h2>3. Then the two Studio-side steps</h2>
+    <p>These are the same for every agent and are where most setups actually stall:</p>
+    <ul class="guide-checklist">
+      <li><strong>Restart Studio completely</strong> after installing the bridge plugin — quit the application, not just the place — and approve its HTTP permission prompt.</li>
+      <li><strong>Enable Studio as an MCP server</strong> under <span class="mono">Assistant → Manage MCP Servers</span>, then restart Studio again. Without it, Play requests fail with “no active Studio instance” while everything else looks healthy.</li>
+    </ul>
+    <p>Add <span class="mono">rojo serve</span> and the loop closes: Cursor edits <span class="mono">src/</span>, Rojo pushes the change into the open place, and the next playtest runs against the edited game rather than the one you started with.</p>
+
+    <h2>What you get once it is wired</h2>
+    <p>Cursor can run Luau in the live session, read the real stack trace instead of guessing from a symptom, fix the cause and re-test. It is one of the three CLIs that can produce a <em>verified</em> PASS — Claude Code and Codex are the others — because its tool calls arrive as checkable events rather than as claims in prose. Baseplate can also mix engines in one crew, so a Cursor tile and a Claude Code tile can build in parallel with enforced file ownership.</p>
+
+    <h2>Honest limits</h2>
+    <ul>
+      <li><strong>Bring your own Cursor plan.</strong> Baseplate drives the CLI you already pay for and adds no token markup.</li>
+      <li><strong>Verified playtests need Studio open.</strong> No Studio session, no evidence — only static analysis.</li>
+      <li><strong>Cursor's config lives in a file, not a command.</strong> If Cursor changes that format, hand-written setups break; that is the trade for a CLI without an <span class="mono">mcp add</span>.</li>
+      <li><strong>Review before shipping</strong> — start with the <a href="roblox-remoteevent-security-checklist.html">RemoteEvent checklist</a>.</li>
+    </ul>
+
+    <div class="guide-cta">
+      <h2>Let Cursor test what it wrote</h2>
+      <p>Baseplate writes the project-scoped MCP config, installs the Studio plugin and runs the verified playtest loop. Free plan, one agent, your own Cursor account.</p>
+      <a class="btn btn-primary" href="index.html?utm_source=cursor_guide&amp;utm_medium=organic&amp;utm_campaign=setup_20260728#download">Download Baseplate free</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="claude-code-roblox-studio.html">Claude Code guide</a><a href="codex-roblox-studio.html">Codex guide</a><a href="ai-written-luau-breaks-in-studio.html">Runtime guide</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div>
+  <div class="footer-social">
+    <span>Follow the build:</span>
+    <a href="https://www.youtube.com/@BaseplateDevs" rel="me noopener" target="_blank">YouTube</a>
+    <a href="https://x.com/BaseplateDevs" rel="me noopener" target="_blank">X</a>
+    <a href="https://bsky.app/profile/baseplateapp.bsky.social" rel="me noopener" target="_blank">Bluesky</a>
+  </div>
+  <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation. Roblox is a trademark of Roblox Corporation.</p>
+</footer>
+</body>
+</html>

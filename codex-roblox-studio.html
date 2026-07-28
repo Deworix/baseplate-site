@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>How to use Codex with Roblox Studio | Baseplate</title>
+<meta name="description" content="Connect the OpenAI Codex CLI to a live Roblox Studio session: global MCP config, the one-shot exec model, the Windows PATH trap, and verified playtests.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://baseplatedev.com/codex-roblox-studio.html">
+<meta property="og:title" content="How to use Codex with Roblox Studio">
+<meta property="og:description" content="Codex keeps MCP servers somewhere else and runs one turn per process. Here is what that means for Roblox work.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://baseplatedev.com/codex-roblox-studio.html">
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
+<link rel="stylesheet" href="style.css?v=20260727">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://baseplatedev.com/#organization",
+      "name": "Baseplate",
+      "url": "https://baseplatedev.com/",
+      "logo": "https://baseplatedev.com/favicon.svg",
+      "sameAs": [
+        "https://www.youtube.com/@BaseplateDevs",
+        "https://x.com/BaseplateDevs",
+        "https://bsky.app/profile/baseplateapp.bsky.social"
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "How to use Codex with Roblox Studio",
+      "datePublished": "2026-07-28",
+      "dateModified": "2026-07-28",
+      "author": { "@type": "Organization", "name": "Baseplate", "url": "https://baseplatedev.com/" },
+      "publisher": { "@id": "https://baseplatedev.com/#organization" },
+      "mainEntityOfPage": "https://baseplatedev.com/codex-roblox-studio.html"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Baseplate", "item": "https://baseplatedev.com/" },
+        { "@type": "ListItem", "position": 2, "name": "How to use Codex with Roblox Studio", "item": "https://baseplatedev.com/codex-roblox-studio.html" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Where does the Codex CLI store MCP servers?",
+          "acceptedAnswer": { "@type": "Answer", "text": "In a global ~/.codex/config.toml, not in a per-project file. Codex does not read .mcp.json the way Claude Code does. Add a server with its own supported command — codex mcp add baseplate --url http://127.0.0.1:34901/mcp?ws=<workspace> — which writes an [mcp_servers.baseplate] entry, and remove it with codex mcp remove baseplate. Hand-editing that TOML risks clobbering your other Codex settings." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my Codex session lose context between turns?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Because codex exec is one-shot: every turn is a fresh process, unlike claude -p which holds one process open and takes further prompts on stdin. Continuity comes from codex exec resume <thread_id>, using the thread id emitted in the thread.started event at the start of the run." }
+        },
+        {
+          "@type": "Question",
+          "name": "Codex fails to launch on Windows with exit code 193. Why?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Exit code 193 means the file being executed is not a valid Windows executable. The usual cause is that a PATH lookup returns a shell script starting with #!/bin/sh before it reaches the real .cmd shim that npm installs. Resolve the .cmd shim explicitly, or point the tool at the full binary path, rather than trusting the first PATH hit." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can Codex run a verified Roblox playtest?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Codex emits a threaded JSONL event stream — thread.started, turn.started, item events and turn.completed — which is enough to check that a tool call really happened in Studio rather than being narrated. Claude Code and Cursor qualify for the same reason; Grok Build and Gemini CLI do not." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  .guide-note { border:1px solid var(--line-2); background:var(--surface-1); border-radius:var(--r-plate); padding:18px 20px; margin:24px 0; }
+  .guide-note p { margin:0; }
+  .guide-code { overflow-x:auto; border:1px solid var(--line-2); background:#0b0d12; border-radius:var(--r-plate); padding:18px 20px; margin:16px 0; color:var(--dim); font:13px/1.65 var(--font-mono); }
+  .guide-checklist { list-style:none; padding-left:0 !important; }
+  .guide-checklist li { position:relative; padding-left:28px; }
+  .guide-checklist li::before { content:"□"; position:absolute; left:2px; color:var(--accent-2); font-family:var(--font-mono); }
+  .guide-cta { border:1px solid var(--accent-line); background:var(--accent-weak); border-radius:var(--r-plate); padding:24px; margin-top:42px; }
+  .guide-cta h2 { margin-top:0; }
+  .guide-cta .btn { margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+</nav>
+
+<main class="legal-wrap">
+  <p class="eyebrow"><span class="eyebrow-dot"></span>Setup guide</p>
+  <h1>How to use Codex with Roblox Studio</h1>
+  <p class="lede">Codex writes solid Luau and is genuinely good at working through an existing codebase. Pointing it at a Roblox game is a different problem: it has to reach a running Studio session, and Codex handles configuration and session state differently enough from other CLIs that the usual instructions do not transfer.</p>
+
+  <div class="guide-note"><p><strong>Same bridges, different plumbing.</strong> Every agent needs Roblox Studio's built-in MCP server plus a plugin that carries file changes and console output out of Studio. The <a href="claude-code-roblox-studio.html">Claude Code guide</a> covers those shared steps in full; this page is about the three things Codex does its own way.</p></div>
+
+  <div class="legal-prose">
+    <h2>1. MCP config is global, not per project</h2>
+    <p>Claude Code reads a <span class="mono">.mcp.json</span> next to your project. Codex does not — its servers live in a single global <span class="mono">~/.codex/config.toml</span>. The right way to add one is Codex's own command, not a text editor:</p>
+
+    <pre class="guide-code"><code>codex mcp add baseplate --url "http://127.0.0.1:34901/mcp?ws=&lt;url-encoded-workspace-path&gt;"
+
+# check it landed
+codex mcp list
+
+# reversible, any time
+codex mcp remove baseplate</code></pre>
+
+    <p>That writes an <span class="mono">[mcp_servers.baseplate]</span> entry, and re-running it with a different URL overwrites the old one — which matters, because the <span class="mono">?ws=</span> parameter has to follow whichever project you are actually working on. Hand-merging that TOML is the one thing worth avoiding: a bad edit takes your other Codex settings with it.</p>
+
+    <div class="guide-note"><p><strong>Consequence of “global”:</strong> two Roblox projects open at once cannot both own the entry. Whatever tooling you use has to rewrite the URL when you switch projects — Baseplate does this on workspace switch, which is the only reason it is not a daily annoyance.</p></div>
+
+    <h2>2. <span class="mono">codex exec</span> is one-shot</h2>
+    <p><span class="mono">claude -p</span> keeps one process alive and accepts further prompts on stdin. <span class="mono">codex exec</span> does not: each turn is a new process that runs and exits. Continuity comes from resuming a thread explicitly.</p>
+
+    <pre class="guide-code"><code># first turn — note the thread id in the thread.started event
+codex exec "Find why the shop remote rejects valid purchases"
+
+# every turn after that
+codex exec resume &lt;thread_id&gt; "Now write the fix and re-run the playtest"</code></pre>
+
+    <p>For a playtest loop this is the detail that decides whether the whole thing works. The agent has to carry what it learned from the failing run into the fix and into the re-test; drop the thread and it starts over from a blank slate, re-reading files it already understood.</p>
+
+    <h2>3. The Windows launch trap (exit code 193)</h2>
+    <p>If Codex refuses to start on Windows with exit status <strong>193</strong>, it is not a broken install. 193 means “not a valid Win32 application” — something tried to execute a file Windows cannot run directly. The usual culprit is a PATH lookup that returns a Unix-style shell script beginning with <span class="mono">#!/bin/sh</span> ahead of the <span class="mono">.cmd</span> shim npm actually installs.</p>
+    <p>The fix is to resolve the <span class="mono">.cmd</span> shim explicitly instead of trusting the first PATH hit — or to point your tooling at the full binary path. If you have installed Codex somewhere unusual, Baseplate takes an explicit override:</p>
+    <pre class="guide-code"><code>BASEPLATE_CODEX_BIN=/full/path/to/codex</code></pre>
+    <p>Worth knowing generally: a GUI-launched app does not inherit your shell's PATH, which is why a CLI that works in your terminal can appear “not installed” to a desktop app.</p>
+
+    <h2>What Codex can do once it reaches Studio</h2>
+    <p>With the bridge live, Codex runs the same verified loop as Claude Code: run the game, read the real Output, find the cause in your source, edit <span class="mono">src/</span>, let Rojo sync it into the open place, then playtest again and only claim PASS on a clean rerun. It qualifies because its JSONL event stream — <span class="mono">thread.started</span>, <span class="mono">turn.started</span>, item events, <span class="mono">turn.completed</span> — makes tool calls checkable rather than merely narrated.</p>
+    <p>Baseplate can also mix engines inside one crew, so Codex and Claude Code can build in parallel with enforced file ownership. Grok Build runs fine as a builder tile but does not expose tool-call evidence, and Gemini CLI has no verified structured mode, so neither can produce a proven PASS.</p>
+
+    <h2>Honest limits</h2>
+    <ul>
+      <li><strong>You bring your own Codex account.</strong> Baseplate orchestrates the CLI you already pay for and adds no token markup.</li>
+      <li><strong>A real Studio session has to be open</strong> for verified playtests — there is no headless Roblox.</li>
+      <li><strong>The global MCP config is shared</strong> with every other Codex project on the machine. That is Codex's design, not something a wrapper can hide.</li>
+      <li><strong>Review before shipping.</strong> Fixing a runtime error is not a security audit — run the <a href="roblox-remoteevent-security-checklist.html">RemoteEvent checklist</a> first.</li>
+    </ul>
+
+    <div class="guide-cta">
+      <h2>Point Codex at a Studio it can actually see</h2>
+      <p>Baseplate wires the MCP entry, installs the Studio plugin and runs the verified playtest loop. Free plan, one agent, your own Codex account.</p>
+      <a class="btn btn-primary" href="index.html?utm_source=codex_guide&amp;utm_medium=organic&amp;utm_campaign=setup_20260728#download">Download Baseplate free</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="claude-code-roblox-studio.html">Claude Code guide</a><a href="cursor-roblox-studio.html">Cursor guide</a><a href="ai-written-luau-breaks-in-studio.html">Runtime guide</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div>
+  <div class="footer-social">
+    <span>Follow the build:</span>
+    <a href="https://www.youtube.com/@BaseplateDevs" rel="me noopener" target="_blank">YouTube</a>
+    <a href="https://x.com/BaseplateDevs" rel="me noopener" target="_blank">X</a>
+    <a href="https://bsky.app/profile/baseplateapp.bsky.social" rel="me noopener" target="_blank">Bluesky</a>
+  </div>
+  <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation. Roblox is a trademark of Roblox Corporation.</p>
+</footer>
+</body>
+</html>

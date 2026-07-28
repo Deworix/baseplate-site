@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>How to use Claude Code with Roblox Studio | Baseplate</title>
+<meta name="description" content="Connect Claude Code to a live Roblox Studio session: install the bridge plugin, enable Studio as an MCP server, wire Rojo, and let the agent playtest its own fix.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://baseplatedev.com/claude-code-roblox-studio.html">
+<meta property="og:title" content="How to use Claude Code with Roblox Studio">
+<meta property="og:description" content="The full setup, the two steps everyone gets stuck on, and what Claude Code can actually do once it can press Play.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://baseplatedev.com/claude-code-roblox-studio.html">
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
+<link rel="stylesheet" href="style.css?v=20260727">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://baseplatedev.com/#organization",
+      "name": "Baseplate",
+      "url": "https://baseplatedev.com/",
+      "logo": "https://baseplatedev.com/favicon.svg",
+      "sameAs": [
+        "https://www.youtube.com/@BaseplateDevs",
+        "https://x.com/BaseplateDevs",
+        "https://bsky.app/profile/baseplateapp.bsky.social"
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "How to use Claude Code with Roblox Studio",
+      "datePublished": "2026-07-28",
+      "dateModified": "2026-07-28",
+      "author": { "@type": "Organization", "name": "Baseplate", "url": "https://baseplatedev.com/" },
+      "publisher": { "@id": "https://baseplatedev.com/#organization" },
+      "mainEntityOfPage": "https://baseplatedev.com/claude-code-roblox-studio.html"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Baseplate", "item": "https://baseplatedev.com/" },
+        { "@type": "ListItem", "position": 2, "name": "How to use Claude Code with Roblox Studio", "item": "https://baseplatedev.com/claude-code-roblox-studio.html" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can Claude Code work with Roblox Studio?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Claude Code can read and write the Luau files in your project like any other codebase, but on its own it cannot press Play, read the Output window or inspect the live DataModel. To do those things it needs two bridges: Roblox Studio's own built-in MCP server, and a plugin that carries file changes and console output between Studio and the terminal. Baseplate installs and wires both." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an Anthropic API key?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Claude Code signs in with your existing Claude subscription or API account, and Baseplate drives that CLI rather than reselling tokens. Your prompts cost whatever your own Claude plan already costs, with no per-prompt meter on top." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does Studio show as installed but not connected?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Almost always one of two things: Studio was not fully restarted after the plugin was installed, or the HTTP permission prompt was never approved. Quit Studio completely rather than just closing the place, reopen it, and approve the plugin's HTTP request. The bridge plugin long-polls the local server, so Studio itself never opens a port." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I still need Rojo?",
+          "acceptedAnswer": { "@type": "Answer", "text": "You need Rojo if you want file edits to appear in the open Studio session automatically, which is what makes the fix-and-retest loop fast. Install it with rokit add rojo-rbx/rojo, then start serving. Without it the agent can still read the game and run code, but you move changes into Studio yourself." }
+        },
+        {
+          "@type": "Question",
+          "name": "Which agent CLIs can run a verified playtest?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Claude Code, Codex and Cursor, because all three emit tool-call events that can be checked against what actually happened in Studio. Grok Build runs as a normal builder tile but does not expose tool-call evidence, and Gemini CLI has no verified structured mode, so neither can produce a proven PASS." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  .guide-note { border:1px solid var(--line-2); background:var(--surface-1); border-radius:var(--r-plate); padding:18px 20px; margin:24px 0; }
+  .guide-note p { margin:0; }
+  .guide-code { overflow-x:auto; border:1px solid var(--line-2); background:#0b0d12; border-radius:var(--r-plate); padding:18px 20px; margin:16px 0; color:var(--dim); font:13px/1.65 var(--font-mono); }
+  .guide-checklist { list-style:none; padding-left:0 !important; }
+  .guide-checklist li { position:relative; padding-left:28px; }
+  .guide-checklist li::before { content:"□"; position:absolute; left:2px; color:var(--accent-2); font-family:var(--font-mono); }
+  .guide-cta { border:1px solid var(--accent-line); background:var(--accent-weak); border-radius:var(--r-plate); padding:24px; margin-top:42px; }
+  .guide-cta h2 { margin-top:0; }
+  .guide-cta .btn { margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+</nav>
+
+<main class="legal-wrap">
+  <p class="eyebrow"><span class="eyebrow-dot"></span>Setup guide</p>
+  <h1>How to use Claude Code with Roblox Studio</h1>
+  <p class="lede">Claude Code is already good at Luau. What it cannot do from a terminal is press Play, read the Output window, or look at the running DataModel — so it writes code it has no way to check. This is how you give it those hands, and what changes once you do.</p>
+
+  <div class="guide-note"><p><strong>The short version:</strong> Claude Code needs two bridges — Roblox Studio's own built-in MCP server, and a plugin that moves file changes and console output between Studio and your terminal. <a href="index.html?utm_source=claude_code_guide&amp;utm_medium=organic&amp;utm_campaign=setup_20260728#download">Baseplate</a> installs and wires both, and the setup below is the same either way.</p></div>
+
+  <div class="legal-prose">
+    <h2>What you need first</h2>
+    <ul class="guide-checklist">
+      <li><strong>Claude Code</strong>, signed in with your own Claude account. Baseplate drives the CLI you already pay for; it does not resell tokens or meter prompts.</li>
+      <li><strong>Roblox Studio</strong>, recent enough to have <span class="mono">Assistant → Manage MCP Servers</span>.</li>
+      <li><strong>Rojo</strong>, if you want file edits to land in the open place automatically: <span class="mono">rokit add rojo-rbx/rojo</span>.</li>
+      <li><strong>A Rojo-style project folder</strong> — a <span class="mono">default.project.json</span> and a <span class="mono">src/</span> tree. Baseplate can scaffold one if you are starting fresh.</li>
+    </ul>
+
+    <h2>Step 1 — install the bridge plugin</h2>
+    <p>The plugin is the half of the bridge that lives inside Studio. It long-polls the local Baseplate server, which means <strong>Studio never opens a port of its own</strong> — the same pattern Roblox uses in its official Studio MCP server. Baseplate installs it into your local plugins folder for you and tells you when a newer version ships.</p>
+
+    <h2>Step 2 — restart Studio completely and approve HTTP</h2>
+    <p>This is the step almost everyone loses twenty minutes to. A freshly installed plugin shows as installed but stays disconnected until Studio is <em>fully</em> restarted — closing the place is not enough, quit the whole application — and until you approve the plugin's HTTP permission prompt. If your checklist says “installed but not connected”, this is the fix, not a broken install.</p>
+
+    <h2>Step 3 — enable Studio as an MCP server</h2>
+    <p>This is the second step that traps people, because nothing about it is discoverable. In Studio, open <span class="mono">Assistant → Manage MCP Servers</span> and turn on <strong>Enable Studio as MCP server</strong>, then restart Studio again. This is what gives an agent Roblox's own tools — running Luau in the live session, capturing the screen, starting and stopping a playtest.</p>
+    <div class="guide-note"><p><strong>Symptom worth recognising:</strong> if this is off, tools appear to exist but every Play request dies with “no active Studio instance”. The server looks healthy and nothing works. Baseplate probes the live path rather than checking whether a file exists, so it reports this state honestly instead of showing green.</p></div>
+
+    <h2>Step 4 — point Claude Code at the bridge over MCP</h2>
+    <p>Claude Code reads a <span class="mono">.mcp.json</span> in the workspace. Baseplate writes that file and launches the CLI with <span class="mono">--mcp-config</span>, so the tools are present in the very first turn rather than after a reconnect. Doing it by hand looks like this:</p>
+
+    <pre class="guide-code"><code>{
+  "mcpServers": {
+    "baseplate": {
+      "type": "http",
+      "url": "http://127.0.0.1:34901/mcp?ws=&lt;url-encoded-workspace-path&gt;"
+    }
+  }
+}</code></pre>
+
+    <p>Codex and Cursor keep MCP configuration somewhere else — Codex in a global <span class="mono">~/.codex/config.toml</span> written by <span class="mono">codex mcp add</span>, Cursor in <span class="mono">.cursor/mcp.json</span>. All three end up with the same tools.</p>
+
+    <h2>Step 5 — start Rojo</h2>
+    <p>With <span class="mono">rojo serve</span> running and the place connected, an edit Claude Code makes in <span class="mono">src/</span> is in the running game moments later. That is what turns “here is a patch” into “here is a fix I just watched work”.</p>
+
+    <h2>What actually changes once it is connected</h2>
+    <p>The interesting part is not that the agent writes Luau faster. It is that the agent can now <em>check itself</em>:</p>
+    <ol>
+      <li>It runs the game and watches the console — the same Output you would read.</li>
+      <li>It reads the real stack trace and finds the cause in your source, instead of guessing from the symptom.</li>
+      <li>It edits <span class="mono">src/</span>, and Rojo syncs the change into the open session.</li>
+      <li>It playtests again, and only reports PASS when the console is genuinely clean.</li>
+    </ol>
+    <p>That loop is the whole point. A terminal agent that cannot run your game will confidently tell you a fix “should work now”; an agent that can press Play has to prove it. If you want the failure modes that survive code review but not a real Play session, the <a href="ai-written-luau-breaks-in-studio.html">runtime guide</a> walks through four of them with copyable tests.</p>
+
+    <h2>Honest limits</h2>
+    <ul>
+      <li><strong>You still need your own Claude subscription.</strong> Baseplate is orchestration, not an AI plan, and Claude Code bills through your account.</li>
+      <li><strong>Verified playtests need a real Studio session open.</strong> There is no headless Roblox; if Studio is closed, you get static analysis, not evidence.</li>
+      <li><strong>Not every CLI can prove a PASS.</strong> Claude Code, Codex and Cursor emit checkable tool-call events. Grok Build runs fine as a builder tile but does not expose them, and Gemini CLI has no verified structured mode.</li>
+      <li><strong>Review what it writes before you ship.</strong> An agent that fixed a runtime error has not audited your security; the <a href="roblox-remoteevent-security-checklist.html">RemoteEvent checklist</a> is the pass to run before release.</li>
+    </ul>
+
+    <div class="guide-cta">
+      <h2>Give Claude Code a Roblox Studio it can see</h2>
+      <p>Baseplate's free plan is the whole loop: one agent, the live Studio bridge, Rojo sync and verified playtests. You bring the Claude plan you already pay for.</p>
+      <a class="btn btn-primary" href="index.html?utm_source=claude_code_guide&amp;utm_medium=organic&amp;utm_campaign=setup_20260728#download">Download Baseplate free</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="codex-roblox-studio.html">Codex guide</a><a href="cursor-roblox-studio.html">Cursor guide</a><a href="ai-written-luau-breaks-in-studio.html">Runtime guide</a><a href="roblox-remoteevent-security-checklist.html">Security checklist</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div>
+  <div class="footer-social">
+    <span>Follow the build:</span>
+    <a href="https://www.youtube.com/@BaseplateDevs" rel="me noopener" target="_blank">YouTube</a>
+    <a href="https://x.com/BaseplateDevs" rel="me noopener" target="_blank">X</a>
+    <a href="https://bsky.app/profile/baseplateapp.bsky.social" rel="me noopener" target="_blank">Bluesky</a>
+  </div>
+  <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation. Roblox is a trademark of Roblox Corporation.</p>
+</footer>
+</body>
+</html>

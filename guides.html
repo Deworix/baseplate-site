@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>Roblox AI guides — agents, runtime bugs and security | Baseplate</title>
+<meta name="description" content="Practical guides for building Roblox games with AI agents: connecting Claude Code, Codex or Cursor to Studio, fixing runtime bugs AI writes, and securing remotes.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://baseplatedev.com/guides.html">
+<meta property="og:title" content="Roblox AI guides — agents, runtime bugs and security">
+<meta property="og:description" content="Setup guides for Claude Code, Codex and Cursor in Roblox Studio, plus the runtime and security checklists worth running before release.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://baseplatedev.com/guides.html">
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
+<link rel="stylesheet" href="style.css?v=20260727">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://baseplatedev.com/#organization",
+      "name": "Baseplate",
+      "url": "https://baseplatedev.com/",
+      "logo": "https://baseplatedev.com/favicon.svg",
+      "sameAs": [
+        "https://www.youtube.com/@BaseplateDevs",
+        "https://x.com/BaseplateDevs",
+        "https://bsky.app/profile/baseplateapp.bsky.social"
+      ]
+    },
+    {
+      "@type": "CollectionPage",
+      "name": "Roblox AI guides",
+      "url": "https://baseplatedev.com/guides.html",
+      "description": "Practical guides for building Roblox games with AI coding agents.",
+      "isPartOf": { "@id": "https://baseplatedev.com/#website" },
+      "publisher": { "@id": "https://baseplatedev.com/#organization" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Baseplate", "item": "https://baseplatedev.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://baseplatedev.com/guides.html" }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "How to use Claude Code with Roblox Studio", "url": "https://baseplatedev.com/claude-code-roblox-studio.html" },
+        { "@type": "ListItem", "position": 2, "name": "How to use Codex with Roblox Studio", "url": "https://baseplatedev.com/codex-roblox-studio.html" },
+        { "@type": "ListItem", "position": 3, "name": "How to use Cursor with Roblox Studio", "url": "https://baseplatedev.com/cursor-roblox-studio.html" },
+        { "@type": "ListItem", "position": 4, "name": "Why AI-written Luau breaks in Roblox Studio", "url": "https://baseplatedev.com/ai-written-luau-breaks-in-studio.html" },
+        { "@type": "ListItem", "position": 5, "name": "Roblox RemoteEvent security checklist", "url": "https://baseplatedev.com/roblox-remoteevent-security-checklist.html" },
+        { "@type": "ListItem", "position": 6, "name": "AI Roblox script generator", "url": "https://baseplatedev.com/ai-roblox-script-generator.html" },
+        { "@type": "ListItem", "position": 7, "name": "Baseplate vs Ropilot", "url": "https://baseplatedev.com/baseplate-vs-ropilot.html" }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  .guide-group { margin: 38px 0 0; }
+  .guide-group > h2 { margin-bottom: 6px; }
+  .guide-group > p.group-note { color: var(--faint); font-size: 14px; margin: 0 0 18px; }
+  .guide-index { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .guide-card {
+    display: block; border: 1px solid var(--line-2); background: var(--surface-1);
+    border-radius: var(--r-plate); padding: 20px; text-decoration: none; color: inherit;
+    transition: border-color .15s ease, transform .15s ease;
+  }
+  .guide-card:hover { border-color: var(--accent-line); transform: translateY(-2px); }
+  .guide-card h3 { margin: 0 0 8px; font-size: 17px; line-height: 1.35; }
+  .guide-card p { margin: 0; color: var(--dim); font-size: 14px; line-height: 1.6; }
+  .guide-card .card-tag {
+    display: inline-block; margin-bottom: 10px; font: 11px/1 var(--font-mono);
+    letter-spacing: .06em; text-transform: uppercase; color: var(--accent-2);
+  }
+  .guide-cta { border:1px solid var(--accent-line); background:var(--accent-weak); border-radius:var(--r-plate); padding:24px; margin-top:48px; }
+  .guide-cta h2 { margin-top:0; }
+  .guide-cta .btn { margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html" aria-label="Baseplate home">
+    <svg class="brand-mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="7.5" r="1.7" fill="currentColor"/><circle cx="7.5" cy="14.5" r="1.7" fill="currentColor"/><circle cx="14.5" cy="14.5" r="1.7" fill="currentColor"/></svg>
+    <span>Baseplate</span>
+  </a>
+  <a class="btn btn-primary btn-sm" href="index.html#download">Download free</a>
+</nav>
+
+<main class="legal-wrap">
+  <p class="eyebrow"><span class="eyebrow-dot"></span>Guides</p>
+  <h1>Building Roblox games with AI agents</h1>
+  <p class="lede">Everything here comes out of running agents against real Roblox Studio sessions — including the steps that are undocumented, the failures that survive code review, and the checks worth running before you ship.</p>
+
+  <section class="guide-group">
+    <h2>Connect your agent to Studio</h2>
+    <p class="group-note">You already pay for an AI plan. These guides make it reach the running game.</p>
+    <div class="guide-index">
+      <a class="guide-card" href="claude-code-roblox-studio.html">
+        <span class="card-tag">Setup</span>
+        <h3>Claude Code with Roblox Studio</h3>
+        <p>The full bridge setup, the two undocumented steps everyone loses time to, and what changes once the agent can press Play.</p>
+      </a>
+      <a class="guide-card" href="codex-roblox-studio.html">
+        <span class="card-tag">Setup</span>
+        <h3>Codex with Roblox Studio</h3>
+        <p>Global MCP config instead of a project file, the one-shot <span class="mono">exec</span> model and the Windows exit-code-193 trap.</p>
+      </a>
+      <a class="guide-card" href="cursor-roblox-studio.html">
+        <span class="card-tag">Setup</span>
+        <h3>Cursor with Roblox Studio</h3>
+        <p>Why Cursor ignores <span class="mono">.mcp.json</span>, where its config really lives, and the approval flag that makes tools load.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="guide-group">
+    <h2>Fix what AI writes</h2>
+    <p class="group-note">Generation is the easy half. These are the failures that only appear at runtime.</p>
+    <div class="guide-index">
+      <a class="guide-card" href="ai-written-luau-breaks-in-studio.html">
+        <span class="card-tag">Runtime</span>
+        <h3>Why AI-written Luau breaks in Studio</h3>
+        <p>Four failures static review misses — blocking invokes, races that pick the wrong player, cleanup on the critical path — with copyable tests.</p>
+      </a>
+      <a class="guide-card" href="ai-roblox-script-generator.html">
+        <span class="card-tag">Workflow</span>
+        <h3>AI Roblox script generator</h3>
+        <p>Generating Luau from plain English is solved. Proving the script runs in a real Studio session is the part that still needs a loop.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="guide-group">
+    <h2>Before you ship</h2>
+    <p class="group-note">Security and release checks that do not depend on any tool you buy.</p>
+    <div class="guide-index">
+      <a class="guide-card" href="roblox-remoteevent-security-checklist.html">
+        <span class="card-tag">Security</span>
+        <h3>RemoteEvent security checklist</h3>
+        <p>Seven server-side checks for every client-to-server remote, a safer purchase handler, and the exploit tests worth running.</p>
+      </a>
+      <a class="guide-card" href="baseplate-vs-ropilot.html">
+        <span class="card-tag">Comparison</span>
+        <h3>Baseplate vs Ropilot</h3>
+        <p>A dated, honest comparison including the pricing maths and who should genuinely pick the other one.</p>
+      </a>
+    </div>
+  </section>
+
+  <div class="guide-cta">
+    <h2>Run the loop yourself</h2>
+    <p>Baseplate's free plan is the whole core flow: one agent, the live Studio bridge, Rojo sync and verified playtests. You bring the AI plan you already pay for.</p>
+    <a class="btn btn-primary" href="index.html?utm_source=guides_hub&amp;utm_medium=organic&amp;utm_campaign=hub_20260728#download">Download Baseplate free</a>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="index.html">Home</a><a href="index.html#pricing">Pricing</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div>
+  <div class="footer-social">
+    <span>Follow the build:</span>
+    <a href="https://www.youtube.com/@BaseplateDevs" rel="me noopener" target="_blank">YouTube</a>
+    <a href="https://x.com/BaseplateDevs" rel="me noopener" target="_blank">X</a>
+    <a href="https://bsky.app/profile/baseplateapp.bsky.social" rel="me noopener" target="_blank">Bluesky</a>
+  </div>
+  <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation. Roblox is a trademark of Roblox Corporation.</p>
+</footer>
+</body>
+</html>

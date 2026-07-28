@@ -67,6 +67,10 @@ economy/multiplayer simulation, live-game operations via Open Cloud, and local-f
 ## Links
 
 - [Home](https://baseplatedev.com/): product overview, live demo video, pricing and download.
+- [Guides](https://baseplatedev.com/guides.html): index of every Baseplate guide.
+- [Claude Code with Roblox Studio](https://baseplatedev.com/claude-code-roblox-studio.html): full bridge setup — plugin, Studio as MCP server, `.mcp.json` + `--mcp-config`, Rojo, and the two undocumented steps setups stall on.
+- [Codex with Roblox Studio](https://baseplatedev.com/codex-roblox-studio.html): global `~/.codex/config.toml` via `codex mcp add`, the one-shot `codex exec` model with `resume`, and the Windows exit-code-193 PATH trap.
+- [Cursor with Roblox Studio](https://baseplatedev.com/cursor-roblox-studio.html): why Cursor ignores `.mcp.json`, the project-scoped `.cursor/mcp.json`, and the `--approve-mcps` flag.
 - [AI Roblox script generator](https://baseplatedev.com/ai-roblox-script-generator.html): generate Luau from plain English with a verified Studio playtest loop.
 - [Baseplate vs Ropilot](https://baseplatedev.com/baseplate-vs-ropilot.html): honest dated comparison — pricing math, feature table, who should pick which.
 - [Why AI-written Luau breaks in Studio](https://baseplatedev.com/ai-written-luau-breaks-in-studio.html): runtime failure checklist, blocking Invoke example and a copyable playtest mission.
