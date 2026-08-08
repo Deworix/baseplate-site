@@ -84,7 +84,18 @@
   <p class="lede">Dated release notes for the Baseplate desktop app. Bug fixes and dependency bumps are folded into the release they shipped in rather than listed individually.</p>
 
   <div class="rel">
-    <div class="rel-head"><span class="rel-ver">0.19.0</span><span class="rel-date">2026-07-23</span><span class="rel-tag">Latest</span></div>
+    <div class="rel-head"><span class="rel-ver">0.20.0</span><span class="rel-date">2026-08-08</span><span class="rel-tag">Latest</span></div>
+    <ul>
+      <li><strong>A complete clean UI system.</strong> Agents, Board, Labs, Studio, dialogs and pricing now share tested typography, spacing, controls, contrast and motion.</li>
+      <li><strong>Agent changes you can see and undo.</strong> The live Studio ledger describes each edit and offers an exact Revert action where a safe reversal exists.</li>
+      <li><strong>Scope Guard for existing games.</strong> Agents must inspect the place first and cannot silently restructure work outside the request.</li>
+      <li><strong>The game beside the conversation.</strong> Agent tiles can show the Studio viewport, selection, runtime errors and recent changes.</li>
+      <li><strong>Safer Creator Store assets.</strong> Agents can search the Toolbox with script-risk metadata before inserting a model.</li>
+    </ul>
+  </div>
+
+  <div class="rel">
+    <div class="rel-head"><span class="rel-ver">0.19.0</span><span class="rel-date">2026-07-23</span></div>
     <ul>
       <li><strong>Studio Copilot with vision.</strong> The agent can see the Studio viewport rather than reasoning about the game purely through code and logs.</li>
       <li><strong>Question mode in the Studio plugin</strong>, plus a reworked panel: the prompt lives in the dock, edits go through the recording API so they land in the normal undo history, and the agent can highlight and focus objects in 3D.</li>

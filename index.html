@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-gmy4Hk0ksIChOW+9bFav+OGvLmX8CqB+ZM0Ck+nKOmU='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-gK/syvGHVYt379nKpwsX3eQOX5gZNLsVtkha6XRPXjc='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>Baseplate — AI agents that build and test your Roblox game</title>
 <meta name="description" content="Point the Claude Code, Codex or Cursor plan you already pay for at a live Roblox Studio session: playtest, real error, fix, verified re-run. No AI credits, no quota.">
 <meta property="og:title" content="Baseplate — build Roblox games with AI agents">
@@ -187,17 +187,15 @@
         <span class="tile-dot"></span>
         <span class="tile-name">Nova</span>
         <span class="tile-role">Playtest Copilot</span>
-        <span class="tile-status" id="demo-status">playtesting…</span>
+        <span class="tile-status is-pass">PASS</span>
       </div>
-      <div class="tile-body" id="demo-body">
-        <!-- filled by site.js, static fallback below for no-JS -->
-        <noscript>
-          <div class="line sys">▶ playtest started · demo-tycoon</div>
-          <div class="line err">ServerScriptService.Tycoon:46: attempt to compare nil &lt; number</div>
-          <div class="line say">Cash isn't initialized before the dropper pays out. Fixing Tycoon.server.luau…</div>
-          <div class="line chip">✎ Edit · src/server/Tycoon.server.luau</div>
-          <div class="line ok">✓ re-ran playtest — console clean · PASS</div>
-        </noscript>
+      <div class="tile-body">
+        <!-- Stable proof: immediately readable without post-paint DOM replacement. -->
+          <div class="line show sys">▶ playtest started · demo-tycoon</div>
+          <div class="line show err">ServerScriptService.Tycoon:46: attempt to compare nil &lt; number</div>
+          <div class="line show say">Cash isn't initialized before the dropper pays out. Fixing Tycoon.server.luau…</div>
+          <div class="line show chip">✎ Edit · src/server/Tycoon.server.luau</div>
+          <div class="line show ok">✓ re-ran playtest — console clean · PASS</div>
       </div>
     </div>
     <div class="demo-caption">The Playtest Copilot loop — no clicking, no copy-pasting stack traces.</div>
@@ -470,7 +468,7 @@
     <div class="plan">
       <div class="plan-name">Studio</div>
       <div class="plan-price">
-        <span class="amount" data-monthly="$12.99" data-yearly="$9.99">$12.99</span><span class="per">/ month</span>
+        <span class="amount" data-monthly="$12.99" data-yearly="$10.00">$12.99</span><span class="per">/ month</span>
       </div>
       <div class="plan-subprice mono" data-monthly="billed monthly" data-yearly="$119.99 billed yearly">billed monthly</div>
       <p class="plan-blurb">For teams shipping together — shared board, shared prompts, live presence.</p>

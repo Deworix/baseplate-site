@@ -62,43 +62,25 @@
     } else loadVideo();
   }
 
-  function playDemo() {
-    if (!body) return;
-    body.innerHTML = '';
-    let t = 300;
-    SCRIPT.forEach((step, i) => {
-      t += step.delay;
-      setTimeout(() => {
-        const div = document.createElement('div');
-        div.className = 'line ' + step.cls;
-        div.textContent = step.text;
-        body.appendChild(div);
-        requestAnimationFrame(() => requestAnimationFrame(() => div.classList.add('show')));
-        if (status) {
-          status.textContent = step.status;
-          status.style.color = step.status === 'PASS' ? 'var(--mint)' : '';
-        }
-        if (i === SCRIPT.length - 1) setTimeout(playDemo, 5200);
-      }, t);
-    });
-  }
   if (body) {
-    if (reduced) {
-      // No animation: render the finished state once.
-      SCRIPT.forEach((step) => {
-        const div = document.createElement('div');
-        div.className = 'line show ' + step.cls;
-        div.textContent = step.text;
-        body.appendChild(div);
-      });
-      if (status) { status.textContent = 'PASS'; status.style.color = 'var(--mint)'; }
-    } else {
-      playDemo();
-    }
+    // This proof is above the fold, so keep it stable. Rebuilding it on timers made
+    // every line trigger a page-wide style/layout pass on slower devices and caused
+    // the call to action to compete with a decorative loop. The interactive demo
+    // below remains fully animated after the visitor chooses a mission.
+    const fragment = document.createDocumentFragment();
+    SCRIPT.forEach((step) => {
+      const div = document.createElement('div');
+      div.className = 'line show ' + step.cls;
+      div.textContent = step.text;
+      fragment.appendChild(div);
+    });
+    body.replaceChildren(fragment);
+    if (status) { status.textContent = 'PASS'; status.style.color = 'var(--mint)'; }
   }
 
   /* ── Billing toggle (monthly / yearly) ───────────────────────────── */
-  let period = 'monthly';
+  const requestedPeriod = new URLSearchParams(window.location.search).get('period');
+  let period = ['monthly', 'yearly'].includes(requestedPeriod) ? requestedPeriod : 'monthly';
   const opts = document.querySelectorAll('.bt-opt');
   function applyPeriod() {
     opts.forEach((b) => {
@@ -117,6 +99,9 @@
   function applyBuyLinks() {
     document.querySelectorAll('.buy').forEach((a) => {
       const url = cfg.stripe?.[a.dataset.plan]?.[period] || '';
+      const planName = a.dataset.plan === 'studio' ? 'Studio' : 'Pro';
+      a.textContent = `Get ${planName} ${period === 'yearly' ? 'yearly' : 'monthly'}`;
+      a.setAttribute('aria-label', `Get ${planName}, billed ${period}`);
       if (url) {
         a.href = url;
         a.target = '_blank';
