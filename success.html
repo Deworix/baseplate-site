@@ -6,8 +6,12 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>You're in — Baseplate</title>
 <meta name="robots" content="noindex">
-<link rel="stylesheet" href="style.css?v=20260727">
+<link rel="stylesheet" href="style.css?v=20260904">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#08090C">
 <style>
   .success-wrap { max-width: 640px; margin: 0 auto; padding: 110px 24px; text-align: center; }
   .success-badge {
@@ -51,7 +55,8 @@
   .key-note { font-size: 13px; color: var(--dim); margin-top: 10px; }
   .key-loading, .key-error { font-family: var(--font-mono); font-size: 13.5px; color: var(--dim); padding: 18px; text-align: center;
     border: 1px dashed var(--line); border-radius: var(--r-plate); }
-  .key-error { color: var(--text); }
+  .key-error { padding: 11px 13px; border: 1px solid rgba(240,98,124,.42); border-radius: 9px;
+    background: rgba(240,98,124,.07); color: var(--text); }
   [hidden] { display: none !important; }
 </style>
 </head>
@@ -71,11 +76,11 @@
   <div class="keybox">
     <div class="label">Your license key</div>
     <div class="key-loading" id="key-loading">Fetching your key…</div>
-    <div class="keyrow" id="key-row" hidden>
+    <div class="keyrow" id="key-row" role="status" hidden>
       <code id="key-value"></code>
       <button id="key-copy" type="button">Copy</button>
     </div>
-    <div class="key-error" id="key-error" hidden></div>
+    <div class="key-error" id="key-error" role="alert" hidden></div>
     <p class="key-note" id="key-note" hidden>We also attempt to email a copy to you. Save the key shown here — use it on any of your machines, up to a couple at the same time (2 on Pro, 4 on Studio), while your subscription is active.</p>
   </div>
 

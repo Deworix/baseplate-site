@@ -23,7 +23,7 @@
     })
       .then(function (response) { if (!response.ok) throw new Error(String(response.status)); return response.json(); })
       .then(function () { ok.hidden = false; form.reset(); })
-      .catch(function () { error.hidden = false; error.textContent = 'Could not send right now. Email contact@baseplatedev.com instead.'; })
+      .catch(function () { error.hidden = false; error.classList.add('is-error'); error.textContent = 'Could not send right now. Email contact@baseplatedev.com instead.'; })
       .finally(function () { button.disabled = false; button.textContent = 'Check my bug first'; });
   });
 }());

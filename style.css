@@ -561,3 +561,89 @@ nav, header, section, footer { position: relative; z-index: 1; }
 .legal-toc a { font-family: var(--font-mono); font-size: 12.5px; color: var(--dim); border: 1px solid var(--line-2); border-radius: 999px; padding: 6px 13px; text-decoration: none; }
 .legal-toc a:hover { color: var(--text); border-color: var(--accent-line); }
 @media (max-width: 560px) { .legal-wrap { padding-top: 100px; } .legal-prose table { display: block; overflow-x: auto; } }
+
+/* ── Sticky mobile CTA ────────────────────────────────────────────────────
+   Phones get one persistent way to convert. Long-form pages (guides, error
+   references) show it immediately because the reader arrived mid-page from
+   search; the landing page reveals it only after the hero CTA has scrolled
+   away, so the two never compete. Never shown above 700px — desktop already
+   has the sticky nav. */
+.mcta {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+  display: none; align-items: center; gap: 12px;
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: rgba(8,9,12,.86);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -10px 30px -22px #000;
+}
+.mcta-copy { display: grid; gap: 1px; min-width: 0; }
+.mcta-copy b { font-size: 13.5px; font-weight: 600; letter-spacing: -.005em; }
+.mcta-copy span { color: var(--faint); font-family: var(--font-mono); font-size: 11px; letter-spacing: .01em; }
+.mcta .btn { margin-left: auto; flex: none; white-space: nowrap; }
+
+@media (max-width: 700px) {
+  .mcta { display: flex; }
+  /* Reveal-on-scroll variant: parked off-screen until the page asks for it. */
+  .mcta-reveal { transform: translateY(115%); opacity: 0; visibility: hidden;
+    transition: transform .28s var(--ease), opacity .28s var(--ease), visibility .28s; }
+  .mcta-reveal.is-visible { transform: none; opacity: 1; visibility: visible; }
+  /* The bar floats over the document, so the last section keeps its own room —
+     including the home-indicator inset the bar itself pads for. */
+  body.has-mcta { padding-bottom: calc(82px + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* ── 404 ──────────────────────────────────────────────────────────────────
+   Served for any unmatched path, so it does two jobs: say plainly that the
+   page is gone, and hand over the three free things worth arriving for. The
+   Output card states the 404 in the product's own vocabulary — a nil index,
+   the exact failure Baseplate exists to catch. */
+.nf-wrap { max-width: 900px; margin: 0 auto; padding: 132px 24px 96px; }
+.nf-intro h1 {
+  font-family: var(--font-display); font-size: clamp(38px, 7.5vw, 66px);
+  font-weight: 700; letter-spacing: -.038em; line-height: 1.02; margin-top: 16px;
+}
+.nf-intro .lede { margin-bottom: 0; }
+
+.nf-output {
+  margin-top: 36px; border: 1px solid var(--line); border-radius: var(--r-plate-lg);
+  background: linear-gradient(180deg, var(--surface-1), var(--panel));
+  box-shadow: var(--sh-pane); overflow: hidden;
+}
+.nf-output-bar {
+  display: flex; align-items: center; gap: 9px;
+  padding: 10px 14px; border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,.018);
+  font-family: var(--font-mono); font-size: 12px; color: var(--dim);
+}
+.nf-output-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--rose); box-shadow: 0 0 9px rgba(240,98,124,.55); }
+.nf-output-tag {
+  margin-left: auto; padding: 2px 9px; border-radius: 999px;
+  border: 1px solid rgba(240,98,124,.3); background: rgba(240,98,124,.09);
+  color: var(--rose); font-size: 11px; letter-spacing: .08em;
+}
+.nf-output-body { display: grid; gap: 10px; padding: 16px 14px; font-size: 14px; }
+
+.nf-grid { margin-top: 34px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.nf-card {
+  display: grid; gap: 6px; align-content: start;
+  padding: 20px 18px 18px; text-decoration: none; color: var(--dim);
+  border: 1px solid var(--line); border-radius: var(--r-plate);
+  background: linear-gradient(180deg, var(--surface-1), var(--panel));
+  transition: border-color .18s var(--ease), transform .18s var(--ease), background .18s var(--ease);
+}
+.nf-card:hover { border-color: var(--accent-line); transform: translateY(-2px); background: linear-gradient(180deg, var(--surface-2), var(--panel)); }
+.nf-card-kicker { font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+.nf-card b { color: var(--text); font-family: var(--font-display); font-size: 19px; font-weight: 650; letter-spacing: -.012em; }
+.nf-card > span:not([class]) { font-size: 14px; line-height: 1.6; }
+.nf-card-go { margin-top: 8px; color: var(--accent-2); font-size: 13.5px; font-weight: 550; }
+.nf-card:hover .arrow { transform: translateX(3px); }
+
+.nf-foot { margin-top: 30px; color: var(--faint); font-size: 13.5px; }
+.nf-foot a { color: var(--accent-2); text-decoration: none; border-bottom: 1px solid var(--accent-line); }
+.nf-foot a:hover { color: var(--text); }
+
+@media (max-width: 720px) {
+  .nf-wrap { padding-top: 104px; }
+  .nf-grid { grid-template-columns: 1fr; }
+}

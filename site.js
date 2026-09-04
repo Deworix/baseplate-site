@@ -142,5 +142,23 @@
   window.addEventListener('hashchange', openHashDetails);
   openHashDetails();
 
+  /* ── Sticky mobile CTA ───────────────────────────────────────────────
+     A phone loses the hero button the moment it scrolls, and this page is long. Bring
+     one back — but only while nothing better is on screen. The bar stays parked over
+     the hero and over the download section, both of which already carry the real
+     buttons, so the visitor never sees two competing calls to action at once. */
+  const stickyCta = document.querySelector('.mcta-reveal');
+  if (stickyCta && 'IntersectionObserver' in window) {
+    const covered = new Set();
+    const gate = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) covered.add(entry.target);
+        else covered.delete(entry.target);
+      });
+      stickyCta.classList.toggle('is-visible', covered.size === 0);
+    });
+    document.querySelectorAll('.hero, #download').forEach((el) => gate.observe(el));
+  }
+
   applyPeriod();
 })();

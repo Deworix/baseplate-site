@@ -33,6 +33,7 @@
     const target = event.target.closest('a,button');
     if (!target) return;
     if (target.matches('[data-funnel="verify"]')) track('verify_cta_clicked');
+    if (target.closest('.mcta')) track('sticky_cta_clicked');
     if (target.matches('.dl-btn')) track('download_clicked', { platform: target.dataset.os });
     if (target.matches('.buy') && target.dataset.fallback !== '1') track('checkout_clicked', { plan: target.dataset.plan });
   }, true);

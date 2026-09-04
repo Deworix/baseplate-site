@@ -15,8 +15,12 @@
 <meta property="og:image" content="https://baseplatedev.com/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
-<link rel="stylesheet" href="style.css?v=20260727">
+<link rel="stylesheet" href="style.css?v=20260904">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#08090C">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -89,7 +93,7 @@
   .guide-cta .btn { margin-top:14px; }
 </style>
 </head>
-<body>
+<body class="has-mcta">
 <div class="glow" aria-hidden="true"></div>
 
 <nav class="nav">
@@ -162,5 +166,12 @@
   </div>
   <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation. Roblox is a trademark of Roblox Corporation.</p>
 </footer>
+
+<!-- Phone-only conversion rail. These pages are entered mid-scroll from search, so the
+     bar is present from the first paint rather than waiting on script. -->
+<aside class="mcta" aria-label="Get Baseplate">
+  <span class="mcta-copy"><b>Build it with Baseplate</b><span>Free · no card · bring your own AI</span></span>
+  <a class="btn btn-primary btn-sm" href="index.html#download">Download free</a>
+</aside>
 </body>
 </html>

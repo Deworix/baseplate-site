@@ -7,10 +7,25 @@
 <title>Founding 10 Roblox developer onboarding — Baseplate</title>
 <meta name="description" content="Apply for one of ten free, hands-on Baseplate onboarding sessions for Roblox developers. Leave with a local project health score and one evidence-backed release path.">
 <link rel="canonical" href="https://baseplatedev.com/founding-10.html">
-<link rel="stylesheet" href="style.css?v=20260727">
+<meta property="og:title" content="Founding 10 — a free hands-on Baseplate setup call">
+<meta property="og:description" content="Ten Roblox developers, one hands-on session each: we install Baseplate, wire the Studio bridge and run the first verified loop with you.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://baseplatedev.com/founding-10.html">
+<meta property="og:site_name" content="Baseplate">
+<meta property="og:image" content="https://baseplatedev.com/og-founding-10.jpg">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:alt" content="Baseplate Founding 10: ten Roblox developers, one hands-on setup call each.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://baseplatedev.com/og-founding-10.jpg">
+<link rel="stylesheet" href="style.css?v=20260904">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#08090C">
 <style>
-  .f10-wrap{max-width:920px;margin:0 auto;padding:120px 24px 90px}.f10-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:start}.f10-hero h1{font-size:clamp(38px,6vw,66px);letter-spacing:-.045em;line-height:1}.f10-list{display:grid;gap:10px;margin:26px 0;padding:0;list-style:none}.f10-list li{padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface-1);color:var(--dim)}.f10-list b{color:var(--text)}.f10-card{padding:22px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.f10-form{display:grid;gap:14px}.f10-form label{display:grid;gap:6px;color:var(--dim);font-size:12px}.f10-form input,.f10-form textarea,.f10-form select{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:9px;background:var(--surface-1);color:var(--text);font:inherit}.f10-form textarea{min-height:120px;resize:vertical}.f10-consent{grid-template-columns:auto 1fr!important;align-items:start}.f10-consent input{width:auto;margin-top:3px}.f10-note{color:var(--faint);font-size:11px;line-height:1.5}.f10-result{padding:13px;border:1px solid rgba(63,217,162,.35);border-radius:9px;color:var(--mint)}.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}@media(max-width:760px){.f10-hero{grid-template-columns:1fr}.f10-wrap{padding-top:96px}}
+  .f10-wrap{max-width:920px;margin:0 auto;padding:120px 24px 90px}.f10-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:start}.f10-hero h1{font-size:clamp(38px,6vw,66px);letter-spacing:-.045em;line-height:1}.f10-list{display:grid;gap:10px;margin:26px 0;padding:0;list-style:none}.f10-list li{padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface-1);color:var(--dim)}.f10-list b{color:var(--text)}.f10-card{padding:22px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.f10-form{display:grid;gap:14px}.f10-form label{display:grid;gap:6px;color:var(--dim);font-size:12px}.f10-form input,.f10-form textarea,.f10-form select{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:9px;background:var(--surface-1);color:var(--text);font:inherit}.f10-form textarea{min-height:120px;resize:vertical}.f10-consent{grid-template-columns:auto 1fr!important;align-items:start}.f10-consent input{width:auto;margin-top:3px}.f10-note{color:var(--faint);font-size:11px;line-height:1.5}.f10-result{padding:13px;border:1px solid rgba(63,217,162,.35);border-radius:9px;color:var(--mint)}.f10-result.is-error{border-color:rgba(240,98,124,.42);background:rgba(240,98,124,.07);color:var(--text)}.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}@media(max-width:760px){.f10-hero{grid-template-columns:1fr}.f10-wrap{padding-top:96px}}
 </style>
 </head>
 <body>
@@ -35,8 +50,8 @@
         <label>Public creator/game link (optional)<input id="f10-link" type="url" maxlength="300" placeholder="https://www.roblox.com/... or portfolio"></label>
         <label class="f10-consent"><input id="f10-consent" type="checkbox" required><span>I agree that Baseplate may use these details to assess my application and contact me about this onboarding. See the <a href="privacy.html">Privacy Policy</a>.</span></label>
         <button class="btn btn-primary" id="f10-send" type="submit">Request a free session</button>
-        <div class="f10-result" id="f10-ok" hidden>Application received. We will reply by email if the project fits one of the ten sessions.</div>
-        <div class="f10-result" id="f10-error" hidden></div>
+        <div class="f10-result" id="f10-ok" role="status" hidden>Application received. We will reply by email if the project fits one of the ten sessions.</div>
+        <div class="f10-result" id="f10-error" role="alert" hidden></div>
       </form>
     </section>
   </div>

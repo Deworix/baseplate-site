@@ -8,8 +8,22 @@
 <meta name="description" content="Get in touch with the Baseplate team — support, billing, licenses.">
 <meta name="robots" content="all">
 <link rel="canonical" href="https://baseplatedev.com/contact.html">
-<link rel="stylesheet" href="style.css?v=20260727">
+<meta property="og:title" content="Contact Baseplate">
+<meta property="og:description" content="Licence keys, billing, bugs and ideas — reach the Baseplate team by form or email and get a reply from a person.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://baseplatedev.com/contact.html">
+<meta property="og:site_name" content="Baseplate">
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
+<link rel="stylesheet" href="style.css?v=20260904">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#08090C">
 <style>
   .contact-wrap { max-width: 640px; margin: 0 auto; padding: 96px 24px 80px; }
   .contact-wrap h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 750; letter-spacing: -0.02em; }
@@ -70,8 +84,8 @@
       <p class="hint">Up to 4000 characters. Include enough detail for us to investigate.</p>
     </div>
     <button class="btn btn-primary" type="submit" id="cf-send">Send message</button>
-    <div class="form-note ok" id="cf-ok" hidden>✓ Sent — thanks! We'll get back to you at the email you gave.</div>
-    <div class="form-note err" id="cf-err" hidden></div>
+    <div class="form-note ok" id="cf-ok" role="status" hidden>✓ Sent — thanks! We'll get back to you at the email you gave.</div>
+    <div class="form-note err" id="cf-err" role="alert" hidden></div>
   </form>
 </main>
 

@@ -22,8 +22,12 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
 <link rel="canonical" href="https://baseplatedev.com/">
-<link rel="stylesheet" href="style.css?v=20260727">
+<link rel="stylesheet" href="style.css?v=20260904">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#08090C">
 <!-- Structured data. Search engines use it for rich results; LLMs use it to answer "what is
      Baseplate / what does it cost / does it send my code anywhere" without guessing. Every
      claim here mirrors what the page and the app actually do — no invented ratings or awards. -->
@@ -146,7 +150,7 @@
 }
 </script>
 </head>
-<body>
+<body class="has-mcta">
 <div class="glow" aria-hidden="true"></div>
 
 <nav class="nav">
@@ -593,6 +597,13 @@
   </div>
   <p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation. Roblox is a trademark of Roblox Corporation.</p>
 </footer>
+
+<!-- Phone-only conversion rail. Revealed by site.js once the hero button has scrolled
+     away, hidden again over the download section so the two never stack up. -->
+<aside class="mcta mcta-reveal" aria-label="Get Baseplate">
+  <span class="mcta-copy"><b>Start free in a live Studio session</b><span>No card · bring your own AI plan</span></span>
+  <a class="btn btn-primary btn-sm" href="#download">Download free</a>
+</aside>
 
 <script src="config.js"></script>
 <script src="funnel.js"></script>

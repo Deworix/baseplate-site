@@ -7,17 +7,33 @@
   var ok = document.getElementById('cf-ok');
   var err = document.getElementById('cf-err');
   var btn = document.getElementById('cf-send');
+  function refuse(field, text) {
+    err.hidden = false;
+    err.textContent = text;
+    field.setAttribute('aria-invalid', 'true');
+    field.focus();
+  }
+
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     ok.hidden = true; err.hidden = true;
-    var message = document.getElementById('cf-msg').value.trim();
-    if (!message) return;
+    var emailField = document.getElementById('cf-email');
+    var messageField = document.getElementById('cf-msg');
+    emailField.removeAttribute('aria-invalid');
+    messageField.removeAttribute('aria-invalid');
+    var email = emailField.value.trim();
+    var message = messageField.value.trim();
+    // A whitespace-only message satisfies the browser's `required` check, and used to
+    // return here in silence — the visitor pressed Send and nothing at all happened.
+    if (!message) return refuse(messageField, 'Add a short description of the problem so we know what to look at.');
+    // Support with no return address is a message we can never answer.
+    if (!email) return refuse(emailField, 'Add your email — without it we have no way to reply.');
     btn.disabled = true; btn.textContent = 'Sending…';
     fetch(WORKER + '/support', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        email: document.getElementById('cf-email').value.trim(),
+        email: email,
         message: message,
         company: document.getElementById('cf-company').value,
       }),
