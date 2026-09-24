@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-gK/syvGHVYt379nKpwsX3eQOX5gZNLsVtkha6XRPXjc='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
-<title>Baseplate — AI agents that build and test your Roblox game</title>
-<meta name="description" content="Point the Claude Code, Codex or Cursor plan you already pay for at a live Roblox Studio session: playtest, real error, fix, verified re-run. No AI credits, no quota.">
-<meta property="og:title" content="Baseplate — build Roblox games with AI agents">
-<meta property="og:description" content="Use the AI plan you already pay for to playtest, fix and verify your Roblox game in a live Studio session. No credits, no quota. Free to start.">
+<title>Baseplate — your own AI builds your Roblox game, one visible step at a time</title>
+<meta name="description" content="Connect the Claude Code, Codex or Cursor plan you already pay for to Roblox Studio. Watch every step, approve risky changes, undo anything. No AI credits.">
+<meta property="og:title" content="Baseplate — your AI builds your Roblox game. You approve every step.">
+<meta property="og:description" content="Use the Claude, ChatGPT or Cursor plan you already pay for on your real Roblox game. See the plan live, approve the risky changes, undo anything. Free to start.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://baseplatedev.com/">
 <meta property="og:site_name" content="Baseplate">
@@ -22,7 +22,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
 <link rel="canonical" href="https://baseplatedev.com/">
-<link rel="stylesheet" href="style.css?v=20260904">
+<link rel="stylesheet" href="style.css?v=20260924">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -173,43 +173,43 @@
 <!-- ── Hero ─────────────────────────────────────────────────────── -->
 <header class="hero" id="top">
   <div class="hero-copy">
-    <p class="eyebrow"><span class="eyebrow-dot"></span>For Roblox developers</p>
-    <h1>Your AI already<br>writes Luau. Make it<br>prove the game runs.</h1>
-    <p class="lede">Baseplate points the <strong>Claude Code, Codex or Cursor plan you already pay for</strong> at a live Roblox Studio session: playtest, real runtime error, fix in your source, re-verify. No AI credits to buy, and no quota that runs out halfway through a build.</p>
+    <p class="eyebrow"><span class="eyebrow-dot"></span>Bring your own AI · for Roblox developers</p>
+    <h1>Your AI builds<br>your Roblox game.<br>You approve every&nbsp;step.</h1>
+    <p class="lede">Baseplate connects the <strong>Claude Code, Codex or Cursor plan you already pay for</strong> to Roblox Studio and your real game files. You watch its plan tick off step by step — in Baseplate and right inside Studio. Anything that would move, resize or delete part of your build asks you first, and every change can be undone. No AI credits to buy, and no quota that runs out halfway through a build.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="#download">Download free</a>
-      <a class="btn btn-ghost" href="#copilot">See the loop <span class="arrow">→</span></a>
+      <a class="btn btn-ghost" href="#demo">Watch it work <span class="arrow">→</span></a>
     </div>
-    <p class="hero-fineprint">Free forever plan · no card required · Windows &amp; macOS</p>
+    <p class="hero-fineprint">Needs Claude Code, Codex or Cursor on your computer · free plan · no card required · Windows &amp; macOS</p>
     <p class="hero-fineprint"><a href="founding-fix.html?utm_source=site&amp;utm_medium=hero&amp;utm_campaign=founding_fix">Want us in the first run? Get a live Bug-to-PASS session with your first month of Pro →</a></p>
   </div>
 
   <!-- Live agent-tile mockup: the flagship loop, playing on repeat -->
-  <div class="hero-demo" aria-label="Demo: an agent fixing a runtime error automatically">
+  <div class="hero-demo" aria-label="Demo: an agent working through a visible plan and asking before a structural change">
     <div class="tile">
       <div class="tile-bar">
         <span class="tile-dot"></span>
         <span class="tile-name">Nova</span>
-        <span class="tile-role">Playtest Copilot</span>
-        <span class="tile-status is-pass">PASS</span>
+        <span class="tile-role">Claude Code</span>
+        <span class="tile-status">STEP 2/3 · 0:41</span>
       </div>
       <div class="tile-body">
         <!-- Stable proof: immediately readable without post-paint DOM replacement. -->
-          <div class="line show sys">▶ playtest started · demo-tycoon</div>
-          <div class="line show err">ServerScriptService.Tycoon:46: attempt to compare nil &lt; number</div>
-          <div class="line show say">Cash isn't initialized before the dropper pays out. Fixing Tycoon.server.luau…</div>
-          <div class="line show chip">✎ Edit · src/server/Tycoon.server.luau</div>
-          <div class="line show ok">✓ re-ran playtest — console clean · PASS</div>
+          <div class="line show ok">✓ Read the lobby and spawn scripts</div>
+          <div class="line show say">● Adding daily rewards to the lobby…</div>
+          <div class="line show sys">○ Test it in a Studio playtest</div>
+          <div class="line show chip">✎ Edit · src/server/DailyRewards.server.luau</div>
+          <div class="line show ask">⏸ Wants to move 2 lobby walls — “the reward kiosk needs the space.” Allow?</div>
       </div>
     </div>
-    <div class="demo-caption">The Playtest Copilot loop — no clicking, no copy-pasting stack traces.</div>
+    <div class="demo-caption">Your AI, your game, every step on screen — and it asks before it moves anything you built.</div>
   </div>
 </header>
 
 <section class="section verify-pitch" id="verify">
   <div class="verify-pitch-copy">
-    <p class="eyebrow">Baseplate Verify · free</p>
-    <h2>Your build, reduced to one next move.</h2>
+    <p class="eyebrow">Before you publish · Baseplate Verify · free</p>
+    <h2>Then check it is safe to ship.</h2>
     <p>Run one local scan across security, DataStore safety, code hygiene, regression evidence, performance and the live Studio bridge. Baseplate separates static signals from real Studio proof, then ranks the shortest path to a verified build.</p>
     <div class="hero-cta"><a class="btn btn-primary" data-funnel="verify" href="#download">Get your free health score</a><a class="btn btn-ghost" href="#pricing">See all six labs</a></div>
     <p class="hero-fineprint">Local scan · no source upload · no AI credits required</p>

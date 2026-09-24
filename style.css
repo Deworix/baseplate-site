@@ -267,6 +267,7 @@ nav, header, section, footer { position: relative; z-index: 1; }
   border-radius: var(--r-plate-sm); padding: 6px 11px;
 }
 .line.ok { color: var(--mint); font-family: var(--font-mono); font-size: 12.5px; }
+.line.ask { color: var(--amber); font-size: 12.5px; background: rgba(233,174,82,.08); border: 1px solid rgba(233,174,82,.28); border-radius: var(--r-plate-sm); padding: 8px 11px; }
 .demo-caption { color: var(--faint); font-size: 12.5px; margin-top: 12px; text-align: center; }
 
 /* ── Demo video ───────────────────────────────────────────────── */
