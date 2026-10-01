@@ -69,12 +69,12 @@
         {
           "@type": "Question",
           "name": "Can Cursor playtest a Roblox game?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Not by itself — no terminal agent can press Play. With Roblox Studio's built-in MCP server enabled and a bridge plugin relaying console output, Cursor can run Luau in the live session, read the real errors and re-test its own fix. Cursor emits checkable tool-call events, so it can produce a verified PASS, as can Claude Code and Codex." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Cursor Agent CLI can control Play through Roblox Studio's official MCP server when enabled. Baseplate's bridge relays console output, while Cursor's tool events let the app track the verification loop. You need the separately installed Agent CLI, working Cursor sign-in and a connected Studio instance." }
         },
         {
           "@type": "Question",
           "name": "Does Baseplate overwrite my Cursor settings?",
-          "acceptedAnswer": { "@type": "Answer", "text": "It writes only a project-scoped .cursor/mcp.json in the workspace you opened, never your global Cursor configuration, and it preserves existing entries in that file — only its own baseplate key is rewritten when the workspace changes." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Baseplate preserves unrelated entries in project .cursor/mcp.json and does not rewrite global Cursor configuration. It manages baseplate and, during explicit Studio setup, Roblox_Studio. Malformed existing files are refused instead of overwritten. Open the Git root as your workspace, because current Cursor Agent reads project MCP there." }
         }
       ]
     }
@@ -111,6 +111,7 @@
   <div class="guide-note"><p><strong>Same bridges, different plumbing.</strong> Every agent needs Roblox Studio's built-in MCP server plus a plugin that carries file changes and console output out of Studio. The <a href="claude-code-roblox-studio.html">Claude Code guide</a> covers those shared steps; this page is about what Cursor does differently.</p></div>
 
   <div class="legal-prose">
+    <p><strong>Install Cursor Agent CLI and sign in.</strong> Installing the Cursor IDE alone is not sufficient. Follow <a href="https://cursor.com/docs/cli/installation">Cursor's official CLI installation instructions</a>, including the native Windows installer, and use Baseplate's Sign in action. CLI access depends on your Cursor account.</p>
     <h2>1. Cursor ignores <span class="mono">.mcp.json</span></h2>
     <p>The file Claude Code reads is not the file Cursor reads. Cursor looks in <span class="mono">&lt;workspace&gt;/.cursor/mcp.json</span> (or a global <span class="mono">~/.cursor/mcp.json</span>), and it has <strong>no <span class="mono">mcp add</span> command</strong> — its <span class="mono">mcp</span> subcommand only lists, enables and disables what is already there. Codex and Grok both give you a supported add command; with Cursor you write the file.</p>
 
@@ -123,10 +124,10 @@
   }
 }</code></pre>
 
-    <p>Keep it project-scoped. Editing the global config to reach one Roblox project is how you end up with a stale bridge URL pointing at a workspace you closed last week. Any tooling that writes this for you should preserve entries it did not create — Baseplate rewrites only its own <span class="mono">baseplate</span> key.</p>
+    <p>Keep it project-scoped. Current Cursor Agent reads project MCP from the nearest Git root; open that root as your Baseplate workspace. Baseplate preserves unrelated servers and settings, manages <span class="mono">baseplate</span> and the explicitly enabled <span class="mono">Roblox_Studio</span> entry, and refuses malformed files instead of overwriting them.</p>
 
     <h2>2. The approval flag</h2>
-    <p>A newly configured server is not trusted yet. Run <span class="mono">cursor mcp list</span> after adding it and you will most likely see the server reported as needing approval — and until it is approved, tool calls simply do not reach it. Launching the agent with <span class="mono">--approve-mcps</span> loads it without an interactive prompt.</p>
+    <p>A newly configured server needs approval. Run <span class="mono">agent mcp list</span> to inspect it and <span class="mono">agent mcp enable baseplate</span> or <span class="mono">agent mcp enable Roblox_Studio</span> to approve a server for manual CLI use. Baseplate's agent launches include <span class="mono">--approve-mcps</span> and <span class="mono">--trust</span>. The executable may be named <span class="mono">agent</span> or <span class="mono">cursor-agent</span> depending on your installation.</p>
     <div class="guide-note"><p><strong>Symptom worth recognising:</strong> the agent behaves like the tools do not exist — it describes what it would check instead of checking it, and never mentions Studio. That is an unapproved server, not a model being lazy.</p></div>
 
     <h2>3. Then the two Studio-side steps</h2>
@@ -138,7 +139,7 @@
     <p>Add <span class="mono">rojo serve</span> and the loop closes: Cursor edits <span class="mono">src/</span>, Rojo pushes the change into the open place, and the next playtest runs against the edited game rather than the one you started with.</p>
 
     <h2>What you get once it is wired</h2>
-    <p>Cursor can run Luau in the live session, read the real stack trace instead of guessing from a symptom, fix the cause and re-test. It is one of the three CLIs that can produce a <em>verified</em> PASS — Claude Code and Codex are the others — because its tool calls arrive as checkable events rather than as claims in prose. Baseplate can also mix engines in one crew, so a Cursor tile and a Claude Code tile can build in parallel with enforced file ownership.</p>
+    <p>Cursor can run Luau in the live session, read the real stack trace instead of guessing from a symptom, fix the cause and re-test. It is one of the three CLIs that can produce a <em>verified</em> PASS — Claude Code and Codex are the others — because its tool calls arrive as checkable events rather than as claims in prose. Baseplate can also mix engines in one crew, so a Cursor tile and a Claude Code tile can build in parallel with assigned file responsibilities. Review the integrated diff before shipping; these instructions do not sandbox each agent’s filesystem access.</p>
 
     <h2>Honest limits</h2>
     <ul>

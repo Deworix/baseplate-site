@@ -157,7 +157,7 @@
       });
       stickyCta.classList.toggle('is-visible', covered.size === 0);
     });
-    document.querySelectorAll('.hero, #download').forEach((el) => gate.observe(el));
+    document.querySelectorAll('.hero, #download, #pricing').forEach((el) => gate.observe(el));
   }
 
   applyPeriod();

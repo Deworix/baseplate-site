@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>How to use Codex with Roblox Studio | Baseplate</title>
-<meta name="description" content="Connect the OpenAI Codex CLI to a live Roblox Studio session: global MCP config, the one-shot exec model, the Windows PATH trap, and verified playtests.">
+<meta name="description" content="Connect the OpenAI Codex CLI to Roblox Studio: session-scoped MCP config, the one-shot exec model, Windows CLI discovery, and verified playtests.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://baseplatedev.com/codex-roblox-studio.html">
 <meta property="og:title" content="How to use Codex with Roblox Studio">
@@ -59,7 +59,7 @@
         {
           "@type": "Question",
           "name": "Where does the Codex CLI store MCP servers?",
-          "acceptedAnswer": { "@type": "Answer", "text": "In a global ~/.codex/config.toml, not in a per-project file. Codex does not read .mcp.json the way Claude Code does. Add a server with its own supported command — codex mcp add baseplate --url http://127.0.0.1:34901/mcp?ws=<workspace> — which writes an [mcp_servers.baseplate] entry, and remove it with codex mcp remove baseplate. Hand-editing that TOML risks clobbering your other Codex settings." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Codex stores user configuration in ~/.codex/config.toml and supports project configuration and per-process overrides. Baseplate passes workspace-specific MCP overrides on each launch and resume, without rewriting your global config. Manual codex mcp add can still register a persistent server." }
         },
         {
           "@type": "Question",
@@ -74,7 +74,7 @@
         {
           "@type": "Question",
           "name": "Can Codex run a verified Roblox playtest?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Codex emits a threaded JSONL event stream — thread.started, turn.started, item events and turn.completed — which is enough to check that a tool call really happened in Studio rather than being narrated. Claude Code and Cursor qualify for the same reason; Grok Build and Gemini CLI do not." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Baseplate translates Codex JSONL events, including MCP tool calls, to track the Playtest loop. Claude Code and Cursor also have supported adapters. Grok's complete Copilot loop is not verified in Baseplate. Antigravity supports personal Google accounts in Native mode. Gemini CLI requires an API key or a supported organization license and uses Native mode." }
         }
       ]
     }
@@ -111,8 +111,8 @@
   <div class="guide-note"><p><strong>Same bridges, different plumbing.</strong> Every agent needs Roblox Studio's built-in MCP server plus a plugin that carries file changes and console output out of Studio. The <a href="claude-code-roblox-studio.html">Claude Code guide</a> covers those shared steps in full; this page is about the three things Codex does its own way.</p></div>
 
   <div class="legal-prose">
-    <h2>1. MCP config is global, not per project</h2>
-    <p>Claude Code reads a <span class="mono">.mcp.json</span> next to your project. Codex does not — its servers live in a single global <span class="mono">~/.codex/config.toml</span>. The right way to add one is Codex's own command, not a text editor:</p>
+    <h2>1. Keep MCP bound to the active workspace</h2>
+    <p>Codex does not read Claude Code's <span class="mono">.mcp.json</span> itself. Baseplate translates workspace MCP settings into per-process configuration overrides on every launch and resume. Your global <span class="mono">~/.codex/config.toml</span> stays intact. For a separate manual setup, Codex provides:</p>
 
     <pre class="guide-code"><code>codex mcp add baseplate --url "http://127.0.0.1:34901/mcp?ws=&lt;url-encoded-workspace-path&gt;"
 
@@ -122,9 +122,9 @@ codex mcp list
 # reversible, any time
 codex mcp remove baseplate</code></pre>
 
-    <p>That writes an <span class="mono">[mcp_servers.baseplate]</span> entry, and re-running it with a different URL overwrites the old one — which matters, because the <span class="mono">?ws=</span> parameter has to follow whichever project you are actually working on. Hand-merging that TOML is the one thing worth avoiding: a bad edit takes your other Codex settings with it.</p>
+    <p>The manual command writes a persistent <span class="mono">[mcp_servers.baseplate]</span> entry. Its <span class="mono">?ws=</span> parameter must point at the correct project. Baseplate sessions supply their own URL through command-line overrides instead of changing that persistent entry.</p>
 
-    <div class="guide-note"><p><strong>Consequence of “global”:</strong> two Roblox projects open at once cannot both own the entry. Whatever tooling you use has to rewrite the URL when you switch projects — Baseplate does this on workspace switch, which is the only reason it is not a daily annoyance.</p></div>
+    <div class="guide-note"><p><strong>Concurrent projects:</strong> each Baseplate Codex session receives its workspace's bridge URL. A manual global entry alone does not provide this isolation.</p></div>
 
     <h2>2. <span class="mono">codex exec</span> is one-shot</h2>
     <p><span class="mono">claude -p</span> keeps one process alive and accepts further prompts on stdin. <span class="mono">codex exec</span> does not: each turn is a new process that runs and exits. Continuity comes from resuming a thread explicitly.</p>
@@ -145,13 +145,13 @@ codex exec resume &lt;thread_id&gt; "Now write the fix and re-run the playtest"<
 
     <h2>What Codex can do once it reaches Studio</h2>
     <p>With the bridge live, Codex runs the same verified loop as Claude Code: run the game, read the real Output, find the cause in your source, edit <span class="mono">src/</span>, let Rojo sync it into the open place, then playtest again and only claim PASS on a clean rerun. It qualifies because its JSONL event stream — <span class="mono">thread.started</span>, <span class="mono">turn.started</span>, item events, <span class="mono">turn.completed</span> — makes tool calls checkable rather than merely narrated.</p>
-    <p>Baseplate can also mix engines inside one crew, so Codex and Claude Code can build in parallel with enforced file ownership. Grok Build runs fine as a builder tile but does not expose tool-call evidence, and Gemini CLI has no verified structured mode, so neither can produce a proven PASS.</p>
+    <p>Baseplate can also mix supported engines inside one crew, with file ownership rules. Grok Build now exposes tool events, but its complete Copilot loop has not been verified in Baseplate. Antigravity and Gemini CLI use Native terminal mode and project MCP configuration in Baseplate. Personal Google accounts use Antigravity; Gemini CLI requires an API key or a supported organization license.</p>
 
     <h2>Honest limits</h2>
     <ul>
       <li><strong>You bring your own Codex account.</strong> Baseplate orchestrates the CLI you already pay for and adds no token markup.</li>
       <li><strong>A real Studio session has to be open</strong> for verified playtests — there is no headless Roblox.</li>
-      <li><strong>The global MCP config is shared</strong> with every other Codex project on the machine. That is Codex's design, not something a wrapper can hide.</li>
+      <li><strong>Manual persistent MCP entries need the correct workspace URL.</strong> Baseplate supplies per-session overrides; unrelated user-configured servers still follow your own Codex settings.</li>
       <li><strong>Review before shipping.</strong> Fixing a runtime error is not a security audit — run the <a href="roblox-remoteevent-security-checklist.html">RemoteEvent checklist</a> first.</li>
     </ul>
 

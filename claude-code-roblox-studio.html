@@ -79,7 +79,7 @@
         {
           "@type": "Question",
           "name": "Which agent CLIs can run a verified playtest?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Claude Code, Codex and Cursor, because all three emit tool-call events that can be checked against what actually happened in Studio. Grok Build runs as a normal builder tile but does not expose tool-call evidence, and Gemini CLI has no verified structured mode, so neither can produce a proven PASS." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Baseplate supports Playtest Copilot with Claude Code, Codex and Cursor using structured tool events and Studio evidence. Grok now emits tool events, but its complete Copilot loop is not verified in Baseplate. Antigravity supports personal Google accounts in Native mode. Gemini CLI requires an API key or a supported organization license; its structured adapter has not been implemented." }
         }
       ]
     }
@@ -165,7 +165,7 @@
     <ul>
       <li><strong>You still need your own Claude subscription.</strong> Baseplate is orchestration, not an AI plan, and Claude Code bills through your account.</li>
       <li><strong>Verified playtests need a real Studio session open.</strong> There is no headless Roblox; if Studio is closed, you get static analysis, not evidence.</li>
-      <li><strong>Not every CLI can prove a PASS.</strong> Claude Code, Codex and Cursor emit checkable tool-call events. Grok Build runs fine as a builder tile but does not expose them, and Gemini CLI has no verified structured mode.</li>
+      <li><strong>Copilot support depends on Baseplate's adapter.</strong> Claude Code, Codex and Cursor have supported adapters. Grok exposes tool events but awaits full-loop verification; Antigravity and Gemini use Native mode with project MCP settings. Personal Google accounts use Antigravity; Gemini CLI requires an API key or a supported organization license.</li>
       <li><strong>Review what it writes before you ship.</strong> An agent that fixed a runtime error has not audited your security; the <a href="roblox-remoteevent-security-checklist.html">RemoteEvent checklist</a> is the pass to run before release.</li>
     </ul>
 

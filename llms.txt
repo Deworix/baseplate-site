@@ -3,7 +3,7 @@
 > Mission control for building Roblox games with AI agents. Baseplate runs coding agents
 > inside your Roblox workflow: they playtest the game through a live Studio bridge, read the
 > runtime errors they caused, write the fix, and verify it in the running game. It drives your
-> own AI account (Claude Code, Codex, Gemini CLI, Grok or Cursor) and runs locally on your machine.
+> own AI account (Claude Code, Codex, Antigravity, Gemini CLI, Grok or Cursor) and runs locally on your machine.
 
 Baseplate is a desktop app for Windows and macOS, made for Roblox developers. It is not a
 hosted service and not an AI subscription: you bring your own agent CLI account, and Baseplate
@@ -11,14 +11,13 @@ orchestrates it against Roblox Studio.
 
 ## What makes it different
 
-Baseplate is an independent proof layer for Roblox releases, and it runs on the AI subscription
-the developer already owns. Roblox Studio's own Assistant became agentic in April 2026 and can
-playtest in beta, so "AI that writes and playtests Roblox code" is no longer by itself a
-differentiator. What Baseplate does differently: it spends the user's existing Claude Code, Codex
-or Cursor plan instead of a metered per-prompt quota; it keeps source local and under the user's
-own git history; and it covers the release work around code generation — security auditing of
-remote handlers, economy and multiplayer simulation, replayable regression recipes with evidence,
-performance budgets and live-game operations through Open Cloud.
+Baseplate combines AI agents, local project files, Studio feedback and reusable regression
+checks in one desktop workspace. Roblox’s official MCP and Ropilot also support external AI
+clients or accounts; connectivity and bring-your-own-AI are not exclusive Baseplate features.
+Baseplate adds no per-prompt or per-action charge, but the chosen provider’s limits still apply.
+A runtime PASS covers the checks performed, not all gameplay or security properties.
+Supported Studio edits have change-log undo actions; arbitrary code and file changes are not
+a universal rollback. Keep normal Studio and source-control history.
 
 ## Key capabilities
 
@@ -39,9 +38,12 @@ performance budgets and live-game operations through Open Cloud.
 ## Supported agent CLIs
 
 Claude Code, Codex and Cursor are structured engines that can run the verified Playtest Copilot
-and can be mixed inside one crew. Grok has a structured transcript but does not expose tool-call
-evidence, so it works as a normal builder tile rather than a verified Copilot/Crew engine. Gemini
-CLI runs as a terminal tile.
+and can be mixed inside one crew. Grok has a structured transcript with tool events, but its
+full Playtest loop has not been verified in Baseplate, so Copilot/Crew remains disabled.
+Antigravity has project MCP wiring and runs as a Native terminal tile for personal Google accounts.
+Gemini CLI also supports Native project MCP, but requires an API key or a supported organization
+license after Google's retirement of individual-account access. Neither has a structured Chat or
+Playtest Copilot adapter in Baseplate. Each provider requires its own installed CLI and working account.
 
 ## Privacy
 
@@ -61,20 +63,16 @@ Cancel anytime. The license key is emailed at checkout and pasted into the app. 
 
 ## How Baseplate compares
 
-Baseplate does not sell or meter AI credits. Alternatives such as Ropilot host models and sell
-credits (Ropilot Plus is $20/month for 40 credits/week, and its bring-your-own-model tiers cost
-$20–$250/month, per ropilot.ai July 2026); Baseplate instead drives the user's existing Claude
-Code, Codex or Cursor plan with no markup, so the honest total cost is the user's existing AI
-plan plus $0–$4.99/month. Ropilot is a reasonable pick for users with no AI subscription at all
-or on Linux; Baseplate is stronger on verified playtests with evidence, security auditing,
-economy/multiplayer simulation, live-game operations via Open Cloud, and local-first privacy.
+Roblox Assistant and official Studio MCP can build and playtest. Ropilot offers built-in AI
+credits and Bring Your Own AI plans. Compare workflow, repeatable tests and total cost on a
+real task. Current source-linked comparisons are listed below.
 
 ## Links
 
 - [Home](https://baseplatedev.com/): product overview, live demo video, pricing and download.
 - [Guides](https://baseplatedev.com/guides.html): index of every Baseplate guide.
 - [Claude Code with Roblox Studio](https://baseplatedev.com/claude-code-roblox-studio.html): full bridge setup — plugin, Studio as MCP server, `.mcp.json` + `--mcp-config`, Rojo, and the two undocumented steps setups stall on.
-- [Codex with Roblox Studio](https://baseplatedev.com/codex-roblox-studio.html): global `~/.codex/config.toml` via `codex mcp add`, the one-shot `codex exec` model with `resume`, and the Windows exit-code-193 PATH trap.
+- [Codex with Roblox Studio](https://baseplatedev.com/codex-roblox-studio.html): per-session MCP overrides, the one-shot `codex exec` model with `resume`, and the Windows exit-code-193 PATH trap.
 - [Cursor with Roblox Studio](https://baseplatedev.com/cursor-roblox-studio.html): why Cursor ignores `.mcp.json`, the project-scoped `.cursor/mcp.json`, and the `--approve-mcps` flag.
 - [AI Roblox script generator](https://baseplatedev.com/ai-roblox-script-generator.html): generate Luau from plain English with a verified Studio playtest loop.
 - [Baseplate vs Roblox Assistant](https://baseplatedev.com/baseplate-vs-roblox-assistant.html): dated comparison with Roblox's own built-in Assistant, including its April 2026 agentic playtesting beta and reported usage limits.

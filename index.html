@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-gK/syvGHVYt379nKpwsX3eQOX5gZNLsVtkha6XRPXjc='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-XE3NZEs9PhvHWR8raq4a+Wt9CX/57+y547UXWHhuuyY='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>Baseplate — your own AI builds your Roblox game, one visible step at a time</title>
-<meta name="description" content="Connect the Claude Code, Codex or Cursor plan you already pay for to Roblox Studio. Watch every step, approve risky changes, undo anything. No AI credits.">
-<meta property="og:title" content="Baseplate — your AI builds your Roblox game. You approve every step.">
-<meta property="og:description" content="Use the Claude, ChatGPT or Cursor plan you already pay for on your real Roblox game. See the plan live, approve the risky changes, undo anything. Free to start.">
+<meta name="description" content="Build and update your Roblox game with your own AI. Follow its plan, review structural edits and test changes in Studio. Free to start.">
+<meta property="og:title" content="Baseplate — your AI builds your Roblox game. You stay in control.">
+<meta property="og:description" content="Use your own AI on your real Roblox game. Follow its plan, review requests to restructure your build, and test the result in Studio. Free to start.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://baseplatedev.com/">
 <meta property="og:site_name" content="Baseplate">
@@ -23,6 +23,8 @@
 <meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
 <link rel="canonical" href="https://baseplatedev.com/">
 <link rel="stylesheet" href="style.css?v=20260924">
+<link rel="stylesheet" href="home.css?v=20261001-deck">
+<link rel="stylesheet" href="integrations.css?v=20261001-bridge">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -54,7 +56,9 @@
       "@id": "https://baseplatedev.com/#website",
       "url": "https://baseplatedev.com/",
       "name": "Baseplate",
-      "publisher": { "@id": "https://baseplatedev.com/#organization" },
+      "publisher": {
+        "@id": "https://baseplatedev.com/#organization"
+      },
       "inLanguage": "en"
     },
     {
@@ -65,8 +69,10 @@
       "applicationSubCategory": "Roblox game development",
       "operatingSystem": "Windows 10, Windows 11, macOS",
       "url": "https://baseplatedev.com/",
-      "publisher": { "@id": "https://baseplatedev.com/#organization" },
-      "description": "Baseplate runs supported AI coding-agent CLIs inside your Roblox workflow. Its verified Playtest Copilot connects Claude Code, Codex or Cursor to Roblox Studio, checks a real Play session and only accepts PASS after a clean runtime-error check.",
+      "publisher": {
+        "@id": "https://baseplatedev.com/#organization"
+      },
+      "description": "Baseplate connects supported AI coding agents to Roblox project files and Studio. Follow agent plans, review supported structural edits and replay regression checks. AI usage is provided by your own account.",
       "featureList": [
         "Playtest Copilot — autonomous playtest, error, fix, verify loop",
         "Regression Lab — reusable cross-device and multiplayer test recipes with evidence history",
@@ -80,12 +86,30 @@
         "Crew — multiple agents building in parallel",
         "Ship Gate release review, Economy and multiplayer simulators",
         "Starter kits — scaffold a tycoon, simulator, obby, tower defense, horror or battlegrounds game",
-        "Native tiles for Claude Code, Codex, Gemini CLI, Grok and Cursor; verified Playtest Copilot and mixed-engine Crew for Claude Code, Codex and Cursor"
+        "Native tiles for Claude Code, Codex, Antigravity, Gemini CLI, Grok and Cursor; verified Playtest Copilot and mixed-engine Crew for Claude Code, Codex and Cursor"
       ],
       "offers": [
-        { "@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "USD", "description": "One agent at a time, full Studio bridge, Rojo sync, Baseplate Verify, Regression Lab and Remote Contract Compiler." },
-        { "@type": "Offer", "name": "Pro", "price": "4.99", "priceCurrency": "USD", "description": "Up to 5 agents in parallel, six production labs, Crew swarms, Ship Gate and Live-game Doctor. Billed monthly." },
-        { "@type": "Offer", "name": "Studio", "price": "12.99", "priceCurrency": "USD", "description": "Team collaboration with a shared board and prompt library, up to 10 agents, bigger Crew swarms. Billed monthly." }
+        {
+          "@type": "Offer",
+          "name": "Free",
+          "price": "0",
+          "priceCurrency": "USD",
+          "description": "One agent at a time, full Studio bridge, Rojo sync, Baseplate Verify, Regression Lab and Remote Contract Compiler."
+        },
+        {
+          "@type": "Offer",
+          "name": "Pro",
+          "price": "4.99",
+          "priceCurrency": "USD",
+          "description": "Up to 5 agents in parallel, six production labs, Crew swarms, Ship Gate and Live-game Doctor. Billed monthly."
+        },
+        {
+          "@type": "Offer",
+          "name": "Studio",
+          "price": "12.99",
+          "priceCurrency": "USD",
+          "description": "Team collaboration with a shared board and prompt library, up to 10 agents, bigger Crew swarms. Billed monthly."
+        }
       ]
     },
     {
@@ -95,42 +119,66 @@
         {
           "@type": "Question",
           "name": "Do I need my own AI subscription?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Yes — Baseplate drives your existing agent CLI account. Claude Code, Codex and Cursor support the verified Playtest Copilot and mixed-engine Crew; Grok and Gemini CLI are available as builder tiles. Baseplate does not resell AI tokens — which is why Pro costs $4.99/month instead of the $20/month that credit-based tools charge. Prompts cost whatever your own AI plan already costs, with no meter on top." }
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You need a supported agent CLI account. Claude Code, Codex and Cursor support Playtest Copilot. Grok supports builder tiles; Antigravity supports Native tiles for personal Google accounts. Gemini CLI requires an API key or a supported organization license. Baseplate does not include AI inference. Free costs $0, Pro costs $4.99/month, and your provider’s usage limits and charges still apply."
+          }
         },
         {
           "@type": "Question",
           "name": "Does my code leave my machine?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Baseplate does not upload your projects or keys to Baseplate. Your selected AI provider receives the prompts, code and context needed for the agent work. License validation sends the license key and a random installation identifier to Baseplate's Cloudflare service. If you enable team collaboration, board cards, shared prompts and display names sync through the team service; source files and API keys do not." }
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Baseplate does not upload your projects or keys to Baseplate. Your selected AI provider receives the prompts, code and context needed for the agent work. License validation sends the license key and a random installation identifier to Baseplate's Cloudflare service. If you enable team collaboration, board cards, shared prompts and display names sync through the team service; source files and API keys do not."
+          }
         },
         {
           "@type": "Question",
           "name": "Why not just use Roblox Studio's built-in Assistant?",
-          "acceptedAnswer": { "@type": "Answer", "text": "For many developers you should — it is free, already open in Studio, and since April 2026 its playtesting agent can read output logs, capture screenshots and drive input to find bugs. Two things push developers to Baseplate instead. First, the meter: Assistant is metered and developers report hitting the usage limit mid-prototype with stuck runs still consuming quota, while Baseplate spends the Claude, Codex or Cursor plan you already own. Second, the work around the code rather than in it: security auditing of remotes, economy and multiplayer simulation, replayable regression recipes and live-game operations through Open Cloud." }
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Assistant can write code and playtest inside Studio. Roblox also provides a built-in MCP server for external AI clients. Baseplate adds a desktop workspace with agent tiles, Rojo project files, a task board and reusable regression recipes. Try the built-in tools first if they already cover your workflow."
+          }
         },
         {
           "@type": "Question",
           "name": "How is this different from just using Claude Code in a terminal?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The bridge. A terminal agent can write Luau, but it's blind — it can't playtest, can't read the Output window, can't check the live DataModel. Baseplate gives agents eyes and hands inside Roblox Studio, plus the deck, board, swarms and one-click missions built on top." }
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A terminal agent can already connect to Roblox’s official Studio MCP server. Baseplate brings the workflow together: project setup, visible agent activity, a task board, Studio change history and production labs. A bridge alone is not a unique Baseplate feature."
+          }
         },
         {
           "@type": "Question",
           "name": "How do I cancel or change my plan?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Anytime, yourself, through the Stripe billing portal — sign in with the email you paid with to cancel, switch between Pro and Studio, update your card, or download invoices. A cancellation keeps your plan active until the end of the period you already paid for, then drops you to Free. No email to support required." }
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Anytime, yourself, through the Stripe billing portal — sign in with the email you paid with to cancel, switch between Pro and Studio, update your card, or download invoices. A cancellation keeps your plan active until the end of the period you already paid for, then drops you to Free. No email to support required."
+          }
         },
         {
           "@type": "Question",
           "name": "What happens when my Pro subscription lapses?",
-          "acceptedAnswer": { "@type": "Answer", "text": "You drop back to Free — one agent at a time, with the bridge, Regression Lab and Remote Contract Compiler still included. Your projects, workspaces and history stay untouched on your disk." }
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You drop back to Free — one agent at a time, with the bridge, Regression Lab and Remote Contract Compiler still included. Your projects, workspaces and history stay untouched on your disk."
+          }
         },
         {
           "@type": "Question",
           "name": "Is the Roblox Studio plugin safe?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The plugin only talks to Baseplate on 127.0.0.1. The local server rejects foreign Host and browser Origin values, the Electron renderer is sandboxed, and release packages use ASAR integrity checks. No security control can guarantee that software is invulnerable, so users should still review agent-generated changes before shipping." }
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The plugin only talks to Baseplate on 127.0.0.1. The local server rejects foreign Host and browser Origin values, the Electron renderer is sandboxed, and release packages use ASAR integrity checks. No security control can guarantee that software is invulnerable, so users should still review agent-generated changes before shipping."
+          }
         },
         {
           "@type": "Question",
           "name": "I'm a student or hobbyist. Is the Free plan actually usable?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Free is the full core loop: one agent with complete Studio access, Playtest Copilot, Rojo sync, Regression Lab and Remote Contract Compiler. It's deliberately generous — if Baseplate never earns your upgrade, it should still make your game better." }
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Free is the full core loop: one agent with complete Studio access, Playtest Copilot, Rojo sync, Regression Lab and Remote Contract Compiler. It's deliberately generous — if Baseplate never earns your upgrade, it should still make your game better."
+          }
         }
       ]
     },
@@ -144,13 +192,15 @@
       "duration": "PT1M4S",
       "contentUrl": "https://baseplatedev.com/baseplate-demo.mp4",
       "embedUrl": "https://baseplatedev.com/#demo",
-      "publisher": { "@id": "https://baseplatedev.com/#organization" }
+      "publisher": {
+        "@id": "https://baseplatedev.com/#organization"
+      }
     }
   ]
 }
 </script>
 </head>
-<body class="has-mcta">
+<body class="has-mcta home-polish">
 <div class="glow" aria-hidden="true"></div>
 
 <nav class="nav">
@@ -174,42 +224,23 @@
 <header class="hero" id="top">
   <div class="hero-copy">
     <p class="eyebrow"><span class="eyebrow-dot"></span>Bring your own AI · for Roblox developers</p>
-    <h1>Your AI builds<br>your Roblox game.<br>You approve every&nbsp;step.</h1>
-    <p class="lede">Baseplate connects the <strong>Claude Code, Codex or Cursor plan you already pay for</strong> to Roblox Studio and your real game files. You watch its plan tick off step by step — in Baseplate and right inside Studio. Anything that would move, resize or delete part of your build asks you first, and every change can be undone. No AI credits to buy, and no quota that runs out halfway through a build.</p>
-    <div class="hero-cta">
-      <a class="btn btn-primary" href="#download">Download free</a>
-      <a class="btn btn-ghost" href="#demo">Watch it work <span class="arrow">→</span></a>
-    </div>
+    <h1>Your AI builds<br>your Roblox game.<br>You stay in control.</h1>
+    <p class="lede">Baseplate connects the <strong>Claude Code, Codex or Cursor plan you already pay for</strong> to Roblox Studio and your real game files. You watch its plan tick off step by step — in Baseplate and right inside Studio. Review requests to restructure your build and undo supported edits from the change log. Baseplate adds no AI credits or per-action meter; your AI provider’s usage limits still apply.</p>
+    <div class="hero-cta"><a class="btn btn-primary" href="#download">Download free</a><a class="btn btn-ghost" href="#demo">Watch it work <span class="arrow">→</span></a></div>
     <p class="hero-fineprint">Needs Claude Code, Codex or Cursor on your computer · free plan · no card required · Windows &amp; macOS</p>
     <p class="hero-fineprint"><a href="founding-fix.html?utm_source=site&amp;utm_medium=hero&amp;utm_campaign=founding_fix">Want us in the first run? Get a live Bug-to-PASS session with your first month of Pro →</a></p>
   </div>
-
-  <!-- Live agent-tile mockup: the flagship loop, playing on repeat -->
   <div class="hero-demo" aria-label="Demo: an agent working through a visible plan and asking before a structural change">
-    <div class="tile">
-      <div class="tile-bar">
-        <span class="tile-dot"></span>
-        <span class="tile-name">Nova</span>
-        <span class="tile-role">Claude Code</span>
-        <span class="tile-status">STEP 2/3 · 0:41</span>
-      </div>
-      <div class="tile-body">
-        <!-- Stable proof: immediately readable without post-paint DOM replacement. -->
-          <div class="line show ok">✓ Read the lobby and spawn scripts</div>
-          <div class="line show say">● Adding daily rewards to the lobby…</div>
-          <div class="line show sys">○ Test it in a Studio playtest</div>
-          <div class="line show chip">✎ Edit · src/server/DailyRewards.server.luau</div>
-          <div class="line show ask">⏸ Wants to move 2 lobby walls — “the reward kiosk needs the space.” Allow?</div>
-      </div>
-    </div>
-    <div class="demo-caption">Your AI, your game, every step on screen — and it asks before it moves anything you built.</div>
+    <div class="tile"><div class="tile-bar"><span class="tile-dot"></span><span class="tile-name">Nova</span><span class="tile-role">Claude Code</span><span class="tile-status">STEP 2/3 · 0:41</span></div>
+    <div class="tile-body"><div class="line show ok">✓ Read the lobby and spawn scripts</div><div class="line show say">● Adding daily rewards to the lobby…</div><div class="line show sys">○ Test it in a Studio playtest</div><div class="line show chip">✎ Edit · src/server/DailyRewards.server.luau</div><div class="line show ask">⏸ Wants to move 2 lobby walls — “the reward kiosk needs the space.” Allow?</div></div></div>
+    <div class="demo-caption">Your AI, your game — a visible plan and reviewable requests to restructure your build.</div>
   </div>
 </header>
 
 <section class="section verify-pitch" id="verify">
   <div class="verify-pitch-copy">
     <p class="eyebrow">Before you publish · Baseplate Verify · free</p>
-    <h2>Then check it is safe to ship.</h2>
+    <h2>Check your changes before you publish.</h2>
     <p>Run one local scan across security, DataStore safety, code hygiene, regression evidence, performance and the live Studio bridge. Baseplate separates static signals from real Studio proof, then ranks the shortest path to a verified build.</p>
     <div class="hero-cta"><a class="btn btn-primary" data-funnel="verify" href="#download">Get your free health score</a><a class="btn btn-ghost" href="#pricing">See all six labs</a></div>
     <p class="hero-fineprint">Local scan · no source upload · no AI credits required</p>
@@ -278,17 +309,111 @@
 </section>
 
 <!-- ── Works with ───────────────────────────────────────────────── -->
-<section class="strip" aria-label="Works with">
-  <span class="strip-label">Works with</span>
-  <div class="strip-items">
-    <span class="strip-pill"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.936 15.356 1.826 12.112 0 18.93 18.928 24l2.68-9.99-6.818-1.83-.854 3.176ZM5.072 0 2.394 9.992l6.816 1.83.854-3.178 12.11 3.246L24 5.072 5.072 0Z"/></svg>Roblox Studio</span>
-    <span class="strip-pill"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="#D97757" d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>Claude</span>
-    <span class="strip-pill"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.911 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.182a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .511 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073ZM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.142-.081 4.778-2.758a.795.795 0 0 0 .393-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.495 4.494Zm-9.66-4.125a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646ZM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.677l5.815 3.354-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.896Zm16.597 3.855-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667Zm2.01-3.023-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66Zm-12.64 4.135-2.02-1.164a.08.08 0 0 1-.038-.057V6.074a4.5 4.5 0 0 1 7.376-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681Zm1.098-2.365 2.602-1.5 2.607 1.5v3l-2.597 1.5-2.607-1.5Z"/></svg>ChatGPT</span>
-    <span class="strip-pill"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11.503.131 1.891 5.678a.84.84 0 0 0-.42.726v11.188c0 .3.162.575.42.724l9.609 5.55a1 1 0 0 0 .998 0l9.61-5.55a.84.84 0 0 0 .42-.724V6.404a.84.84 0 0 0-.42-.726L12.497.131a1.01 1.01 0 0 0-.996 0M2.657 6.338h18.55c.263 0 .43.287.297.515L12.23 22.918c-.062.107-.229.064-.229-.06V12.335a.59.59 0 0 0-.295-.51l-9.11-5.257c-.109-.063-.064-.23.061-.23"/></svg>Cursor</span>
-    <span class="strip-pill"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M9.27 15.29l7.978-5.897c.391-.29.95-.177 1.137.272.98 2.369.542 5.215-1.41 7.169-1.951 1.954-4.667 2.382-7.149 1.406l-2.711 1.257c3.889 2.661 8.611 2.003 11.562-.953 2.341-2.344 3.066-5.539 2.388-8.42l.006.007c-.983-4.232.242-5.924 2.75-9.383.06-.082.12-.164.179-.248l-3.301 3.305v-.01L9.267 15.292M7.623 16.723c-2.792-2.67-2.31-6.801.071-9.184 1.761-1.763 4.647-2.483 7.166-1.425l2.705-1.25a7.808 7.808 0 00-1.829-1A8.975 8.975 0 005.984 5.83c-2.533 2.536-3.33 6.436-1.962 9.764 1.022 2.487-.653 4.246-2.34 6.022-.599.63-1.199 1.259-1.682 1.925l7.62-6.815"/></svg>Grok</span>
-    <span class="strip-pill"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></svg>Gemini</span>
-    <span class="strip-pill"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect fill="#E13835" x="5.05" y="5.05" width="13.9" height="13.9" rx="2.6" transform="rotate(45 12 12)"/></svg>Rojo</span>
-    <span class="strip-pill"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.4 10.06A6.5 6.5 0 0 0 5.83 8.7 5.25 5.25 0 0 0 6.5 19.15h11.25a4.55 4.55 0 0 0 .65-9.09Z"/></svg>Open Cloud</span>
+<section class="bp-bridge" id="integrations" data-bp-bridge aria-labelledby="bp-bridge-title">
+  <div class="bp-bridge-head">
+    <div>
+      <p class="bp-bridge-eyebrow">Bring your own AI</p>
+      <h2 id="bp-bridge-title">Your AI. Your game. One workspace.</h2>
+    </div>
+  </div>
+
+  <div class="bp-bridge-board">
+    <div class="bp-bridge-map">
+      <div class="bp-bridge-group bp-bridge-group--ai">
+        <h3 class="bp-bridge-label"><span aria-hidden="true">01</span> AI choice</h3>
+        <ul class="bp-bridge-tools">
+          <li>
+            <a class="bp-bridge-tool bp-bridge-tool--claude" href="claude-code-roblox-studio.html">
+              <svg class="bp-bridge-icon" viewBox="0 0 24 24" width="21" height="21" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m12 2 .2 20M2 12l20 .2M5 5l14 14M5 19 19 5M8 3l8 18M3 8l18 8M3 16 21 8M8 21l8-18"/></g></svg>
+              <span class="bp-bridge-tool-copy"><b>Claude Code</b><small>Playtest + Crew</small></span>
+              <span class="bp-bridge-guide" aria-hidden="true">↗</span><span class="bp-bridge-sr">Setup guide</span>
+            </a>
+          </li>
+          <li>
+            <a class="bp-bridge-tool bp-bridge-tool--codex" href="codex-roblox-studio.html">
+              <svg class="bp-bridge-icon" viewBox="0 0 24 24" width="21" height="21" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m4 7 5 5-5 5M12 17h8"/><rect x="1.5" y="2.5" width="21" height="19" rx="4" stroke-width="1.3"/></g></svg>
+              <span class="bp-bridge-tool-copy"><b>Codex</b><small>Playtest + Crew</small></span>
+              <span class="bp-bridge-guide" aria-hidden="true">↗</span><span class="bp-bridge-sr">Setup guide</span>
+            </a>
+          </li>
+          <li>
+            <a class="bp-bridge-tool bp-bridge-tool--cursor" href="cursor-roblox-studio.html">
+              <svg class="bp-bridge-icon" viewBox="0 0 24 24" width="21" height="21" aria-hidden="true"><path fill="currentColor" d="M11.503.131 1.891 5.678a.84.84 0 0 0-.42.726v11.188c0 .3.162.575.42.724l9.609 5.55a1 1 0 0 0 .998 0l9.61-5.55a.84.84 0 0 0 .42-.724V6.404a.84.84 0 0 0-.42-.726L12.497.131a1.01 1.01 0 0 0-.996 0M2.657 6.338h18.55c.263 0 .43.287.297.515L12.23 22.918c-.062.107-.229.064-.229-.06V12.335a.59.59 0 0 0-.295-.51l-9.11-5.257c-.109-.063-.064-.23.061-.23"/></svg>
+              <span class="bp-bridge-tool-copy"><b>Cursor</b><small>Agent CLI · Playtest</small></span>
+              <span class="bp-bridge-guide" aria-hidden="true">↗</span><span class="bp-bridge-sr">Setup guide</span>
+            </a>
+          </li>
+          <li>
+            <div class="bp-bridge-tool bp-bridge-tool--grok">
+              <svg class="bp-bridge-icon" viewBox="0 0 24 24" width="21" height="21" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M9.27 15.29l7.978-5.897c.391-.29.95-.177 1.137.272.98 2.369.542 5.215-1.41 7.169-1.951 1.954-4.667 2.382-7.149 1.406l-2.711 1.257c3.889 2.661 8.611 2.003 11.562-.953 2.341-2.344 3.066-5.539 2.388-8.42l.006.007c-.983-4.232.242-5.924 2.75-9.383.06-.082.12-.164.179-.248l-3.301 3.305v-.01L9.267 15.292M7.623 16.723c-2.792-2.67-2.31-6.801.071-9.184 1.761-1.763 4.647-2.483 7.166-1.425l2.705-1.25a7.808 7.808 0 00-1.829-1A8.975 8.975 0 005.984 5.83c-2.533 2.536-3.33 6.436-1.962 9.764 1.022 2.487-.653 4.246-2.34 6.022-.599.63-1.199 1.259-1.682 1.925l7.62-6.815"/></svg>
+              <span class="bp-bridge-tool-copy"><b>Grok</b><small>Builder tiles</small></span>
+            </div>
+          </li>
+          <li>
+            <div class="bp-bridge-tool bp-bridge-tool--antigravity">
+              <svg class="bp-bridge-icon" viewBox="0 0 24 24" width="21" height="21" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m4 18 8-14 8 14M8 14h8M5 21h14"/><path d="m8 7 4-3 4 3" opacity=".5"/></g></svg>
+              <span class="bp-bridge-tool-copy"><b>Antigravity</b><small>Native / MCP only</small></span>
+            </div>
+          </li>
+          <li>
+            <div class="bp-bridge-tool bp-bridge-tool--gemini">
+              <svg class="bp-bridge-icon" viewBox="0 0 24 24" width="21" height="21" aria-hidden="true"><path fill="currentColor" d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></svg>
+              <span class="bp-bridge-tool-copy"><b>Gemini CLI</b><small>API / organization</small></span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="bp-bridge-cable bp-bridge-cable--in" aria-hidden="true">
+        <svg viewBox="0 0 100 309" preserveAspectRatio="none" focusable="false">
+          <path class="bp-bridge-wire-sleeve" d="M0 22H46M0 75H46M0 128H46M0 181H46M0 234H46M0 287H46M46 22V287M46 154.5H100"/>
+          <path class="bp-bridge-wire" d="M0 22H46M0 75H46M0 128H46M0 181H46M0 234H46M0 287H46M46 22V287M46 154.5H100"/>
+          <path class="bp-bridge-wire-light" pathLength="1" d="M0 22H46M0 75H46M0 128H46M0 181H46M0 234H46M0 287H46M46 22V287M46 154.5H100"/>
+          <path class="bp-bridge-signal bp-bridge-signal--in" pathLength="1" d="M0 128H46V154.5H100"/>
+          <g class="bp-bridge-junctions"><circle cx="46" cy="22" r="3"/><circle cx="46" cy="75" r="3"/><circle cx="46" cy="128" r="3"/><circle cx="46" cy="181" r="3"/><circle cx="46" cy="234" r="3"/><circle cx="46" cy="287" r="3"/><circle cx="46" cy="154.5" r="4"/></g>
+        </svg>
+      </div>
+
+      <div class="bp-bridge-hub-wrap">
+        <p class="bp-bridge-label"><span aria-hidden="true">02</span> Local workspace</p>
+        <div class="bp-bridge-hub">
+          <svg class="bp-bridge-mark" viewBox="0 0 72 72" width="72" height="72" aria-hidden="true"><rect class="bp-bridge-mark-plate" x="5" y="5" width="62" height="62" rx="12"/><g class="bp-bridge-mark-stud"><circle cx="25" cy="25" r="7"/><circle cx="47" cy="25" r="7"/><circle cx="25" cy="47" r="7"/><circle cx="47" cy="47" r="7"/></g><g class="bp-bridge-mark-light"><path d="M19 24a6 6 0 0 1 6-5M41 24a6 6 0 0 1 6-5M19 46a6 6 0 0 1 6-5M41 46a6 6 0 0 1 6-5"/></g></svg>
+          <b>Baseplate</b>
+          <span>Your project workspace.</span>
+          <i class="bp-bridge-hub-port bp-bridge-hub-port--in" aria-hidden="true"></i>
+          <i class="bp-bridge-hub-port bp-bridge-hub-port--out" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div class="bp-bridge-cable bp-bridge-cable--out" aria-hidden="true">
+        <svg viewBox="0 0 100 309" preserveAspectRatio="none" focusable="false">
+          <path class="bp-bridge-wire-sleeve" d="M0 154.5H54M54 62.5V246.5M54 62.5H100M54 154.5H100M54 246.5H100"/>
+          <path class="bp-bridge-wire" d="M0 154.5H54M54 62.5V246.5M54 62.5H100M54 154.5H100M54 246.5H100"/>
+          <path class="bp-bridge-wire-light" pathLength="1" d="M0 154.5H54M54 62.5V246.5M54 62.5H100M54 154.5H100M54 246.5H100"/>
+          <path class="bp-bridge-signal bp-bridge-signal--out" pathLength="1" d="M0 154.5H54V62.5H100"/>
+          <g class="bp-bridge-junctions"><circle cx="54" cy="62.5" r="3"/><circle cx="54" cy="154.5" r="4"/><circle cx="54" cy="246.5" r="3"/></g>
+        </svg>
+      </div>
+
+      <div class="bp-bridge-group bp-bridge-group--game">
+        <h3 class="bp-bridge-label"><span aria-hidden="true">03</span> Game connection</h3>
+        <ul class="bp-bridge-games">
+          <li class="bp-bridge-game">
+            <svg class="bp-bridge-icon" viewBox="0 0 24 24" width="23" height="23" aria-hidden="true"><path fill="currentColor" d="M13.936 15.356 1.826 12.112 0 18.93 18.928 24l2.68-9.99-6.818-1.83-.854 3.176ZM5.072 0 2.394 9.992l6.816 1.83.854-3.178 12.11 3.246L24 5.072 5.072 0Z"/></svg>
+            <span><b>Roblox Studio</b><small>Live bridge &amp; playtests</small></span>
+          </li>
+          <li class="bp-bridge-game bp-bridge-game--rojo">
+            <svg class="bp-bridge-icon" viewBox="0 0 24 24" width="23" height="23" aria-hidden="true"><rect fill="currentColor" x="5.05" y="5.05" width="13.9" height="13.9" rx="2.6" transform="rotate(45 12 12)"/><path fill="none" stroke="#13151c" stroke-width="1.5" d="M8 12h8m-4-4v8"/></svg>
+            <span><b>Rojo</b><small>Project file sync</small></span>
+          </li>
+          <li class="bp-bridge-game bp-bridge-game--cloud">
+            <svg class="bp-bridge-icon" viewBox="0 0 24 24" width="23" height="23" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M8 18H6.5a4.5 4.5 0 0 1-.9-8.91 6.3 6.3 0 0 1 12.2 1.5A3.8 3.8 0 0 1 17.5 18H16m-7-2 3-3 3 3m-3-3v8"/></svg>
+            <span><b>Open Cloud</b><small>Optional · live game tools</small></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="bp-bridge-notes"><p>Use your own AI account. Features vary by tool.</p></div>
   </div>
 </section>
 
@@ -363,7 +488,7 @@
     <div class="card">
       <div class="card-ico" style="color:var(--violet)"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M4 4h16v12H5.2L4 17.2V4zm2 3v2h12V7H6zm0 4v2h8v-2H6z"/></svg></div>
       <h3>Prompt-to-game</h3>
-      <p>Describe a game in one sentence. Baseplate scaffolds the workspace and a Crew builds the first playable slice — loop, saving, UI — before your coffee cools.</p>
+      <p>Describe a game in one sentence. Baseplate scaffolds the workspace and a Crew builds the first playable slice — loop, saving, UI — with a first version you can review and playtest.</p>
     </div>
     <div class="card">
       <div class="card-ico" style="color:var(--mint)"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M6 4h12a2 2 0 0 1 2 2v2H4V6a2 2 0 0 1 2-2zm-2 6h16v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8zm7 2v4h2v-4h-2z"/></svg></div>
@@ -420,43 +545,40 @@
 </section>
 
 <!-- ── Pricing ──────────────────────────────────────────────────── -->
-<section class="section" id="pricing">
-  <div class="section-head">
-    <p class="eyebrow">Pricing</p>
-    <h2>Start free. Upgrade when<br>your game earns it.</h2>
-    <p class="section-lede">Simple monthly or yearly plans. Cancel or switch in the billing portal at any time.</p>
+<section class="section pricing-deck" id="pricing" aria-labelledby="pricing-title">
+  <div class="section-head pricing-heading">
+    <div><p class="eyebrow">Pricing</p><h2 id="pricing-title">Start free. Upgrade when<br>your game earns it.</h2>
+    <p class="section-lede">Simple monthly or yearly plans. Cancel or switch in the billing portal at any time.</p></div>
     <div class="billing-toggle" role="radiogroup" aria-label="Billing period">
       <button class="bt-opt active" data-period="monthly" role="radio" aria-checked="true">Monthly</button>
-      <button class="bt-opt" data-period="yearly" role="radio" aria-checked="false">Yearly <span class="save-pill">save ~33%</span></button>
+      <button class="bt-opt" data-period="yearly" role="radio" aria-checked="false">Yearly <span class="save-pill">lower annual rate</span></button>
     </div>
   </div>
-
-  <div class="plans">
-    <div class="plan">
-      <div class="plan-name">Free</div>
-      <div class="plan-price"><span class="amount">$0</span><span class="per">forever</span></div>
-      <p class="plan-blurb">Build, fix and secure one game at a time — with the full Studio bridge.</p>
-      <ul class="plan-list">
-        <li>One agent tile at a time</li>
-        <li>Live Studio bridge + Rojo sync</li>
-        <li>Playtest Copilot — fix &amp; explain runtime errors</li>
-        <li><strong>Exploit Guard security audit</strong></li>
-        <li><strong>Baseplate Verify + Regression Lab + Remote Contracts</strong></li>
-        <li>Starter kits + demo game to start from</li>
-      </ul>
-      <a class="btn btn-ghost btn-block" href="#download">Download free</a>
-    </div>
-
-    <div class="plan plan-featured">
-      <div class="plan-flag">Most popular</div>
-      <div class="plan-name">Pro</div>
-      <div class="plan-price">
-        <span class="amount" data-monthly="$4.99" data-yearly="$3.33">$4.99</span><span class="per">/ month</span>
+  <div class="plans license-deck">
+    <article class="plan plan-featured license-pro" aria-labelledby="pro-title">
+      <div class="license-topline"><span class="license-brand">BASEPLATE / PRO</span><span>Production tools</span></div>
+      <div class="license-main">
+        <div class="license-intro">
+          <h3 class="plan-name" id="pro-title">Baseplate Pro.</h3>
+          <div class="plan-price"><span class="amount" data-monthly="$4.99" data-yearly="$3.33">$4.99</span><span class="per">/ month</span></div>
+          <div class="plan-subprice mono" data-monthly="$4.99 billed monthly" data-yearly="$39.99 billed yearly · save ~33%">$4.99 billed monthly</div>
+          <p class="plan-blurb">Production missions, reviews and live-ops tools for your next update.</p>
+          <a class="btn btn-primary buy" data-plan="pro" href="#" rel="noopener">Get Pro</a>
+        </div>
+        <div class="license-capacity">
+          <div class="deck-model" aria-hidden="true">
+            <div class="deck-base"><span class="deck-stud"></span><span class="deck-stud"></span><span class="deck-stud"></span><span class="deck-stud"></span><span class="deck-stud"></span><span class="deck-stud"></span></div>
+            <div class="agent-module"><span class="module-head"><i></i>01</span><span class="module-lines"><i></i><i></i><i></i></span><span class="module-foot"></span></div>
+            <div class="agent-module"><span class="module-head"><i></i>02</span><span class="module-lines"><i></i><i></i><i></i></span><span class="module-foot"></span></div>
+            <div class="agent-module"><span class="module-head"><i></i>03</span><span class="module-lines"><i></i><i></i><i></i></span><span class="module-foot"></span></div>
+            <div class="agent-module"><span class="module-head"><i></i>04</span><span class="module-lines"><i></i><i></i><i></i></span><span class="module-foot"></span></div>
+            <div class="agent-module"><span class="module-head"><i></i>05</span><span class="module-lines"><i></i><i></i><i></i></span><span class="module-foot"></span></div>
+          </div>
+          <p class="capacity-caption">Up to <strong>5 agents</strong> in parallel</p>
+        </div>
       </div>
-      <div class="plan-subprice mono" data-monthly="billed monthly" data-yearly="$39.99 billed yearly">billed monthly</div>
-      <p class="plan-blurb">Every agent-powered mission, review and live-ops tool. Less than one small dev-product commission.</p>
-      <ul class="plan-list">
-        <li><strong>Up to 5 agents in parallel</strong></li>
+      <ul class="plan-list license-features">
+
         <li>Crew — multi-agent build swarms</li>
         <li>Ship Gate release review</li>
         <li>Economy &amp; multiplayer simulators</li>
@@ -466,24 +588,33 @@
         <li>Asset &amp; UI generator</li>
         <li>Prompt-to-game + mission marketplace</li>
       </ul>
-      <a class="btn btn-primary btn-block buy" data-plan="pro" href="#" rel="noopener">Get Pro</a>
-    </div>
-
-    <div class="plan">
-      <div class="plan-name">Studio</div>
-      <div class="plan-price">
-        <span class="amount" data-monthly="$12.99" data-yearly="$10.00">$12.99</span><span class="per">/ month</span>
-      </div>
-      <div class="plan-subprice mono" data-monthly="billed monthly" data-yearly="$119.99 billed yearly">billed monthly</div>
-      <p class="plan-blurb">For teams shipping together — shared board, shared prompts, live presence.</p>
-      <ul class="plan-list">
+    </article>
+    <div class="license-alternatives">
+      <article class="plan license-lane" aria-labelledby="free-title">
+        <div class="lane-title"><span class="lane-studs lane-studs-free" aria-hidden="true"><i></i></span><h3 class="plan-name" id="free-title">Free</h3><p class="plan-blurb">Build, fix and secure one game at a time.</p></div>
+        <div class="lane-price"><div class="plan-price"><span class="amount">$0</span><span class="per">forever</span></div><div class="plan-subprice mono">No payment details needed</div></div>
+        <a class="btn btn-ghost" href="#download">Download free</a>
+        <ul class="plan-list">
+        <li>One agent tile at a time</li>
+        <li>Live Studio bridge + Rojo sync</li>
+        <li>Playtest Copilot — fix &amp; explain runtime errors</li>
+        <li><strong>Exploit Guard security audit</strong></li>
+        <li><strong>Baseplate Verify + Regression Lab + Remote Contracts</strong></li>
+        <li>Starter kits + demo game to start from</li>
+      </ul>
+      </article>
+      <article class="plan license-lane license-studio" aria-labelledby="studio-title">
+        <div class="lane-title"><span class="lane-studs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><h3 class="plan-name" id="studio-title">Studio</h3><p class="plan-blurb">For teams shipping together.</p></div>
+        <div class="lane-price"><div class="plan-price"><span class="amount" data-monthly="$12.99" data-yearly="$10.00">$12.99</span><span class="per">/ month</span></div><div class="plan-subprice mono" data-monthly="$12.99 billed monthly" data-yearly="$119.99 billed yearly · save ~23%">$12.99 billed monthly</div></div>
+        <a class="btn btn-ghost buy" data-plan="studio" href="#" rel="noopener">Get Studio</a>
+        <ul class="plan-list">
         <li><strong>Team collaboration</strong> — shared board &amp; prompt library</li>
         <li>See who's online on your team</li>
         <li>Up to 10 agents in parallel</li>
         <li>Bigger Crew swarms (up to 8 builders)</li>
         <li>Everything in Pro</li>
       </ul>
-      <a class="btn btn-ghost btn-block buy" data-plan="studio" href="#" rel="noopener">Get Studio</a>
+      </article>
     </div>
   </div>
   <p class="pricing-fineprint">Your license key is shown immediately after a successful checkout, and we also attempt email delivery — paste it into Baseplate and you're upgraded. <a href="#manage" class="manage-link">Cancel or change your plan anytime</a>. 14-day refund, subject to the limited anti-abuse exception in our Refund Policy.</p>
@@ -504,7 +635,7 @@
         Download for macOS
       </a>
     </div>
-    <p class="dl-note">Prerequisites: Roblox Studio plus at least one supported agent CLI. <a href="claude-code-roblox-studio.html">Claude Code</a>, <a href="codex-roblox-studio.html">Codex</a> and <a href="cursor-roblox-studio.html">Cursor</a> can run the verified Playtest Copilot; Grok and Gemini CLI work as builder tiles. The current direct Windows installer may show SmartScreen until the Microsoft Store listing is certified. The current unsigned macOS build requires Apple's <a href="install-macos.html">Open Anyway steps</a>; only an Apple-notarized release can remove that warning.</p>
+    <p class="dl-note">Prerequisites: Roblox Studio plus at least one supported agent CLI with working sign-in. <a href="claude-code-roblox-studio.html">Claude Code</a>, <a href="codex-roblox-studio.html">Codex</a> and <a href="cursor-roblox-studio.html">Cursor</a> support Playtest Copilot; Cursor requires Cursor Agent CLI in addition to any IDE installation. Grok supports builder tiles. Antigravity supports Native tiles for personal Google accounts; Gemini CLI requires an API key or a supported organization license. Windows downloads use Microsoft Store; unsigned direct installers may show SmartScreen. The current unsigned macOS build requires Apple's <a href="install-macos.html">Open Anyway steps</a>; only an Apple-notarized release can remove that warning.</p>
   </div>
 </section>
 
@@ -514,7 +645,7 @@
   <div class="faq">
     <details>
       <summary>Do I need my own AI subscription?</summary>
-      <p>Yes — Baseplate drives your existing agent CLI account. <strong>Claude Code</strong>, <strong>Codex</strong> and <strong>Cursor</strong> support the verified Playtest Copilot and can be mixed in one Crew; <strong>Grok</strong> and <strong>Gemini CLI</strong> are available as builder tiles. Baseplate does not resell AI tokens — which is exactly why Pro costs $4.99 instead of the $20/month that credit-based tools charge. Your prompts cost whatever your own plan already costs, with no meter on top. <a href="baseplate-vs-ropilot.html">See the honest comparison</a>.</p>
+      <p>You need a supported agent CLI account. Claude Code, Codex and Cursor support Playtest Copilot. Grok supports builder tiles; Antigravity supports Native tiles for personal Google accounts. Gemini CLI requires an API key or a supported organization license. Baseplate does not include AI inference. Free costs $0, Pro costs $4.99/month, and your provider’s usage limits and charges still apply.</p>
     </details>
     <details>
       <summary>Does my code leave my machine?</summary>
@@ -522,11 +653,11 @@
     </details>
     <details>
       <summary>Why not just use Roblox Studio's built-in Assistant?</summary>
-      <p>For a lot of people, you should — it is free, already open, and since April 2026 its playtesting agent can read logs, capture screenshots and drive input to find bugs. We are not going to pretend otherwise. Two things push developers here instead: <strong>the meter</strong> — Assistant is metered, and developers report hitting the limit mid-prototype with stuck runs still consuming quota, whereas Baseplate spends the AI plan you already own — and <strong>the work around the code</strong>: security auditing of remotes, economy and multiplayer simulation, replayable regression recipes and live-game operations. <a href="baseplate-vs-roblox-assistant.html">Read the full comparison, including where Roblox wins</a>.</p>
+      <p>Assistant can write code and playtest inside Studio. Roblox also provides a built-in MCP server for external AI clients. Baseplate adds a desktop workspace with agent tiles, Rojo project files, a task board and reusable regression recipes. Try the built-in tools first if they already cover your workflow.</p>
     </details>
     <details>
       <summary>How is this different from just using Claude Code in a terminal?</summary>
-      <p>The bridge. A terminal agent can write Luau, but it's blind — it can't playtest, can't read the Output window, can't check the live DataModel. Baseplate gives agents eyes and hands inside Studio, plus the deck, board, swarms and one-click missions built on top.</p>
+      <p>A terminal agent can already connect to Roblox’s official Studio MCP server. Baseplate brings the workflow together: project setup, visible agent activity, a task board, Studio change history and production labs. A bridge alone is not a unique Baseplate feature.</p>
     </details>
     <details id="manage">
       <summary>How do I cancel or change my plan?</summary>
@@ -607,7 +738,9 @@
 
 <script src="config.js"></script>
 <script src="funnel.js"></script>
-<script src="site.js"></script>
+<script src="site.js?v=20261001"></script>
 <script src="live-demo.js"></script>
+<script src="home.js?v=20261001-deck"></script>
+<script src="integrations.js?v=20261001-bridge"></script>
 </body>
 </html>
