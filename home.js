@@ -2,6 +2,13 @@
   'use strict';
   if (!document.body.classList.contains('home-polish')) return;
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
+  const world = document.querySelector('[data-update-world]');
+  world?.querySelectorAll('[data-world-state]').forEach(button => button.addEventListener('click', () => {
+    const after = button.dataset.worldState === 'after'; world.dataset.state = after ? 'after' : 'before';
+    world.querySelectorAll('[data-world-state]').forEach(other => other.setAttribute('aria-pressed', String(other === button)));
+    world.querySelector('[data-world-title]').textContent = after ? 'Fall. Respawn. Keep going.' : 'One fall. Back to the beginning.';
+    world.querySelector('[data-world-copy]').textContent = after ? 'One checkpoint turns a setback into another try.' : 'Progress disappears. The same section, again.';
+  }));
   const toggle = document.querySelector('.billing-toggle');
   const periods = [...document.querySelectorAll('.bt-opt')];
   function syncPeriod() {

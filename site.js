@@ -15,7 +15,7 @@
   const status = document.getElementById('demo-status');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // The 4 MB demo sits below the fold. Attach its source only shortly before it enters
+  // The product film sits below the fold. Attach its source only shortly before it enters
   // view so it never competes with the critical page assets. The poster keeps the layout
   // stable and remains useful when JavaScript is unavailable or motion is reduced.
   const demoVideo = document.querySelector('.demo-video');
@@ -24,13 +24,17 @@
     const videoButton = document.querySelector('[data-video-play]');
     const videoButtonTitle = videoButton?.querySelector('b');
     const videoButtonHint = videoButton?.querySelector('small');
+    const videoToggle = document.querySelector('[data-video-toggle]');
+    const videoSound = document.querySelector('[data-video-sound]');
 
     const setVideoState = (state) => {
       videoStage?.classList.toggle('is-playing', state === 'playing');
       videoStage?.classList.toggle('is-error', state === 'error');
+      videoStage?.classList.toggle('is-ended', demoVideo.ended);
+      if (videoToggle) videoToggle.textContent = state === 'playing' ? 'Pause demo' : demoVideo.ended ? 'Replay demo' : 'Play demo';
       if (!videoButtonTitle || !videoButtonHint) return;
-      videoButtonTitle.textContent = state === 'error' ? 'Retry product demo' : 'Play product demo';
-      videoButtonHint.textContent = state === 'error' ? 'The video did not load' : 'See the real playtest loop';
+      videoButtonTitle.textContent = state === 'error' ? 'Retry product film' : demoVideo.ended ? 'Replay product film' : 'Play product film';
+      videoButtonHint.textContent = state === 'error' ? 'The video did not load' : '24 seconds · the actual app';
     };
 
     const loadVideo = ({ play = !reduced } = {}) => {
@@ -40,17 +44,29 @@
         source.removeAttribute('data-src');
         demoVideo.load();
       }
-      if (play) demoVideo.play().catch(() => setVideoState('paused'));
+      if (play) {
+        if (demoVideo.ended) demoVideo.currentTime = 0;
+        demoVideo.play().catch(() => setVideoState('paused'));
+      }
     };
 
     demoVideo.addEventListener('play', () => setVideoState('playing'));
     demoVideo.addEventListener('pause', () => setVideoState('paused'));
     demoVideo.addEventListener('error', () => setVideoState('error'));
+    demoVideo.addEventListener('ended', () => setVideoState('paused'));
     demoVideo.addEventListener('click', () => {
       if (demoVideo.paused) loadVideo({ play: true });
       else demoVideo.pause();
     });
     videoButton?.addEventListener('click', () => loadVideo({ play: true }));
+    videoToggle?.addEventListener('click', () => { if (demoVideo.paused) loadVideo({ play: true }); else demoVideo.pause(); });
+    videoSound?.addEventListener('click', () => {
+      demoVideo.muted = !demoVideo.muted;
+      videoSound.setAttribute('aria-pressed', String(!demoVideo.muted));
+      videoSound.textContent = demoVideo.muted ? 'Sound off · play the music' : 'Sound on';
+      if (!demoVideo.muted && demoVideo.paused) loadVideo({ play: true });
+    });
+    document.addEventListener('visibilitychange', () => { if (document.hidden) demoVideo.pause(); });
 
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
