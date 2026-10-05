@@ -62,6 +62,10 @@
 
     <div class="install-callout"><p><strong>Do not disable Gatekeeper globally.</strong> Commands that disable quarantine or system-wide checks reduce protection for every download, not just Baseplate.</p></div>
 
+    <h2>Update without losing your projects</h2>
+    <p>Finish your agents and playtest, then quit Baseplate. Download the matching DMG and replace Baseplate in <strong>Applications</strong>. Your projects and settings are stored separately from the app. The unsigned Mac build uses this manual update path.</p>
+    <p>After replacement, macOS may ask to let Baseplate use <strong>baseplate Safe Storage</strong> in your Keychain. Use your Mac login password to approve that existing item. Do not delete it or reset your Keychain: it protects your saved credentials. If you decline, close Baseplate and reopen it when you are ready to approve access.</p>
+
     <h2>Why can't the warning simply be removed?</h2>
     <p>Apple only grants normal downloaded-app trust to software signed with a Developer ID certificate and notarized by Apple. That certificate requires the paid Apple Developer Program. An ad-hoc signature is free, but it does not identify the developer and does not remove Gatekeeper's warning.</p>
 
