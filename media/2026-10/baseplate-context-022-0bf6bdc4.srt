@@ -1,0 +1,63 @@
+1
+00:00:00,233 --> 00:00:01,067
+Wrong script.
+
+2
+00:00:01,100 --> 00:00:02,433
+Perfect code.
+
+3
+00:00:02,700 --> 00:00:03,733
+Broken game.
+
+4
+00:00:03,900 --> 00:00:05,700
+Your AI needs context,
+
+5
+00:00:05,767 --> 00:00:07,433
+not another giant prompt.
+
+6
+00:00:07,600 --> 00:00:09,300
+Baseplate maps your scripts and
+
+7
+00:00:09,300 --> 00:00:10,500
+the connections it finds.
+
+8
+00:00:10,800 --> 00:00:11,800
+Pick the system.
+
+9
+00:00:11,900 --> 00:00:13,133
+Follow the dependency.
+
+10
+00:00:13,267 --> 00:00:14,600
+Open your own AI on
+
+11
+00:00:14,633 --> 00:00:15,733
+the right project.
+
+12
+00:00:15,900 --> 00:00:17,000
+Review the change.
+
+13
+00:00:17,100 --> 00:00:18,467
+Test it in Studio.
+
+14
+00:00:18,633 --> 00:00:19,467
+Less guessing.
+
+15
+00:00:19,600 --> 00:00:20,333
+More building.
+
+16
+00:00:20,700 --> 00:00:22,333
+Start free with Baseplate.

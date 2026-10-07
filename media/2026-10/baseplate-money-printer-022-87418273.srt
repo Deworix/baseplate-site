@@ -1,0 +1,55 @@
+1
+00:00:00,233 --> 00:00:02,033
+Your Roblox shop just became
+
+2
+00:00:02,067 --> 00:00:03,300
+a money printer.
+
+3
+00:00:03,500 --> 00:00:05,233
+The client picks the reward.
+
+4
+00:00:05,233 --> 00:00:06,833
+The server believes it.
+
+5
+00:00:06,867 --> 00:00:08,067
+That is the bug.
+
+6
+00:00:08,233 --> 00:00:10,033
+Baseplate’s free scan flags
+
+7
+00:00:10,033 --> 00:00:11,667
+the risky remote handler.
+
+8
+00:00:11,833 --> 00:00:13,467
+Open the exact script.
+
+9
+00:00:13,600 --> 00:00:15,400
+Keep rewards on the server.
+
+10
+00:00:15,433 --> 00:00:16,600
+Then test the change in
+
+11
+00:00:16,633 --> 00:00:17,467
+Studio.
+
+12
+00:00:17,500 --> 00:00:19,233
+Don’t ship a trust fall.
+
+13
+00:00:19,267 --> 00:00:20,267
+Check your game.
+
+14
+00:00:20,367 --> 00:00:21,700
+Try Baseplate free.
