@@ -1,0 +1,43 @@
+1
+00:00:00,233 --> 00:00:02,033
+Your AI: fixed.
+
+2
+00:00:02,300 --> 00:00:04,267
+Your inventory: absolutely
+
+3
+00:00:04,300 --> 00:00:04,667
+not.
+
+4
+00:00:05,033 --> 00:00:05,867
+Plot twist.
+
+5
+00:00:06,000 --> 00:00:07,400
+The shop depends on it.
+
+6
+00:00:07,767 --> 00:00:09,300
+Baseplate’s Map shows that source
+
+7
+00:00:09,367 --> 00:00:10,033
+connection.
+
+8
+00:00:10,167 --> 00:00:11,533
+Check the dependency before the
+
+9
+00:00:11,600 --> 00:00:12,400
+next edit.
+
+10
+00:00:12,567 --> 00:00:13,633
+Try Baseplate free.
+
+11
+00:00:13,900 --> 00:00:15,933
+Before another plot twist.
