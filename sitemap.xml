@@ -4,6 +4,10 @@
      stay honest — bump a page's date only when its content actually changed. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://baseplatedev.com/ship-or-skip.html</loc>
+    <lastmod>2026-10-15</lastmod>
+  </url>
+  <url>
     <loc>https://baseplatedev.com/</loc>
     <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -11,7 +15,7 @@
   </url>
   <url>
     <loc>https://baseplatedev.com/guides.html</loc>
-    <lastmod>2026-07-28</lastmod>
+    <lastmod>2026-10-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
