@@ -2,13 +2,16 @@
 // session ID, project data or free-form text. GPC / Do Not Track is respected.
 (function () {
   if (navigator.globalPrivacyControl === true || navigator.doNotTrack === '1') return;
+  // Local previews and explicitly marked QA visits are not customer activity.
+  if (['localhost', '127.0.0.1', '[::1]', '::1'].includes(location.hostname)) return;
+  const query = new URLSearchParams(location.search);
+  if (query.get('qa') === '1') return;
   const endpoint = 'https://baseplate-license.baseplate-app.workers.dev/event';
   const allowed = /^[a-z0-9._/-]{1,80}$/;
   const clean = (value) => {
     const text = String(value || '').trim().toLowerCase().slice(0, 80);
     return allowed.test(text) ? text : undefined;
   };
-  const query = new URLSearchParams(location.search);
   const attribution = {
     source: clean(query.get('utm_source')),
     medium: clean(query.get('utm_medium')),
