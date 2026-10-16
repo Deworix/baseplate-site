@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>Founding 10 Roblox developer onboarding — Baseplate</title>
-<meta name="description" content="Apply for one of ten free, hands-on Baseplate onboarding sessions for Roblox developers. Leave with a local project health score and one evidence-backed release path.">
+<meta name="description" content="Free Baseplate onboarding for ten Roblox developers. Understand your scripts, run a local Verify scan or build one gameplay test. No purchase required.">
 <link rel="canonical" href="https://baseplatedev.com/founding-10.html">
 <meta property="og:title" content="Founding 10 — a free hands-on Baseplate setup call">
-<meta property="og:description" content="Ten Roblox developers, one hands-on session each: we install Baseplate, wire the Studio bridge and run the first verified loop with you.">
+<meta property="og:description" content="One Roblox project, one useful result: Map, Verify or a gameplay test. Free hands-on setup for ten developers. No purchase required.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://baseplatedev.com/founding-10.html">
 <meta property="og:site_name" content="Baseplate">
@@ -36,9 +36,9 @@
     <section>
       <p class="eyebrow">Founding 10 · free</p>
       <h1>Bring one Roblox project. Leave with proof.</h1>
-      <p class="lede">We are onboarding ten Roblox developers by hand. In one focused session, we connect Baseplate, run Verify on your real project and complete the highest-value evidence step together.</p>
-      <ul class="f10-list"><li><b>Before:</b> a short fit check and zero source upload.</li><li><b>During:</b> install, Studio bridge, local scan and one real smoke test.</li><li><b>After:</b> your score, prioritized blockers and a reproducible Best Path to Verified.</li></ul>
-      <p class="f10-note">No purchase, card, public review or promotion is required. You need Roblox Studio, a current project and one supported coding-agent CLI. We ask for candid feedback; permission for any case study is separate and optional.</p>
+      <p class="lede">Ten Roblox developers. One useful result each. Bring a project you are working on; we will help you understand its scripts, check what needs attention or reproduce one gameplay bug.</p>
+      <ul class="f10-list"><li><b>Before:</b> choose one goal. No source upload in this form.</li><li><b>During:</b> set up only what that goal needs, then work through it together.</li><li><b>After:</b> keep your result and one clear next step. A gameplay test includes the actual replay evidence.</li></ul>
+      <p class="f10-note">No purchase, card, public review or promotion is required. Map and Verify reads do not need an AI account. Gameplay tests need Roblox Studio; an agent-powered fix uses your own supported CLI. Open Cloud is optional. Permission for a case study is separate and optional.</p>
     </section>
     <section class="f10-card" id="apply">
       <p class="eyebrow">Request a slot</p>
@@ -46,6 +46,8 @@
         <div class="hp" aria-hidden="true"><label>Company<input id="f10-company" tabindex="-1" autocomplete="off"></label></div>
         <label>Email<input id="f10-email" type="email" required autocomplete="email" placeholder="you@example.com"></label>
         <label>Project stage<select id="f10-stage"><option>Playable prototype</option><option>Preparing first release</option><option>Already live</option><option>Studio/team project</option></select></label>
+        <label>What would help you first?<select id="f10-goal" required aria-describedby="f10-requirements"><option value="">Choose one result</option><option value="map">Understand my scripts and their connections</option><option value="verify">Find what to check before my next update</option><option value="playtest">Reproduce one gameplay bug</option></select></label>
+        <p class="f10-note" id="f10-requirements" role="status">Choose one result. We will guide you through the setup it needs.</p>
         <label>Biggest blocker right now<textarea id="f10-blocker" required maxlength="1800" placeholder="For example: a RemoteEvent exploit, unreliable saves, regressions after AI edits, or no repeatable release check."></textarea></label>
         <label>Public creator/game link (optional)<input id="f10-link" type="url" maxlength="300" placeholder="https://www.roblox.com/... or portfolio"></label>
         <label class="f10-consent"><input id="f10-consent" type="checkbox" required><span>I agree that Baseplate may use these details to assess my application and contact me about this onboarding. See the <a href="privacy.html">Privacy Policy</a>.</span></label>
@@ -58,6 +60,6 @@
 </main>
 <footer class="footer"><div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="index.html#pricing">Pricing</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div><p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation.</p></footer>
 <script src="funnel.js"></script>
-<script src="founding-10.js"></script>
+<script src="founding-10.js?v=20261016"></script>
 </body>
 </html>
