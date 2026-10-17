@@ -4,6 +4,8 @@ Touch checkpoint 3. Go back and touch checkpoint 1. Reset your character.
 
 If your obby keeps the highest checkpoint reached **during this server session**, the player should still respawn at 3. A forward-only test can miss a regression to 1.
 
+[Try the three-move browser challenge first](https://baseplatedev.com/break-the-checkpoint.html). It illustrates this rule; the Studio instructions below test an actual game.
+
 ## Run this on a disposable copy of your own game
 
 1. Start a normal Studio Play session with a real player.

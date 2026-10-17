@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; media-src 'self' https://baseplatedev.com; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Break the checkpoint — a 3-move Roblox challenge · Baseplate</title>
+<meta name="description" content="Can you make this checkpoint lose progress in three moves? Play a free browser challenge, replay your route with a guard, then see real Roblox Studio evidence.">
+<meta name="robots" content="index,follow"><link rel="canonical" href="https://baseplatedev.com/break-the-checkpoint.html">
+<meta property="og:type" content="website"><meta property="og:title" content="You have 3 moves. Break this checkpoint."><meta property="og:description" content="Touch a checkpoint. Reset. Find the route that loses progress. No account or install."><meta property="og:url" content="https://baseplatedev.com/break-the-checkpoint.html">
+<meta property="og:image" content="https://baseplatedev.com/break-the-checkpoint/cover.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="A checkpoint route with three empty move slots. Can you make the player lose progress?">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://baseplatedev.com/break-the-checkpoint/cover.png">
+<link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="icon" href="favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="manifest" href="site.webmanifest"><meta name="theme-color" content="#090d17">
+<link rel="stylesheet" href="break-the-checkpoint/style.css"><script type="module" src="break-the-checkpoint/game.js"></script>
+</head><body>
+<header><a class="brand" href="index.html"><svg width="27" height="27" viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="9" fill="none" stroke="currentColor" stroke-width="2.5"/><g fill="currentColor"><circle cx="12" cy="12" r="3"/><circle cx="28" cy="12" r="3"/><circle cx="12" cy="28" r="3"/><circle cx="28" cy="28" r="3"/></g></svg>Baseplate</a><span class="edition">BREAK THIS UPDATE / 01</span><a class="header-link" href="ship-or-skip.html">Six code-review calls ↗</a></header>
+<main>
+<section class="intro"><p class="eyebrow">A SMALL GAME. A REAL KIND OF BUG.</p><h1>You have <em>3 moves.</em><br>Break the checkpoint.</h1><p class="lede">Make the player respawn <strong>behind their furthest checkpoint.</strong> Pick checkpoints and use Reset. Can you find the losing route?</p></section>
+<section id="arena" class="arena" aria-label="Checkpoint challenge">
+<div class="arena-top"><span class="simulation">BROWSER SIMULATION</span><span id="mode-label">Original rule</span></div>
+<div class="world"><svg id="world" viewBox="0 0 760 320" aria-hidden="true" data-position="0"><defs><pattern id="studs" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="16" cy="16" r="1.5" fill="#344364"/></pattern></defs><rect width="760" height="320" fill="url(#studs)"/><path class="track" d="M70 252 210 194 360 246 510 158 660 211"/>
+<g class="platform start"><path d="m32 249 38-19 38 19-38 20z"/><path d="M32 249v16l38 20 38-20v-16l-38 20z"/><text x="70" y="308">START</text></g>
+<g class="platform"><path d="m162 188 48-24 48 24-48 25z"/><path d="M162 188v19l48 25 48-25v-19l-48 25z"/><text x="210" y="190">1</text></g>
+<g class="platform"><path d="m312 240 48-24 48 24-48 25z"/><path d="M312 240v19l48 25 48-25v-19l-48 25z"/><text x="360" y="242">2</text></g>
+<g class="platform"><path d="m462 152 48-24 48 24-48 25z"/><path d="M462 152v19l48 25 48-25v-19l-48 25z"/><text x="510" y="154">3</text></g>
+<g class="platform"><path d="m612 205 48-24 48 24-48 25z"/><path d="M612 205v19l48 25 48-25v-19l-48 25z"/><text x="660" y="207">4</text></g>
+<g id="runner"><ellipse cy="6" rx="20" ry="7" fill="#0008"/><rect x="-11" y="-39" width="22" height="28" rx="5" fill="#edf2ff"/><circle cy="-52" r="12" fill="#edf2ff"/><path d="M-6-12-9 3M6-12 9 3" fill="none" stroke="#edf2ff" stroke-width="6" stroke-linecap="round"/></g></svg>
+<div class="world-caption"><span>Furthest reached <b id="furthest">0</b></span><span>Last respawn <b id="respawn">—</b></span></div></div>
+<div class="controls"><p class="control-label">Choose your moves <span id="move-count">0 / 3</span></p><div class="touches"><button type="button" data-touch="1" aria-label="Touch checkpoint 1"><span>1</span>Touch</button><button type="button" data-touch="2" aria-label="Touch checkpoint 2"><span>2</span>Touch</button><button type="button" data-touch="3" aria-label="Touch checkpoint 3"><span>3</span>Touch</button><button type="button" data-touch="4" aria-label="Touch checkpoint 4"><span>4</span>Touch</button><button type="button" id="reset-player">↻ <span>Reset player</span></button></div>
+<ol id="route" aria-label="Your move sequence"><li>First move</li><li>Second move</li><li>Third move</li></ol><div class="small-controls"><button type="button" id="undo" disabled>Undo move</button><button type="button" id="restart">Start over</button><button type="button" id="hint">A small hint?</button></div>
+<p id="status" role="status" aria-live="polite">Start anywhere. Reset uses one move too.</p><p id="hint-text" hidden>The original rule remembers the last checkpoint touched. Does that always mean progress?</p>
+</div>
+<section id="outcome" hidden aria-labelledby="outcome-title"><p class="eyebrow" id="outcome-kicker">YOU FOUND A FAILURE PATH</p><h2 id="outcome-title" tabindex="-1">You broke it.</h2><p id="outcome-message"></p><button type="button" id="replay-guard" class="primary">Replay my route with the guard →</button><div id="guard-result" hidden><p class="kept" id="guard-message"></p><pre><code>if current ~= nil and stage &lt;= current then
+    return
+end</code></pre><p class="fine">Same moves. This rule keeps the highest stage reached. It does not stop forward skips.</p></div>
+<div class="share"><button type="button" id="save-card">Save my challenge card ↓</button><button type="button" id="copy-link">Challenge a developer ↗</button></div><p id="share-notice" role="status" aria-live="polite"></p>
+<div class="next-step"><p class="eyebrow">GOT A BUG IN YOUR OWN GAME?</p><h3>Bring one project.<br>Get one useful result.</h3><p>We’ll help you set up a Map read, a Verify check or one gameplay test. Free hands-on setup. No purchase or public review required.</p><a class="primary" href="founding-10.html?utm_source=checkpoint_challenge&amp;utm_medium=interactive_game&amp;utm_campaign=023_first_win">Get help with my project ↗</a></div></section>
+</section>
+<section class="evidence"><details id="proof"><summary>See the actual Roblox Studio result behind this challenge <span>↗</span></summary><p>Our own local scene, Baseplate 0.23 Free. The same gameplay test failed before a manual guard fix and passed after. This browser puzzle illustrates that behavior; it does not run Studio.</p><video id="proof-video" controls preload="none" poster="break-the-checkpoint/cover.png" aria-label="Real Baseplate and Roblox Studio checkpoint example"></video><p class="fine">Edited real captures. Session-only progress, not DataStore persistence or a whole-game correctness guarantee. <a href="https://github.com/Deworix/baseplate-site/blob/main/examples/checkpoint-regression.md" target="_blank" rel="noopener noreferrer">Get the test steps and guard ↗</a></p></details></section>
+<noscript><p>This browser challenge needs JavaScript. <a href="https://github.com/Deworix/baseplate-site/blob/main/examples/checkpoint-regression.md">Use the written test steps instead.</a></p></noscript>
+</main><footer><span>Made by Baseplate. Not affiliated with Roblox.</span><span>No account, tracking or source upload.</span></footer>
+</body></html>
