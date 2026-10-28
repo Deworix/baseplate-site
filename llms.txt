@@ -72,7 +72,7 @@ real task. Current source-linked comparisons are listed below.
 - [Home](https://baseplatedev.com/): product overview, live demo video, pricing and download.
 - [Guides](https://baseplatedev.com/guides.html): index of every Baseplate guide.
 - [Claude Code with Roblox Studio](https://baseplatedev.com/claude-code-roblox-studio.html): full bridge setup — plugin, Studio as MCP server, `.mcp.json` + `--mcp-config`, Rojo, and the two undocumented steps setups stall on.
-- [Codex with Roblox Studio](https://baseplatedev.com/codex-roblox-studio.html): per-session MCP overrides, the one-shot `codex exec` model with `resume`, and the Windows exit-code-193 PATH trap.
+- [Codex with Roblox Studio](https://baseplatedev.com/codex-roblox-studio.html): start in Baseplate’s Guide, choose a project, connect Codex and repeat the same Studio test; setup recovery and a free local-scan path without AI.
 - [Cursor with Roblox Studio](https://baseplatedev.com/cursor-roblox-studio.html): why Cursor ignores `.mcp.json`, the project-scoped `.cursor/mcp.json`, and the `--approve-mcps` flag.
 - [AI Roblox script generator](https://baseplatedev.com/ai-roblox-script-generator.html): generate Luau from plain English with a verified Studio playtest loop.
 - [Baseplate vs Roblox Assistant](https://baseplatedev.com/baseplate-vs-roblox-assistant.html): dated comparison with Roblox's own built-in Assistant, including its April 2026 agentic playtesting beta and reported usage limits.
