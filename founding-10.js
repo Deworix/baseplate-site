@@ -21,7 +21,8 @@
     button.disabled = true; button.textContent = 'Sending…';
     var message = [
       '[FOUNDING 10 APPLICATION]',
-      'Stage: ' + document.getElementById('f10-stage').value,
+      'Contact preference: written help by email first; no call booked',
+      'Stage: ' + (document.getElementById('f10-stage').value || '(not specified)'),
       'First outcome: ' + goals[goal.value].label,
       'Public link: ' + (document.getElementById('f10-link').value.trim() || '(none)'),
       '', 'Current blocker:', document.getElementById('f10-blocker').value.trim(),
@@ -33,6 +34,6 @@
       .then(function (response) { if (!response.ok) throw new Error(String(response.status)); return response.json(); })
       .then(function () { ok.hidden = false; form.reset(); requirements.textContent = 'Choose one result. We will guide you through the setup it needs.'; if (window.baseplateTrack) window.baseplateTrack('founding_10_applied'); })
       .catch(function () { error.hidden = false; error.classList.add('is-error'); error.textContent = 'Could not send right now. Email contact@baseplatedev.com instead.'; })
-      .finally(function () { button.disabled = false; button.textContent = 'Request a free session'; });
+      .finally(function () { button.disabled = false; button.textContent = 'Ask for free help'; });
   });
 }());
