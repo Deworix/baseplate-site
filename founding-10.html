@@ -26,6 +26,7 @@
 <meta name="theme-color" content="#08090C">
 <style>
   .f10-wrap{max-width:920px;margin:0 auto;padding:120px 24px 90px}.f10-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:start}.f10-hero h1{font-size:clamp(38px,6vw,66px);letter-spacing:-.045em;line-height:1}.f10-list{display:grid;gap:10px;margin:26px 0;padding:0;list-style:none}.f10-list li{padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface-1);color:var(--dim)}.f10-list b{color:var(--text)}.f10-card{padding:22px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.f10-form{display:grid;gap:14px}.f10-form label{display:grid;gap:6px;color:var(--dim);font-size:12px}.f10-form input,.f10-form textarea,.f10-form select{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:9px;background:var(--surface-1);color:var(--text);font:inherit}.f10-form textarea{min-height:120px;resize:vertical}.f10-consent{grid-template-columns:auto 1fr!important;align-items:start}.f10-consent input{width:auto;margin-top:3px}.f10-note{color:var(--faint);font-size:11px;line-height:1.5}.f10-result{padding:13px;border:1px solid rgba(63,217,162,.35);border-radius:9px;color:var(--mint)}.f10-result.is-error{border-color:rgba(240,98,124,.42);background:rgba(240,98,124,.07);color:var(--text)}.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}@media(max-width:760px){.f10-hero{grid-template-columns:1fr}.f10-wrap{padding-top:96px}}
+  .f10-extra{border-top:1px solid var(--line);padding-top:12px}.f10-extra summary{cursor:pointer;color:var(--dim);font-size:12px;line-height:1.6}.f10-extra summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px}.f10-extra-fields{display:grid;gap:14px;padding-top:14px}
 </style>
 </head>
 <body>
@@ -34,7 +35,7 @@
 <main class="f10-wrap">
   <div class="f10-hero">
     <section>
-      <p class="eyebrow">Founding 10 · free help</p>
+      <p class="eyebrow">Free help · one project</p>
       <h1>One Roblox problem.<br>A clear next step.</h1>
       <p class="lede">Tell us what you are trying to do and where you get stuck. We will start by email, help you choose one task in Baseplate and work through the steps you can repeat yourself. No call needed.</p>
       <ul class="f10-list"><li><b>You send:</b> what should happen and what happens instead. No private scripts or keys.</li><li><b>We start:</b> with written help for that one problem. If it needs a live session, we can agree on one together.</li><li><b>You check:</b> repeat the same steps in your project. We keep unresolved problems clear; a scan alone is not a gameplay test.</li></ul>
@@ -46,11 +47,16 @@
       <form class="f10-form" id="f10-form">
         <div class="hp" aria-hidden="true"><label>Company<input id="f10-company" tabindex="-1" autocomplete="off"></label></div>
         <label>Email<input id="f10-email" type="email" required autocomplete="email" placeholder="you@example.com"></label>
-        <label>Project stage (optional)<select id="f10-stage"><option value="">Not sure yet</option><option>Playable prototype</option><option>Preparing first release</option><option>Already live</option><option>Studio/team project</option></select></label>
         <label>What would help you first?<select id="f10-goal" required aria-describedby="f10-requirements"><option value="">Choose one result</option><option value="map">Understand my scripts and their connections</option><option value="verify">Find what to check before my next update</option><option value="playtest">Reproduce one gameplay bug</option></select></label>
         <p class="f10-note" id="f10-requirements" role="status">Choose one result. We will guide you through the setup it needs.</p>
         <label>What should happen, and what happens instead?<textarea id="f10-blocker" required maxlength="1800" placeholder="For example: after a player buys a sword, coins go down but the item never arrives. Or: I have scripts in Studio and do not know how to connect them to my AI."></textarea></label>
-        <label>Public creator/game link (optional)<input id="f10-link" type="url" maxlength="300" placeholder="https://www.roblox.com/... or portfolio"></label>
+        <details class="f10-extra">
+          <summary>Add project details (optional)</summary>
+          <div class="f10-extra-fields">
+            <label>Project stage (optional)<select id="f10-stage"><option value="">Not sure yet</option><option>Playable prototype</option><option>Preparing first release</option><option>Already live</option><option>Studio/team project</option></select></label>
+            <label>Public creator/game link (optional)<input id="f10-link" type="url" maxlength="300" placeholder="https://www.roblox.com/... or portfolio"></label>
+          </div>
+        </details>
         <label class="f10-consent"><input id="f10-consent" type="checkbox" required><span>I agree that Baseplate may use these details to assess my request and contact me about this help. See the <a href="privacy.html">Privacy Policy</a>.</span></label>
         <button class="btn btn-primary" id="f10-send" type="submit">Ask for free help</button>
         <div class="f10-result" id="f10-ok" role="status" hidden>Message received. We will reply by email with a suggested next step, or explain if this is outside what we can help with. No call has been booked.</div>

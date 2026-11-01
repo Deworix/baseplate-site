@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-4FFphp0l5ymurSpTDjBVWz1RO2oJikZnXHkYTlXY7v8='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-VRbjvMdMrrLXdgpy9nDYxyxywfBQAR6kZGnA4B0PSts='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>Baseplate — your own AI builds your Roblox game, one visible step at a time</title>
 <meta name="description" content="Build and update your Roblox game with your own AI. Follow its plan, review structural edits and test changes in Studio. Free to start.">
 <meta property="og:title" content="Baseplate — your AI builds your Roblox game. You stay in control.">
@@ -121,7 +121,7 @@
           "name": "Do I need my own AI subscription?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "You need a supported agent CLI account. Claude Code, Codex and Cursor support Playtest Copilot. Grok supports builder tiles; Antigravity supports Native tiles for personal Google accounts. Gemini CLI requires an API key or a supported organization license. Baseplate does not include AI inference. Free costs $0, Pro costs $4.99/month, and your provider’s usage limits and charges still apply."
+            "text": "Not for a local Map read or Verify scan. You can start with your project and no AI account or Open Cloud key. Agent-powered edits need your own supported CLI and working sign-in. Claude Code, Codex and Cursor support Playtest Copilot. Grok supports builder tiles; Antigravity supports Native tiles for personal Google accounts. Gemini CLI requires an API key or a supported organization license. Baseplate does not include AI inference. Free costs $0, Pro costs $4.99/month, and your provider’s usage limits and charges still apply."
           }
         },
         {
@@ -186,7 +186,7 @@
       "@type": "VideoObject",
       "@id": "https://baseplatedev.com/#demo-video",
       "name": "Baseplate — your next Roblox update starts here",
-      "description": "A 24-second preview of Baseplate's upcoming interface, captured in the actual app: explore your game map, plan the next change and work with your own AI. Original instrumental music, no narration. Demo projects and edited captures.",
+      "description": "A 24-second recorded Baseplate app preview: explore your game map, plan the next change and work with your own AI. Original instrumental music, no narration. Demo projects and edited captures.",
       "thumbnailUrl": "https://baseplatedev.com/promo-022-v2-poster.jpg",
       "uploadDate": "2026-10-03",
       "duration": "PT24S",
@@ -225,9 +225,9 @@
   <div class="hero-copy">
     <p class="eyebrow"><span class="eyebrow-dot"></span>Bring your own AI · for Roblox developers</p>
     <h1>Your AI builds<br>your Roblox game.<br>You stay in control.</h1>
-    <p class="lede">Bring the <strong>Claude Code, Codex or Cursor account you already use.</strong> Baseplate connects it to your game files and Roblox Studio, so you can build, review and playtest in one place. Review requests to restructure your build and undo supported edits. No extra AI credits from Baseplate; your provider’s usage limits still apply.</p>
-    <div class="hero-cta"><a class="btn btn-primary" href="#download">Download free</a><a class="btn btn-ghost" href="#demo">Watch it work <span class="arrow">→</span></a></div>
-    <p class="hero-fineprint">Needs Claude Code, Codex or Cursor on your computer · free plan · no card required · Windows &amp; macOS</p>
+    <p class="lede">Bring <strong>Claude Code, Codex or Cursor</strong>, your game files and Roblox Studio into one desktop workspace. Choose one change, review the edits, then try the same player action in Studio.</p>
+    <div class="hero-cta"><a class="btn btn-primary" href="#download">Try Baseplate free</a><a class="btn btn-ghost" href="#demo">See the app in 24s <span class="arrow">→</span></a></div>
+    <p class="hero-fineprint">Start with a free local scan — no AI account or card needed. Agent edits use your own CLI access and provider limits. Windows &amp; macOS.</p>
     <p class="hero-fineprint"><a href="founding-10.html?utm_source=site&amp;utm_medium=hero&amp;utm_campaign=three_real_projects">Stuck on your first project? Get free help by email — no call needed →</a></p>
   </div>
   <div class="hero-demo update-world" data-update-world data-state="after" aria-label="Illustrated checkpoint improvement in a Roblox obstacle course">
@@ -246,13 +246,13 @@
   <div class="verify-pitch-copy">
     <p class="eyebrow">Before you publish · Baseplate Verify · free</p>
     <h2>Check your changes before you publish.</h2>
-    <p>Run one local scan across security, DataStore safety, code hygiene, regression evidence, performance and the live Studio bridge. Baseplate separates static signals from real Studio proof, then ranks the shortest path to a verified build.</p>
-    <div class="hero-cta"><a class="btn btn-primary" data-funnel="verify" href="#download">Get your free health score</a><a class="btn btn-ghost" href="#pricing">See all six labs</a></div>
+    <p>Not sure what to improve first? Open Guide → Find what to improve → Open free local scan. Review a finding with its file and next steps. A local scan points to risks and missing evidence; gameplay still needs a Studio test.</p>
+    <div class="hero-cta"><a class="btn btn-primary" data-funnel="verify" href="#download">Start with a free scan</a><a class="btn btn-ghost" href="codex-roblox-studio.html#without-ai">See the exact steps</a></div>
     <p class="hero-fineprint">Local scan · no source upload · no AI credits required</p>
     <p class="verify-onboarding"><a href="founding-10.html">Not sure what to check first? Tell us where you are stuck — free help by email →</a></p>
   </div>
   <div class="verify-proof" aria-label="Example Baseplate Verify report">
-    <div class="verify-proof-score"><strong>82</strong><span>/ 100</span><em>2 steps to verified</em></div>
+    <div class="verify-proof-score"><strong>82</strong><span>/ 100</span><em>Example · 2 checks left</em></div>
     <ol><li class="done"><b>Static safety scan</b><span>0 high-impact findings</span></li><li class="next"><b>Run core gameplay smoke test</b><span>Next · real Studio evidence</span></li><li><b>Capture performance budget</b><span>Then · release-ready proof</span></li></ol>
   </div>
 </section>
@@ -264,7 +264,7 @@
     <h2>Your next Roblox update starts here.</h2>
   </div>
   <div class="video-frame">
-    <div class="video-toolbar" aria-hidden="true"><span class="video-lights"><i></i><i></i><i></i></span><b>Baseplate · upcoming interface preview</b><span>24-second product film</span></div>
+    <div class="video-toolbar" aria-hidden="true"><span class="video-lights"><i></i><i></i><i></i></span><b>Baseplate · recorded app preview</b><span>24-second product film</span></div>
     <div class="video-stage" data-video-frame>
       <video class="demo-video" muted playsinline preload="none" poster="promo-022-v2-poster.jpg" width="1920" height="1080" aria-label="Baseplate promotional film: real Map, Board, AI picker and Cursor session, with music and no narration">
         <source data-src="baseplate-promo-022-v2.mp4" type="video/mp4">
@@ -276,7 +276,7 @@
     <noscript><p class="video-fallback"><a href="baseplate-promo-022-v2.mp4">Open the Baseplate product film</a></p></noscript>
   </div>
   <div class="demo-controls" aria-label="Demo playback"><button type="button" data-video-toggle>Play demo</button><button type="button" data-video-sound aria-pressed="false">Sound off · play the music</button></div>
-  <p class="video-note">Upcoming interface preview · actual app, demo projects and edited captures · your AI provider’s plan is separate</p>
+  <p class="video-note">Recorded app preview · demo projects and edited captures · your AI provider’s plan is separate</p>
 </section>
 
 <!-- ── Interactive product demo ─────────────────────────────────── -->
@@ -429,14 +429,14 @@
 <section class="section" id="copilot">
   <div class="section-head">
     <p class="eyebrow">The flagship loop</p>
-    <h2>Playtest → error → fix → <span class="accent">PASS</span>.<br>Without you in the middle.</h2>
-    <p class="section-lede">Every Roblox dev knows the ritual: playtest, squint at the Output window, alt-tab, guess, repeat. Baseplate's bridge gives agents eyes inside Studio — they run the playtest, read the <strong>actual</strong> runtime error, fix the cause in your source, and re-run until the console is clean.</p>
+    <h2>Playtest → error → fix → <span class="accent">PASS</span>.<br>Keep the evidence.</h2>
+    <p class="section-lede">Choose a failing action in your game. With a supported CLI and Studio connected, the agent can read runtime errors, edit your source and rerun checks. You review the change and replay the same player action.</p>
   </div>
   <div class="loop-steps">
     <div class="loop-step"><span class="loop-num mono">01</span><h3>Playtest</h3><p>The agent runs your game through the live Studio bridge and watches the console — the same output you'd read, minus the squinting.</p></div>
     <div class="loop-step"><span class="loop-num mono">02</span><h3>Diagnose</h3><p>It reads the real stack trace, finds the cause in your Luau source, and explains it in plain language — not a cryptic dump.</p></div>
     <div class="loop-step"><span class="loop-num mono">03</span><h3>Fix</h3><p>It edits <span class="mono">src/</span> directly. Rojo syncs the change into Studio the moment it's written.</p></div>
-    <div class="loop-step"><span class="loop-num mono">04</span><h3>Verify</h3><p>It playtests again and only reports PASS when the console is actually clean. No "should work now".</p></div>
+    <div class="loop-step"><span class="loop-num mono">04</span><h3>Verify</h3><p>Rerun the checks and inspect what passed or blocked the run. Replay the player action too: a clean console alone does not prove the gameplay works.</p></div>
   </div>
 </section>
 
@@ -444,18 +444,18 @@
 <section class="section split" id="exploit">
   <div class="split-copy">
     <p class="eyebrow eyebrow-rose">Exploit Guard</p>
-    <h2>Every unvalidated RemoteEvent is free money for exploiters.</h2>
-    <p>If your server trusts the client — prices, rewards, damage — someone will find it. Exploit Guard audits your live game like an attacker would: it maps every remote, tells you each hole as a plain-language attack story ranked by severity, and writes the server-side hardening for you.</p>
+    <h2>Can a player choose their own price?</h2>
+    <p>Review handlers that accept prices, rewards or damage from the client. Exploit Guard can flag risky patterns, explain why they matter and help your chosen agent write server-side checks. Review the findings and test each change in Studio.</p>
     <ul class="checks">
-      <li>Finds remotes that trust the client before players do</li>
-      <li>Explains each exploit as the attack it enables — "a client can dictate its own price"</li>
-      <li>Writes validated, server-authoritative fixes into your source</li>
+      <li>Flags remote handlers to review for client-controlled values</li>
+      <li>Explains the risk — for example, a client supplying its own price</li>
+      <li>Helps your agent prepare server-side validation for you to review</li>
     </ul>
     <p class="free-tag"><span class="tag tag-mint">Included free</span> Exploit Guard ships in the Free plan. Protecting your revenue shouldn't be a paywall.</p>
   </div>
   <div class="split-visual" aria-hidden="true">
     <div class="audit-card">
-      <div class="audit-head mono">EXPLOIT GUARD · 6 findings</div>
+      <div class="audit-head mono">EXAMPLE AUDIT · 6 findings</div>
       <div class="audit-row sev-crit"><span class="sev">CRITICAL</span><span class="what mono">BuyItem</span><span class="how">client dictates price → unlimited Cash</span></div>
       <div class="audit-row sev-crit"><span class="sev">CRITICAL</span><span class="what mono">GiveReward</span><span class="how">client names its own reward</span></div>
       <div class="audit-row sev-high"><span class="sev">HIGH</span><span class="what mono">SetSpeed</span><span class="how">no server clamp on WalkSpeed</span></div>
@@ -631,8 +631,8 @@
 <!-- ── Download ─────────────────────────────────────────────────── -->
 <section class="section dl" id="download">
   <div class="dl-inner">
-    <h2>Get Baseplate</h2>
-    <p class="section-lede">The app and Studio bridge run locally. Project data goes only to the AI provider you choose; Baseplate does not host your source repository.</p>
+    <h2>Start with one free local scan.</h2>
+    <p class="section-lede">After installing: Guide → Find what to improve → choose your project → Open free local scan. No AI account, Open Cloud key or payment details needed for this step. <a href="codex-roblox-studio.html#without-ai">Follow the setup steps</a>.</p>
     <div class="dl-buttons">
       <a class="btn btn-primary dl-btn" data-os="win" href="#" rel="noopener">
         <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M3 5.5 10.5 4.4v7.1H3zM3 12.5h7.5v7.1L3 18.5zM11.5 4.2 21 3v8.5h-9.5zM11.5 12.5H21V21l-9.5-1.3z"/></svg>
@@ -653,7 +653,7 @@
   <div class="faq">
     <details>
       <summary>Do I need my own AI subscription?</summary>
-      <p>You need a supported agent CLI account. Claude Code, Codex and Cursor support Playtest Copilot. Grok supports builder tiles; Antigravity supports Native tiles for personal Google accounts. Gemini CLI requires an API key or a supported organization license. Baseplate does not include AI inference. Free costs $0, Pro costs $4.99/month, and your provider’s usage limits and charges still apply.</p>
+      <p><strong>Not for a local Map read or Verify scan.</strong> You can start with your project and no AI account or Open Cloud key. Agent-powered edits need your own supported CLI and working sign-in. Claude Code, Codex and Cursor support Playtest Copilot. Grok supports builder tiles; Antigravity supports Native tiles for personal Google accounts. Gemini CLI requires an API key or a supported organization license. Baseplate does not include AI inference. Free costs $0, Pro costs $4.99/month, and your provider’s usage limits and charges still apply.</p>
     </details>
     <details>
       <summary>Does my code leave my machine?</summary>
@@ -688,7 +688,7 @@
 
 <!-- ── Final CTA ────────────────────────────────────────────────── -->
 <section class="final-cta">
-  <h2>The next bug in your game<br>doesn't have to be yours to fix.</h2>
+  <h2>Your next step:<br>one project, one free scan.</h2>
   <div class="hero-cta">
     <a class="btn btn-primary" href="#download">Download Baseplate free</a>
     <a class="btn btn-ghost" href="#pricing">Compare plans</a>
