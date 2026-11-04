@@ -84,7 +84,7 @@ real task. Current source-linked comparisons are listed below.
 - [Free RemoteEvent security scanner](https://baseplatedev.com/remote-scanner.html): paste Luau in the browser and see which server remote handlers miss type, rate, authority and context guards. Runs locally; nothing is uploaded.
 - [attempt to index nil with](https://baseplatedev.com/roblox-attempt-to-index-nil.html): the six causes of Roblox's most common runtime error and the fix for each.
 - [Infinite yield possible](https://baseplatedev.com/roblox-infinite-yield-possible.html): why WaitForChild never returns, and a wait pattern that cannot hang.
-- [DataStore not saving](https://baseplatedev.com/roblox-datastore-not-saving.html): pcall, BindToClose, UpdateAsync vs SetAsync, request budget and session locking.
+- [DataStore not saving](https://baseplatedev.com/roblox-datastore-not-saving.html): runnable failed-load test, safe Studio setup in a separate test experience, shutdown, request budgets and session ownership checks.
 - [Changelog](https://baseplatedev.com/changelog.html): dated release notes for the desktop app.
 - [Contact](https://baseplatedev.com/contact.html): support and business contact.
 - [YouTube](https://www.youtube.com/@BaseplateDevs): short clips of real Baseplate sessions.

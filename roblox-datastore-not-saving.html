@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>Roblox DataStore not saving — the seven real causes and fixes</title>
-<meta name="description" content="Data lost on rejoin? The usual causes are a missing pcall, no BindToClose, API services off in Studio, SetAsync races and request throttling. Fixes with code.">
+<meta name="description" content="Debug Roblox saves and lost progress. Run a small Luau test for failed loads, then check shutdown, rejoin and concurrent writes in a separate test experience.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://baseplatedev.com/roblox-datastore-not-saving.html">
 <meta property="og:title" content="Roblox DataStore not saving — the real causes">
-<meta property="og:description" content="Why player data vanishes on rejoin, and the save pattern that survives a server shutdown.">
+<meta property="og:description" content="A runnable failed-load test and seven places to look when player data disappears on rejoin.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://baseplatedev.com/roblox-datastore-not-saving.html">
 <meta property="og:image" content="https://baseplatedev.com/og.jpg">
@@ -41,7 +41,7 @@
       "@type": "Article",
       "headline": "Roblox DataStore not saving — the seven real causes and fixes",
       "datePublished": "2026-07-28",
-      "dateModified": "2026-07-28",
+      "dateModified": "2026-11-04",
       "author": { "@type": "Organization", "name": "Baseplate", "url": "https://baseplatedev.com/" },
       "publisher": { "@id": "https://baseplatedev.com/#organization" },
       "mainEntityOfPage": "https://baseplatedev.com/roblox-datastore-not-saving.html"
@@ -60,17 +60,17 @@
         {
           "@type": "Question",
           "name": "Why is my Roblox DataStore not saving?",
-          "acceptedAnswer": { "@type": "Answer", "text": "The most common causes are: DataStore calls not wrapped in pcall so failures pass silently, saving only on PlayerRemoving so the last players lose data when the server shuts down, Studio access to API services being disabled, testing in an unpublished place, SetAsync overwriting concurrent changes instead of UpdateAsync, exceeding the request budget, and trying to store values DataStores cannot serialise such as Instances or mixed-key tables." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Check read and write errors, whether the save finishes on leave or shutdown, whether your test experience has API access, concurrent writes, request limits and data serialization. A failed read and a successful read of a missing key are different states." }
         },
         {
           "@type": "Question",
           "name": "Why does data save in Studio but not in the live game?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Usually because the live server shuts down before the save finishes. PlayerRemoving fires per player, but when a server closes, Roblox gives the place a short window to finish work — you must also handle game:BindToClose() and save everyone still in the session there, otherwise the last players on every server silently lose progress." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Compare the experience, store name, scope and key first. Then check whether your save finishes on leave and when the server shuts down. BindToClose gives callbacks a limited window, so verify completion in a separate test experience." }
         },
         {
           "@type": "Question",
           "name": "Should I use SetAsync or UpdateAsync?",
-          "acceptedAnswer": { "@type": "Answer", "text": "UpdateAsync for anything derived from the current value — currency, inventory, counters — because it reads and writes atomically and its transform function receives the newest stored value. SetAsync overwrites blindly, so two servers or a rejoin race can lose whichever write lands first." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Use UpdateAsync when a write depends on the value already stored. Roblox can retry the transform when another server writes the same key, so the callback must not yield or perform external side effects. Your code still needs to check session ownership where applicable." }
         },
         {
           "@type": "Question",
@@ -84,7 +84,10 @@
 </script>
 <style>
   .guide-note { border:1px solid var(--line-2); background:var(--surface-1); border-radius:var(--r-plate); padding:18px 20px; margin:24px 0; }
+  #failed-load-test { scroll-margin-top:84px; }
+  .guide-note h2 { margin-top:0; }
   .guide-note p { margin:0; }
+  .guide-note p + p { margin-top:12px; }
   .guide-code { overflow-x:auto; border:1px solid var(--line-2); background:#0b0d12; border-radius:var(--r-plate); padding:18px 20px; margin:16px 0; color:var(--dim); font:13px/1.65 var(--font-mono); }
   .guide-checklist { list-style:none; padding-left:0 !important; }
   .guide-checklist li { position:relative; padding-left:28px; }
@@ -108,16 +111,21 @@
 <main class="legal-wrap">
   <p class="eyebrow"><span class="eyebrow-dot"></span>Error reference</p>
   <h1>Roblox DataStore not saving</h1>
-  <p class="lede">Losing player data is the one bug that costs you the player permanently. It is also the bug most likely to look fine in testing: you save, you rejoin, it works — and then it fails on a live server for reasons that never occur while you are the only person in the place.</p>
-
-  <div class="guide-note"><p><strong>Rule before anything else:</strong> every DataStore call is a network request that is allowed to fail. If it is not inside <span class="mono">pcall</span>, a failure throws and takes the rest of your save with it — usually without you noticing.</p></div>
+  <p class="lede">Start by finding out which part failed. Did the game load the wrong value, lose a change before saving, or write a stale profile after a rejoin?</p>
 
   <div class="legal-prose">
-    <h2>1. No pcall, so failures are invisible</h2>
+    <section class="guide-note" id="failed-load-test" aria-labelledby="failed-load-heading">
+      <h2 id="failed-load-heading">Start with a failed-load test</h2>
+      <p>Force your test reader to fail. Then run the same save or leave path that would usually persist the profile. The expected result is zero writes from that session. Separately check that a successful read of an absent key can initialize a new profile, and that an existing profile keeps its data.</p>
+      <p><a href="https://github.com/Deworix/roblox-ship-check#try-the-failure-lab-without-ai">Run the free Luau example</a> to see one unwanted write before the guard and zero after it. The example uses an in-memory store. Run it in a blank Studio place or with Lune.</p>
+    </section>
+
+    <h2>1. Read and write errors need different handling</h2>
+    <p>Wrap DataStore requests in a protected call and inspect the result. A failed read leaves the profile unknown. A failed write can leave its final state uncertain, so check the stored value and your retry strategy before repeating a non-idempotent change. <a href="https://create.roblox.com/docs/cloud-services/data-stores/error-codes-and-limits">Roblox error handling</a></p>
     <pre class="guide-code"><code>-- a failed request kills the whole thread here
 store:SetAsync(key, data)
 
--- a failed request is something you can see and retry
+-- a protected call lets you log and handle a failed request
 local ok, err = pcall(function()
     store:SetAsync(key, data)
 end)
@@ -126,38 +134,13 @@ if not ok then
 end</code></pre>
 
     <h2>2. Saving only on PlayerRemoving</h2>
-    <p>This is the big one, and it is why data saves in Studio but disappears in production. <span class="mono">PlayerRemoving</span> fires when someone leaves — but when the <em>server</em> shuts down, the place gets a short window to finish work and then dies. Without <span class="mono">BindToClose</span>, everyone still in that server loses whatever changed since their last save.</p>
-    <pre class="guide-code"><code>local savingPlayers = 0
-
-local function savePlayer(player)
-    savingPlayers += 1
-    local ok, err = pcall(function()
-        store:UpdateAsync(tostring(player.UserId), function(old)
-            return mergeProfile(old, Profiles[player])
-        end)
-    end)
-    if not ok then warn("save failed:", err) end
-    savingPlayers -= 1
-end
-
-Players.PlayerRemoving:Connect(savePlayer)
-
-game:BindToClose(function()
-    for _, player in Players:GetPlayers() do
-        task.spawn(savePlayer, player)
-    end
-    -- hold the shutdown until the in-flight saves finish
-    while savingPlayers &gt; 0 do
-        task.wait()
-    end
-end)</code></pre>
-    <p>The shutdown window is short — treat it as a handful of seconds, not a place to do slow work.</p>
+    <p>Use your persistence layer's shutdown path to flush pending changes. Let leave and shutdown share the same per-profile save coordination so they cannot write competing snapshots. Roblox waits at most 30 seconds for functions registered with <span class="mono">BindToClose</span>, so keep retries bounded and preserve periodic saves. <a href="https://create.roblox.com/docs/reference/engine/classes/DataModel#BindToClose">Roblox shutdown callback</a></p>
 
     <h2>3. API services are off, or the place is unpublished</h2>
-    <p>In Studio, DataStores need <span class="mono">Game Settings → Security → Enable Studio Access to API Services</span>. And an unpublished place has no universe to store anything against. If every call fails immediately in Studio and works in the live game, this is almost always why.</p>
+    <p>For real DataStore tests, publish a separate test experience and use test accounts and data. In that experience, enable <span class="mono">File → Experience Settings → Security → Enable Studio Access to API Services</span>. Studio can access the same stores as the live experience, so keep Studio API access off on the live experience. A separate place inside the same experience shares its DataStores. <a href="https://create.roblox.com/docs/cloud-services/data-stores#enable-studio-access">Roblox Studio access guidance</a></p>
 
     <h2>4. SetAsync where you needed UpdateAsync</h2>
-    <p><span class="mono">SetAsync</span> overwrites whatever is stored. If a value depends on what is already there — coins, inventory, a counter — two writes can race and one silently wins. <span class="mono">UpdateAsync</span> hands your transform function the newest stored value and writes atomically.</p>
+    <p><span class="mono">SetAsync</span> replaces the stored value. When a change depends on the current value, use <span class="mono">UpdateAsync</span> and keep the transform free of yields and side effects because Roblox may call it again. Keep the session-ownership check inside the update where your design requires one. <a href="https://create.roblox.com/docs/cloud-services/data-stores#update-data">Roblox update guidance</a></p>
     <pre class="guide-code"><code>-- race: reads, then writes something already stale
 local coins = store:GetAsync(key)
 store:SetAsync(key, coins + 100)
@@ -168,35 +151,27 @@ store:UpdateAsync(key, function(old)
 end)</code></pre>
 
     <h2>5. You are over the request budget</h2>
-    <p>“Request was added to queue” means you are being throttled. Saving on every coin pickup will do it. Save on a timer plus on leave, coalesce changes in memory between saves, and check the budget before a burst:</p>
-    <pre class="guide-code"><code>local budget = DataStoreService:GetRequestBudgetForRequestType(
-    Enum.DataStoreRequestType.UpdateAsync
-)
-if budget &lt; 1 then
-    task.wait(6)
-end</code></pre>
+    <p>Queued requests can yield and eventually fail if the queue fills. Coalesce routine changes, stagger autosaves and check budget before a burst. <span class="mono">UpdateAsync</span> consumes both read and write budgets. A budget check is a scheduling signal. Keep error handling on the actual call. <a href="https://create.roblox.com/docs/cloud-services/data-stores/error-codes-and-limits#limits">Roblox request limits</a></p>
 
     <h2>6. The value cannot be serialised</h2>
     <p>DataStores store JSON-shaped data. Instances, functions, <span class="mono">Vector3</span>, <span class="mono">Color3</span> and <span class="mono">CFrame</span> are not valid — convert them to plain numbers first. Tables must use either all string keys or a clean array; a table with mixed keys, or holes in the middle of an array, does not survive the round trip intact.</p>
 
     <h2>7. No session locking, so a rejoin overwrites a live session</h2>
-    <p>A player leaving one server and joining another before the first save completes can end up with the old server writing after the new one loaded. Anything that reads and writes the same key from two places needs a session marker — store a job id and timestamp with the profile, refuse to load a key another session still holds, and let the lock expire on a timeout so a crashed server does not lock someone out permanently.</p>
+    <p>When two servers hold the same full profile, an older session can overwrite newer progress. Check how your persistence layer acquires ownership and rejects writes from a previous owner after a takeover. Test the late write explicitly. A timestamp by itself does not establish ownership. <a href="https://create.roblox.com/docs/cloud-services/data-stores/best-practices">Roblox DataStore best practices</a></p>
 
     <h2>How to actually verify a save</h2>
     <ol>
       <li>Change something, then <strong>rejoin</strong>. Printing “saved” proves the code ran, not that the write landed.</li>
       <li>Test with the server shutting down under you, not just with one player leaving.</li>
-      <li>Test two clients changing the same profile, and a rejoin immediately after leaving.</li>
+      <li>Test a fast rejoin across servers in the separate test experience. Two simulated clients in one Studio server can check client behavior, but do not exercise server ownership turnover.</li>
       <li>Watch Output for throttling warnings while doing it — a save that queues is a save that may not land before shutdown.</li>
-      <li>Read the value back through a separate path and compare it to what you expected, rather than trusting the write's return.</li>
+      <li>Read the value back without cache and compare it with the expected value. <a href="https://create.roblox.com/docs/cloud-services/data-stores/versioning-listing-and-caching#disable-caching">Roblox cache guidance</a></li>
     </ol>
 
-    <div class="guide-note"><p><strong>Why AI-generated save code fails this way:</strong> the happy path is easy to write and looks complete. <span class="mono">pcall</span>, <span class="mono">BindToClose</span>, session locking and throttling are all things you only discover you needed after real players lose progress — none of them are visible in a code review of a script that “works”.</p></div>
-
     <div class="guide-cta">
-      <h2>Test the shutdown path before your players do</h2>
-      <p>Baseplate replays deterministic Studio scenarios with evidence, and its Safe DataOps lab snapshots a live key, previews a migration and supports a confirmed rollback before anything touches production data.</p>
-      <a class="btn btn-primary" href="index.html?utm_source=err_datastore&amp;utm_medium=organic&amp;utm_campaign=errors_20260728#download">Download Baseplate free</a>
+      <h2>Turn your save bug into one repeatable test</h2>
+      <p>Tell us what the player did and what value they saw after rejoining. Baseplate can help you define the next check in writing. Start with a description of the symptom.</p>
+      <a class="btn btn-primary" href="founding-10.html?utm_source=datastore_guide&amp;utm_medium=owned&amp;utm_campaign=save_recovery_20261104#apply">Get free written help</a>
     </div>
   </div>
 </main>
@@ -214,9 +189,9 @@ end</code></pre>
 
 <!-- Phone-only conversion rail. These pages are entered mid-scroll from search, so the
      bar is present from the first paint rather than waiting on script. -->
-<aside class="mcta" aria-label="Get Baseplate">
-  <span class="mcta-copy"><b>Build it with Baseplate</b><span>Free · no card · bring your own AI</span></span>
-  <a class="btn btn-primary btn-sm" href="index.html#download">Download free</a>
+<aside class="mcta" aria-label="Get help with a save bug">
+  <span class="mcta-copy"><b>Stuck on a save bug?</b><span>Free written help for one test</span></span>
+  <a class="btn btn-primary btn-sm" href="founding-10.html?utm_source=datastore_guide&amp;utm_medium=owned&amp;utm_campaign=save_recovery_20261104#apply">Get help</a>
 </aside>
 </body>
 </html>
