@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>Free Roblox RemoteEvent security scanner — paste your Luau</title>
-<meta name="description" content="Paste a Luau script and see which server remote handlers trust the client. Free, no sign-up, and the code never leaves your browser. Based on a seven-point checklist.">
+<meta name="description" content="Compare two Roblox shop handlers or scan your own Luau for common RemoteEvent risks. Free, no sign-up, and the code stays in your browser.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://baseplatedev.com/remote-scanner.html">
 <meta property="og:title" content="Free Roblox RemoteEvent security scanner">
-<meta property="og:description" content="Paste Luau, see which remote handlers trust the client. Runs entirely in your browser — nothing is uploaded.">
+<meta property="og:description" content="Compare a client-supplied price with a server-owned price, then scan your own Luau locally.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://baseplatedev.com/remote-scanner.html">
 <meta property="og:image" content="https://baseplatedev.com/og.jpg">
@@ -62,12 +62,12 @@
         {
           "@type": "Question",
           "name": "Does my code get uploaded anywhere?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. The scanner is a JavaScript file that runs in your browser, and the page ships a Content-Security-Policy with connect-src 'none', which blocks the page from making any network request at all. You can disconnect from the internet and it still works." }
+          "acceptedAnswer": { "@type": "Answer", "text": "The scanner reads the pasted code in your browser. It makes no requests with that code and still scans if you go offline after the page loads." }
         },
         {
           "@type": "Question",
           "name": "Is this a real security audit?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No, and it should not be presented as one. It is a text-level heuristic: it locates server remote handlers and checks whether obvious guards appear inside them. A validation helper called from the handler will read as missing, and a check that exists can still be wrong. It finds the handler that trusts a client-supplied price; it cannot prove a handler is safe." }
+          "acceptedAnswer": { "@type": "Answer", "text": "It checks text patterns in common inline server handlers. It may miss a named callback, a validation helper, or a complex signature. Even a detected guard can validate the wrong value. Confirm the behavior in a private Studio test." }
         },
         {
           "@type": "Question",
@@ -85,9 +85,16 @@
 }
 </script>
 <style>
-  .scan-wrap { margin: 28px 0 0; }
+  .scan-wrap { margin: 24px 0 0; scroll-margin-top:84px; }
   .scan-note { border:1px solid var(--line-2); background:var(--surface-1); border-radius:var(--r-plate); padding:18px 20px; margin:24px 0; }
   .scan-note p { margin:0; }
+  .scan-example { margin:20px 0; padding:16px 18px; border:1px solid var(--line-2); border-radius:var(--r-plate); }
+  .scan-example .scan-actions { margin-bottom:0; }
+  .scan-example .btn[aria-pressed="true"] { border-color:var(--accent-line); background:var(--accent-weak); }
+  .scan-example-result { color:var(--dim); margin:20px 0 0; }
+  .scan-example-code { margin:16px 0; color:var(--dim); }
+  .scan-example-code summary { cursor:pointer; }
+  .scan-example-code pre { overflow:auto; border:1px solid var(--line-2); padding:14px; font:13px/1.65 var(--font-mono); }
   #scan-input {
     width:100%; min-height:230px; resize:vertical; box-sizing:border-box;
     border:1px solid var(--line-2); background:#0b0d12; color:var(--text);
@@ -102,7 +109,6 @@
     border:1px solid var(--line-2); border-radius:var(--r-plate); padding:14px 18px; margin:22px 0 16px;
   }
   .scan-verdict span { color:var(--dim); font-size:14px; }
-  .scan-verdict.scan-ok { border-color:#1f6f43; }
   .scan-verdict.scan-warn { border-color:#7a6220; }
   .scan-verdict.scan-bad { border-color:#7d2f2f; }
   .scan-card { border:1px solid var(--line-2); border-radius:var(--r-plate); padding:18px 20px; margin:12px 0; background:var(--surface-1); }
@@ -145,16 +151,23 @@
 <main class="legal-wrap">
   <p class="eyebrow"><span class="eyebrow-dot"></span>Free tool</p>
   <h1>Roblox RemoteEvent security scanner</h1>
-  <p class="lede">Paste a server script. This finds every client-to-server remote handler in it and tells you which of the seven server-authority guards are missing. No sign-up, no upload, no account.</p>
+  <p class="lede">Who decides the price of an item in your Roblox shop? Compare two versions of the same purchase, then check a server handler from your own game.</p>
 
-  <div class="scan-note"><p><strong>Your code stays in your browser.</strong> This page loads one JavaScript file and declares <span class="mono">connect-src 'none'</span>, which blocks it from making any network request whatsoever. Turn off your internet and it still works — that is the easiest way to prove it.</p></div>
+  <div class="scan-note"><p><strong>Your code stays in your browser.</strong> No account or upload. You can run the scanner offline after the page loads.</p></div>
 
-  <div class="scan-wrap">
+  <div class="scan-wrap" id="scan">
+    <div class="scan-example">
+      <p class="eyebrow">Try the shop example</p>
+      <div class="scan-actions">
+        <button class="btn btn-ghost btn-sm" type="button" id="scan-demo" aria-pressed="false" aria-controls="scan-demo-output">1. Client supplies price</button>
+        <button class="btn btn-ghost btn-sm" type="button" id="scan-demo-server" aria-pressed="false" aria-controls="scan-demo-output">2. Server sets price</button>
+      </div>
+      <div id="scan-demo-output" aria-live="polite"></div>
+    </div>
     <label for="scan-input" class="eyebrow">Paste Luau</label>
     <textarea id="scan-input" spellcheck="false" autocomplete="off" placeholder="-- paste a server script that connects to RemoteEvents&#10;BuyItem.OnServerEvent:Connect(function(player, itemId)&#10;    ...&#10;end)"></textarea>
     <div class="scan-actions">
-      <button class="btn btn-primary btn-sm" type="button" id="scan-run">Scan</button>
-      <button class="btn btn-ghost btn-sm" type="button" id="scan-demo">Try a vulnerable example</button>
+      <button class="btn btn-primary btn-sm" type="button" id="scan-run">Scan my script</button>
       <button class="btn btn-ghost btn-sm" type="button" id="scan-clear">Clear</button>
       <span class="scan-kbd">Ctrl + Enter to scan</span>
     </div>
@@ -163,11 +176,11 @@
 
   <div class="legal-prose">
     <h2>What it can and cannot tell you</h2>
-    <p>This is a text-level heuristic, not a parser and not an audit. It locates <span class="mono">OnServerEvent</span> and <span class="mono">OnServerInvoke</span> handlers and asks whether the obvious guards appear inside each one.</p>
+    <p>The scanner looks for text patterns in common inline <span class="mono">OnServerEvent</span> and <span class="mono">OnServerInvoke</span> handlers. Named callbacks, wrappers and complex signatures need separate review.</p>
     <ul>
-      <li><strong>It reliably finds</strong> the classic mistake: a handler that accepts a price, an amount or a damage number from the client and acts on it.</li>
-      <li><strong>It will report a false alarm</strong> when your validation lives in a helper function called from the handler — the guard is real, the scanner just cannot see into it.</li>
-      <li><strong>It cannot prove anything is safe.</strong> A <span class="mono">typeof</span> check that tests the wrong argument still reads as present. Passing every item means the obvious guards exist, not that the boundary is correct.</li>
+      <li><strong>Review value-shaped arguments.</strong> Names like price and damage are clues to check which side decides the value.</li>
+      <li><strong>Follow helper calls.</strong> The scanner may miss a guard inside a separate function.</li>
+      <li><strong>Verify behavior.</strong> A <span class="mono">typeof</span> check can still validate the wrong argument. Try invalid requests and a valid purchase in a private test.</li>
     </ul>
     <p>For what each of the seven checks actually requires — and a purchase handler written the safer way — read the <a href="roblox-remoteevent-security-checklist.html">RemoteEvent security checklist</a>.</p>
 
@@ -175,9 +188,9 @@
     <p>A client request is never proof of anything. It is not proof that the player owns the item, can afford it, is standing close enough, or waited out a cooldown. An exploiter can fire any remote, with any arguments, as fast as they like. Every value that crosses the boundary is untrusted input, and the server has to re-derive the truth rather than believe what it was told.</p>
 
     <div class="guide-cta">
-      <h2>Find them across the whole project, not one file</h2>
-      <p>Baseplate's Remote Contract Compiler scans your Luau locally and generates validators plus Studio fuzz tests, and Exploit Guard explains each attack in plain language and writes the hardening. Both are in the free plan.</p>
-      <a class="btn btn-primary" href="index.html?utm_source=remote_scanner&amp;utm_medium=organic&amp;utm_campaign=tool_20260728#download">Download Baseplate free</a>
+      <h2>Find your first release risk in Baseplate</h2>
+      <p>Open <strong>Guide</strong>, choose <strong>Find what to improve</strong>, add your project and run the free local scan. Start with one finding you can reproduce in Studio. The local scan needs no AI account or Open Cloud.</p>
+      <a class="btn btn-primary" href="index.html?utm_source=remote_scanner&amp;utm_medium=tool&amp;utm_campaign=shop_price_20261105#download">Download Baseplate free</a>
     </div>
   </div>
 </main>
@@ -196,10 +209,10 @@
 <!-- Phone-only conversion rail. These pages are entered mid-scroll from search, so the
      bar is present from the first paint rather than waiting on script. -->
 <aside class="mcta" aria-label="Get Baseplate">
-  <span class="mcta-copy"><b>Build it with Baseplate</b><span>Free · no card · bring your own AI</span></span>
-  <a class="btn btn-primary btn-sm" href="index.html#download">Download free</a>
+  <span class="mcta-copy"><b>Scan your project locally</b><span>Free · no AI account required</span></span>
+  <a class="btn btn-primary btn-sm" href="index.html?utm_source=remote_scanner&amp;utm_medium=tool&amp;utm_campaign=shop_price_20261105#download">Download free</a>
 </aside>
 
-<script src="remote-scanner.js"></script>
+<script src="remote-scanner.js?v=20261105"></script>
 </body>
 </html>

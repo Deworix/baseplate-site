@@ -66,30 +66,32 @@
     return out;
   }
 
-  // Walk forward from the handler's `function` keyword, counting block openers
-  // against `end`, and return the index just past the matching one.
-  function blockEnd(clean, startIdx) {
-    var re = /\b(function|do|then|repeat|end|until)\b/g;
+  // Start inside the handler's function block. Count ordinary statement blocks.
+  // Stop at another recognised handler rather than borrow its checks.
+  function blockEnd(clean, startIdx, limit) {
+    var re = /\b(function|do|if|repeat|end|until)\b/g;
+    // Common expression prefixes, as in `local x = if condition then a else b`.
+    var expressionPrefix = /(?:[=,(\[{+*/%^<>~#-]|\b(?:return|and|or|not))\s*$/;
     re.lastIndex = startIdx;
-    var depth = 0;
+    var depth = 1;
     var m;
-    while ((m = re.exec(clean))) {
+    while ((m = re.exec(clean)) && m.index < limit) {
       var word = m[1];
-      if (word === 'function' || word === 'do' || word === 'then' || word === 'repeat') depth++;
-      else if (word === 'end' || word === 'until') {
+      if (word === 'end' || word === 'until') {
         depth--;
-        if (depth <= 0) return m.index + word.length;
+        if (depth === 0) return m.index + word.length;
+      } else if (word !== 'if' || !expressionPrefix.test(clean.slice(startIdx, m.index))) {
+        depth++;
       }
     }
-    return clean.length;
+    return null;
   }
 
   function lineOf(src, idx) {
     return src.slice(0, idx).split('\n').length;
   }
 
-  function findHandlers(src) {
-    var clean = blank(src);
+  function findHandlers(src, clean) {
     var patterns = [
       { re: /([\w.:\[\]"']+?)\s*\.\s*OnServerEvent\s*:\s*Connect\s*\(\s*function\s*\(([^)]*)\)/g, kind: 'OnServerEvent' },
       { re: /([\w.:\[\]"']+?)\s*\.\s*OnServerInvoke\s*=\s*function\s*\(([^)]*)\)/g, kind: 'OnServerInvoke' }
@@ -99,20 +101,24 @@
       var m;
       p.re.lastIndex = 0;
       while ((m = p.re.exec(clean))) {
-        var fnIdx = clean.indexOf('function', m.index);
-        var end = blockEnd(clean, fnIdx + 'function'.length);
         var params = m[2].split(',').map(function (s) { return s.trim(); }).filter(Boolean);
         found.push({
           name: m[1].trim(),
           kind: p.kind,
           params: params,
           line: lineOf(src, m.index),
-          body: clean.slice(m.index, end),
-          raw: src.slice(m.index, end)
+          start: m.index,
+          bodyStart: p.re.lastIndex
         });
       }
     });
-    return found.sort(function (a, b) { return a.line - b.line; });
+    found.sort(function (a, b) { return a.start - b.start; });
+    return found.map(function (h, index) {
+      var limit = index + 1 < found.length ? found[index + 1].start : clean.length;
+      var end = blockEnd(clean, h.bodyStart, limit);
+      h.body = end === null ? null : clean.slice(h.bodyStart, end);
+      return h;
+    });
   }
 
   var VALUE_WORDS = /(price|cost|amount|coins|cash|money|gold|gems|value|damage|quantity|qty|count|level|xp|reward|balance)/i;
@@ -125,7 +131,8 @@
     var body = h.body;
     var elsewhere = fileClean || '';
     // The first parameter of a server handler is always the Player; the rest is client input.
-    var clientParams = h.params.slice(1).filter(function (p) { return p !== '...'; });
+    var clientParams = h.params.slice(1).map(function (p) { return p.split(':', 1)[0].trim(); })
+      .filter(function (p) { return /^[a-zA-Z_]\w*$/.test(p); });
     var results = [];
 
     function check(id, label, ok, detail) {
@@ -192,6 +199,9 @@
   }
 
   function verdictFor(all) {
+    if (all.every(function (h) { return h.body === null; })) {
+      return { level: 'warn', text: 'No complete handler body was isolated.' };
+    }
     var fails = 0, warns = 0;
     all.forEach(function (h) {
       h.results.forEach(function (r) {
@@ -199,9 +209,9 @@
         else if (r.status === 'warn') warns++;
       });
     });
-    if (fails) return { level: 'bad', text: fails + ' likely gap' + (fails === 1 ? '' : 's') + ' worth fixing before release' };
+    if (fails) return { level: 'bad', text: fails + ' likely gap' + (fails === 1 ? '' : 's') + ' to review' };
     if (warns) return { level: 'warn', text: warns + ' thing' + (warns === 1 ? '' : 's') + ' to double-check' };
-    return { level: 'ok', text: 'The obvious guards are present' };
+    return { level: 'neutral', text: 'No obvious gaps in these text checks. Review the behavior in Studio.' };
   }
 
   function el(tag, cls, text) {
@@ -215,8 +225,8 @@
     host.textContent = '';
     if (!handlers.length) {
       var none = el('div', 'scan-empty');
-      none.appendChild(el('p', null, 'No server-side remote handlers found in that source.'));
-      var hint = el('p', 'scan-hint', 'This scanner looks for OnServerEvent:Connect(function(player, …)) and OnServerInvoke = function(player, …). Client-side code and module functions are not remote boundaries, so there is nothing here for it to check.');
+      none.appendChild(el('p', null, 'No supported inline remote handlers detected.'));
+      var hint = el('p', 'scan-hint', 'Paste the server-side registration and its inline handler. Named callbacks, wrappers and complex signatures can be missed. Review those separately.');
       none.appendChild(hint);
       host.appendChild(none);
       return;
@@ -226,6 +236,8 @@
     var summary = el('div', 'scan-verdict scan-' + v.level);
     summary.appendChild(el('strong', null, handlers.length + ' remote handler' + (handlers.length === 1 ? '' : 's') + ' found'));
     summary.appendChild(el('span', null, v.text));
+    var incomplete = handlers.filter(function (h) { return h.body === null; }).length;
+    if (incomplete) summary.appendChild(el('span', null, incomplete + ' handler(s) require manual review.'));
     host.appendChild(summary);
 
     handlers.forEach(function (h) {
@@ -250,7 +262,11 @@
         li.appendChild(el('span', null, r.detail));
         list.appendChild(li);
       });
-      card.appendChild(list);
+      if (h.body === null) {
+        card.appendChild(el('p', 'scan-hint', 'Could not isolate the handler body. Check that the complete callback was pasted, then review its guards manually.'));
+      } else {
+        card.appendChild(list);
+      }
       host.appendChild(card);
     });
 
@@ -263,7 +279,7 @@
     host.appendChild(foot);
   }
 
-  var SAMPLE = [
+  var CLIENT_PRICE_SAMPLE = [
     'local ReplicatedStorage = game:GetService("ReplicatedStorage")',
     'local BuyItem = ReplicatedStorage:WaitForChild("BuyItem")',
     '',
@@ -276,38 +292,73 @@
     'end)'
   ].join('\n');
 
+  var SERVER_PRICE_SAMPLE = [
+    'local ReplicatedStorage = game:GetService("ReplicatedStorage")',
+    'local BuyItem = ReplicatedStorage:WaitForChild("BuyItem")',
+    '',
+    '-- excerpt: Catalog and Profiles belong to the server',
+    'BuyItem.OnServerEvent:Connect(function(player, itemName)',
+    '    if typeof(itemName) ~= "string" or #itemName > 48 then return end',
+    '    local item = Catalog[itemName]',
+    '    local profile = Profiles[player]',
+    '    if not item or not profile then return end',
+    '    if profile.Coins < item.Price or profile.Inventory[itemName] then return end',
+    '    profile.Coins -= item.Price',
+    '    profile.Inventory[itemName] = true',
+    'end)'
+  ].join('\n');
+
   document.addEventListener('DOMContentLoaded', function () {
     var input = document.getElementById('scan-input');
     var out = document.getElementById('scan-output');
+    var demoOut = document.getElementById('scan-demo-output');
     var run = document.getElementById('scan-run');
-    var demo = document.getElementById('scan-demo');
+    var clientDemo = document.getElementById('scan-demo');
+    var serverDemo = document.getElementById('scan-demo-server');
     var clear = document.getElementById('scan-clear');
     if (!input || !out || !run) return;
 
-    function scan() {
-      var src = input.value;
+    function scan(src, host, note) {
       if (!src.trim()) {
-        out.textContent = '';
-        out.appendChild(el('p', 'scan-hint', 'Paste some Luau above and press Scan.'));
+        host.textContent = '';
+        host.appendChild(el('p', 'scan-hint', 'Paste some Luau above and press Scan.'));
         return;
       }
       try {
         var fileClean = blank(src);
-        render(findHandlers(src).map(function (h) {
-          h.results = analyse(h, fileClean);
+        render(findHandlers(src, fileClean).map(function (h) {
+          h.results = h.body === null ? [] : analyse(h, fileClean);
           return h;
-        }), out);
+        }), host);
+        if (note) {
+          host.prepend(el('p', 'scan-example-result', note));
+          var details = el('details', 'scan-example-code');
+          details.appendChild(el('summary', null, 'Read the example Luau'));
+          var code = el('pre', null);
+          code.appendChild(el('code', null, src));
+          details.appendChild(code);
+          host.appendChild(details);
+        }
       } catch (e) {
-        out.textContent = '';
-        out.appendChild(el('p', 'scan-hint', 'The scanner could not read that source. It expects plain Luau text.'));
+        host.textContent = '';
+        host.appendChild(el('p', 'scan-hint', 'The scanner could not read that source. It expects plain Luau text.'));
       }
     }
 
-    run.addEventListener('click', scan);
-    if (demo) demo.addEventListener('click', function () { input.value = SAMPLE; scan(); });
+    function bindExample(button, other, source, note) {
+      if (!button || !demoOut) return;
+      button.addEventListener('click', function () {
+        button.setAttribute('aria-pressed', 'true');
+        if (other) other.setAttribute('aria-pressed', 'false');
+        scan(source, demoOut, note);
+      });
+    }
+    bindExample(clientDemo, serverDemo, CLIENT_PRICE_SAMPLE, 'Example 1. The buyer supplies price. Try the second version and compare Server-derived values.');
+    bindExample(serverDemo, clientDemo, SERVER_PRICE_SAMPLE, 'Example 2. The server looks up price. Rate limiting and shop access still need checks.');
+    run.addEventListener('click', function () { scan(input.value, out); });
     if (clear) clear.addEventListener('click', function () { input.value = ''; out.textContent = ''; input.focus(); });
     input.addEventListener('keydown', function (e) {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') scan();
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') scan(input.value, out);
     });
   });
 })();
