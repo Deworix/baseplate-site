@@ -4,20 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
-<title>Founding Fix: take one Roblox bug to verified PASS - Baseplate</title>
-<meta name="description" content="Bring one broken Roblox project. We will help you install Baseplate, reproduce the bug in Studio, fix it and rerun the playtest. Included with your first month of Pro.">
+<title>Founding Fix: work through one Roblox bug in Studio - Baseplate</title>
+<meta name="description" content="Bring one Roblox bug. Agree a session to connect Baseplate, reproduce the problem, review a change and repeat the same test. Included with your first month of Pro.">
 <link rel="canonical" href="https://baseplatedev.com/founding-fix.html">
-<meta property="og:title" content="Founding Fix — bring one Roblox bug, leave with a verified PASS">
-<meta property="og:description" content="We sit with you in a live Roblox Studio session until the fix is proven, not promised. First month of Pro included.">
+<meta property="og:title" content="Founding Fix — one Roblox bug, one focused Studio session">
+<meta property="og:description" content="Work through a real reproduction, review a focused change and repeat the same test. Check that your project fits before buying Pro.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://baseplatedev.com/founding-fix.html">
 <meta property="og:site_name" content="Baseplate">
-<meta property="og:image" content="https://baseplatedev.com/og-founding-fix.jpg">
+<meta property="og:image" content="https://baseplatedev.com/og.jpg">
 <meta property="og:image:width" content="2400">
 <meta property="og:image:height" content="1260">
-<meta property="og:image:alt" content="Baseplate Founding Fix: bring one broken bug, leave with a verified PASS.">
+<meta property="og:image:alt" content="Baseplate: your AI builds your Roblox game. You stay in control.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://baseplatedev.com/og-founding-fix.jpg">
+<meta name="twitter:image" content="https://baseplatedev.com/og.jpg">
 <link rel="stylesheet" href="style.css?v=20260924">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" href="favicon.ico" sizes="32x32">
@@ -35,25 +35,25 @@
   <div class="fix-grid">
     <section>
       <p class="eyebrow">Founding Fix</p>
-      <h1>Bring one Roblox bug. Leave with a verified rerun.</h1>
-      <p class="lede">Your first month of Baseplate Pro includes a focused, hands-on Bug-to-PASS session. We help you connect your project and Studio, reproduce one real failure, follow the evidence and rerun the playtest.</p>
+      <h1>Bring one Roblox bug. Work through it in Studio.</h1>
+      <p class="lede">Your first month of Baseplate Pro includes one focused setup and debugging session. Send the symptom first so we can confirm the scope and agree a time together.</p>
       <ul class="fix-list">
         <li><b>Before:</b> send the symptom, not your whole source repository.</li>
-        <li><b>During:</b> install, connect Studio, reproduce and diagnose together.</li>
-        <li><b>After:</b> keep the fix, the evidence path and Pro for the rest of the month.</li>
+        <li><b>During:</b> connect Studio, reproduce the failure and review a focused change.</li>
+        <li><b>After:</b> repeat the same test and keep the result, remaining blockers and next steps.</li>
       </ul>
-      <p class="fix-note">You need Windows or macOS, Roblox Studio, a current project and Claude Code, Codex or Cursor. Baseplate runs locally and does not host your source repository. We cannot promise every bug will be fixed in one session; if the blocker is environmental, you still leave with the exact failed step and next action.</p>
+      <p class="fix-note">Bring Windows or macOS, Roblox Studio, your project and a supported Claude Code, Codex or Cursor CLI with provider access. We work on an authorized test copy. Your provider's usage limits apply. If a problem remains unresolved, the session result records the failed step and the next action.</p>
     </section>
     <section class="fix-card">
       <p class="eyebrow">One project · one focused run</p>
       <div class="fix-price"><strong>$4.99</strong><span>first month of Pro</span></div>
-      <p>Cancel anytime. The normal 14-day refund policy applies.</p>
+      <p>$4.99 billed monthly, renewing automatically until you cancel. Includes one session in your first month. See the <a href="refunds.html">14-day refund policy</a>.</p>
       <a class="btn btn-primary buy" data-plan="pro" href="https://buy.stripe.com/cNi6oJbsJ9heePH4AO4wM03">Start Pro and claim the session</a>
       <form class="fix-form" id="fix-form">
-        <p><b>Not sure it fits?</b> Send the bug first. No source code required.</p>
+        <p><b>Start with a fit check.</b> Describe the problem and your AI client. We will reply by email before arranging a session.</p>
         <div class="hp" aria-hidden="true"><label>Company<input id="fix-company" tabindex="-1" autocomplete="off"></label></div>
         <label>Email<input id="fix-email" type="email" required autocomplete="email" placeholder="you@example.com"></label>
-        <label>What breaks?<textarea id="fix-bug" required maxlength="1400" placeholder="Example: my NPC retargets mid-chase and gets stuck after the first player leaves."></textarea></label>
+        <label>What breaks?<textarea id="fix-bug" required maxlength="1400" placeholder="What should happen, what happens instead, and which AI client do you use?"></textarea></label>
         <button class="btn btn-ghost" id="fix-send" type="submit">Check my bug first</button>
         <div class="fix-result" id="fix-ok" role="status" hidden>Got it. We will reply with whether this is a good first-session fit.</div>
         <div class="fix-result" id="fix-error" role="alert" hidden></div>
