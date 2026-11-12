@@ -41,7 +41,7 @@
       "@type": "Article",
       "headline": "How to use Cursor with Roblox Studio",
       "datePublished": "2026-07-28",
-      "dateModified": "2026-10-31",
+      "dateModified": "2026-11-12",
       "author": { "@type": "Organization", "name": "Baseplate", "url": "https://baseplatedev.com/" },
       "publisher": { "@id": "https://baseplatedev.com/#organization" },
       "mainEntityOfPage": "https://baseplatedev.com/cursor-roblox-studio.html"
@@ -136,6 +136,7 @@
     <ul>
       <li><strong>CLI missing or signed out:</strong> complete the provider setup, restart Baseplate and run <strong>Check AI setup</strong> again. An editor login is not proof the CLI is ready.</li>
       <li><strong>No Studio connection:</strong> check the enabled server and connected-client indicator. In Baseplate, follow <strong>Check setup</strong> for the detected next step; an installed Bridge file is not a live connection.</li>
+      <li>If Studio logs a local 401 and you also use Claude Desktop on Windows, check the <a href="claude-code-roblox-studio.html#studio-mcp-401">reported Studio MCP token path issue</a>.</li>
       <li><strong>Wrong project:</strong> confirm both the local workspace and selected Studio game. Open the Git root as the Baseplate workspace when your scripts belong to a Git project.</li>
       <li><strong>Tools described but not called:</strong> inspect the server's connection, approval and available tools before asking the model to retry. That symptom alone does not identify the cause.</li>
     </ul>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>How to use Claude Code with Roblox Studio | Baseplate</title>
-<meta name="description" content="Use Claude Code with Roblox Studio: choose a direct MCP connection or Baseplate's guided workflow, select the right game, review changes and repeat your test.">
+<meta name="description" content="Connect Claude Code to Roblox Studio, diagnose a Windows Studio MCP 401, and use Baseplate's optional guided workflow to review and retest a change.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://baseplatedev.com/claude-code-roblox-studio.html">
 <meta property="og:title" content="How to use Claude Code with Roblox Studio">
@@ -41,7 +41,7 @@
       "@type": "Article",
       "headline": "How to use Claude Code with Roblox Studio",
       "datePublished": "2026-07-28",
-      "dateModified": "2026-10-30",
+      "dateModified": "2026-11-12",
       "author": { "@type": "Organization", "name": "Baseplate", "url": "https://baseplatedev.com/" },
       "publisher": { "@id": "https://baseplatedev.com/#organization" },
       "mainEntityOfPage": "https://baseplatedev.com/claude-code-roblox-studio.html"
@@ -141,6 +141,18 @@
     <h2 id="claude-desktop">No Developer tab in Claude Desktop?</h2>
     <p>This guide's workflow uses <strong>Claude Code CLI</strong>. If you are following a Desktop tutorial, its settings may look different: the current route is <strong>Settings → Desktop app</strong>, then <strong>Manage</strong> beside Extensions. Local MCP connections are in that area; older layouts used Developer. The <a href="https://support.claude.com/en/articles/10949351-getting-started-with-local-mcp-servers-on-claude-desktop" target="_blank" rel="noopener noreferrer">current Claude Desktop help</a> documents both layouts.</p>
     <p>That menu belongs to Claude Desktop. Its setup is separate from the Claude Code CLI workflow above.</p>
+
+    <h2 id="studio-mcp-401">Studio MCP 401 with Claude Desktop on Windows</h2>
+    <p>If Studio logs <strong>401 Unauthorized</strong> on its local MCP connection and the client lists no games, check where the helper put its token. In a confirmed Windows case, packaged Claude Desktop put the token in its private AppData folder. Studio looked for it in the regular AppData folder. <a href="https://devforum.roblox.com/t/studio-mcp-studio-always-gets-401-unauthorized-from-studiomcp-token-enforcement-on-studio-never-passes/4960526/4" target="_blank" rel="noopener noreferrer">Roblox Staff instructions</a> · <a href="https://devforum.roblox.com/t/studio-mcp-studio-always-gets-401-unauthorized-from-studiomcp-token-enforcement-on-studio-never-passes/4960526/5" target="_blank" rel="noopener noreferrer">Reported fix and retest</a></p>
+    <ol>
+      <li>Save your game. Close Studio and the AI clients using its MCP server, then close any remaining StudioMCP helper.</li>
+      <li>Under <code>%LOCALAPPDATA%\Packages</code>, find the Claude package folder. Look for <code>auth.token</code> in <code>LocalCache\Local\Roblox\StudioMCP</code>. If that is where your helper created the token, copy the file locally to the Studio location below.
+        <pre class="guide-code"><code>%LOCALAPPDATA%\Roblox\StudioMCP\auth.token</code></pre>
+      </li>
+      <li>Keep token enforcement enabled. If you previously added an override to disable it, remove that override as described by Roblox Staff.</li>
+      <li>Restart the AI client, then Studio. Check for the green connection indicator and confirm that your game appears in <code>list_roblox_studios</code>.</li>
+    </ol>
+    <p>For a different error or file layout, start with the <a href="https://create.roblox.com/docs/studio/mcp#troubleshooting" target="_blank" rel="noopener noreferrer">official Studio troubleshooting</a>. When asking for help, share the error and versions and keep the token contents private.</p>
 
     <h2 id="multiple-games">Using more than one open game?</h2>
     <p>Ask the connected agent to list Studio instances and confirm the game before making changes. It targets an instance ID; one configuration is not tied permanently to one experience. See <a href="https://create.roblox.com/docs/studio/mcp#use-multiple-studio-instances" target="_blank" rel="noopener noreferrer">Roblox's multi-instance instructions</a>.</p>

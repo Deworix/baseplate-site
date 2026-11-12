@@ -41,7 +41,7 @@
       "@type": "Article",
       "headline": "How to use Codex with Roblox Studio",
       "datePublished": "2026-07-28",
-      "dateModified": "2026-10-28",
+      "dateModified": "2026-11-12",
       "author": { "@type": "Organization", "name": "Baseplate", "url": "https://baseplatedev.com/" },
       "publisher": { "@id": "https://baseplatedev.com/#organization" },
       "mainEntityOfPage": "https://baseplatedev.com/codex-roblox-studio.html"
@@ -173,6 +173,7 @@ Explain the changed files and what the test did not cover.</code></pre>
       <div><dt>Codex is not in the list</dt><dd>Install and sign in to <strong>Codex CLI</strong> in the operating system where Baseplate runs. An app or editor extension alone does not establish that the CLI is available. Restart Baseplate and run <strong>Check AI setup</strong>.</dd></div>
       <div><dt>Sign-in or provider access fails</dt><dd>Finish the provider’s sign-in and check the displayed account or usage error. A Baseplate subscription does not include Codex access or remove provider limits.</dd></div>
       <div><dt>The agent describes a test but no test runs</dt><dd>Open <strong>Studio</strong> setup and follow its next missing connection. Check the selected game, Bridge and live Play control. Describing a test is not evidence that it ran.</dd></div>
+      <div><dt>Studio logs a local 401</dt><dd>If you also use Claude Desktop on Windows, check the <a href="claude-code-roblox-studio.html#studio-mcp-401">reported Studio MCP token path issue</a>.</dd></div>
       <div><dt>The local files changed but the game did not</dt><dd>For Rojo, check that its server and plugin use this project. For a Studio snapshot, check the actual edit in Studio and save the game there.</dd></div>
     </dl>
 
