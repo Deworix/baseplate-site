@@ -64,6 +64,9 @@
 .home-polish .license-pro .amount { font-size:58px; letter-spacing:-.035em; line-height:1.1; }
 .home-polish .license-pro .plan-blurb { max-width:330px; margin:16px 0 22px; }
 .home-polish .license-pro .buy { min-width:190px; }
+.home-polish .license-session { margin:12px 0 0; font-size:13px; }
+.home-polish .license-session a { color:var(--accent-2); text-decoration:underline; text-underline-offset:3px; }
+.home-polish .license-session a:hover { color:var(--text); }
 .home-polish .license-capacity { min-width:0; text-align:center; padding-top:6px; }
 .home-polish .deck-model { position:relative; height:216px; width:min(100%,520px); margin:auto; isolation:isolate; }
 .home-polish .deck-base { position:absolute; z-index:-1; left:5%; top:108px; width:90%; height:108px; border:1px solid #86a6ff35; border-radius:18px 6px 18px 6px; background:radial-gradient(ellipse,#5b84f516,transparent 80%),repeating-linear-gradient(90deg,transparent 0 49px,#86a6ff0d 50px 51px),linear-gradient(180deg,#141c2a,#0c1018); box-shadow:0 6px 0 -1px #111722,0 7px 0 #86a6ff24,0 24px 40px -18px #000; transform:perspective(600px) rotateX(55deg); display:grid; grid-template-columns:repeat(6,1fr); align-items:center; justify-items:center; }

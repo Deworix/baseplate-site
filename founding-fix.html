@@ -26,6 +26,8 @@
 <meta name="theme-color" content="#08090C">
 <style>
   .fix-wrap{max-width:1040px;margin:0 auto;padding:118px 24px 90px}.fix-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:46px;align-items:start}.fix-grid h1{font-size:clamp(40px,6vw,70px);letter-spacing:-.05em;line-height:.98}.fix-card{padding:24px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}.fix-list{display:grid;gap:10px;margin:28px 0;padding:0;list-style:none}.fix-list li{padding:13px 15px;border:1px solid var(--line);border-radius:10px;background:var(--surface-1);color:var(--dim)}.fix-list b{color:var(--text)}.fix-price{display:flex;align-items:end;gap:9px;margin:16px 0 4px}.fix-price strong{font-size:46px;letter-spacing:-.05em}.fix-price span{color:var(--faint);padding-bottom:8px}.fix-form{display:grid;gap:13px;margin-top:26px}.fix-form label{display:grid;gap:6px;color:var(--dim);font-size:12px}.fix-form input,.fix-form textarea{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:9px;background:var(--surface-1);color:var(--text);font:inherit}.fix-form textarea{min-height:105px;resize:vertical}.fix-result{padding:13px;border:1px solid rgba(63,217,162,.35);border-radius:9px;color:var(--mint)}.fix-result.is-error{border-color:rgba(240,98,124,.42);background:rgba(240,98,124,.07);color:var(--text)}.fix-note{color:var(--faint);font-size:11px;line-height:1.55}.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}@media(max-width:780px){.fix-grid{grid-template-columns:1fr}.fix-wrap{padding-top:94px}}
+  html { scroll-behavior:auto; }
+  .fix-form { scroll-margin-top:84px; }
 </style>
 </head>
 <body>
@@ -42,6 +44,7 @@
         <li><b>During:</b> connect Studio, reproduce the failure and review a focused change.</li>
         <li><b>After:</b> repeat the same test and keep the result, remaining blockers and next steps.</li>
       </ul>
+      <p class="fix-note"><a href="https://baseplatedev.com/media/2026-10/baseplate-checkpoint023-20261016-9eeba114.mp4">Watch the same checkpoint test before and after a manual fix.</a> Recorded in our demo game with Baseplate Free.</p>
       <p class="fix-note">Bring Windows or macOS, Roblox Studio, your project and a supported Claude Code, Codex or Cursor CLI with provider access. We work on an authorized test copy. Your provider's usage limits apply. If a problem remains unresolved, the session result records the failed step and the next action.</p>
     </section>
     <section class="fix-card">
@@ -50,7 +53,7 @@
       <p>$4.99 billed monthly, renewing automatically until you cancel. Includes one session in your first month. See the <a href="refunds.html">14-day refund policy</a>.</p>
       <a class="btn btn-primary buy" data-plan="pro" href="https://buy.stripe.com/cNi6oJbsJ9heePH4AO4wM03">Start Pro and claim the session</a>
       <form class="fix-form" id="fix-form">
-        <p><b>Start with a fit check.</b> Describe the problem and your AI client. We will reply by email before arranging a session.</p>
+        <p><b>Free fit check.</b> Tell us what breaks and which AI CLI you use. We’ll reply by email about whether it fits a session.</p>
         <div class="hp" aria-hidden="true"><label>Company<input id="fix-company" tabindex="-1" autocomplete="off"></label></div>
         <label>Email<input id="fix-email" type="email" required autocomplete="email" placeholder="you@example.com"></label>
         <label>What breaks?<textarea id="fix-bug" required maxlength="1400" placeholder="What should happen, what happens instead, and which AI client do you use?"></textarea></label>
