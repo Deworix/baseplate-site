@@ -137,6 +137,42 @@
     if (url) { a.href = url; a.target = '_blank'; }
   });
 
+  const handoff = document.querySelector('#desktop-handoff');
+  if (handoff) {
+    const link = handoff.querySelector('input');
+    const button = handoff.querySelector('[data-desktop-share]');
+    const status = handoff.querySelector('[role="status"]');
+    const url = new URL(link.value);
+    const query = new URLSearchParams(location.search);
+    for (const key of ['utm_source', 'utm_campaign']) {
+      const value = query.get(key);
+      if (value && /^[a-z0-9._/-]{1,80}$/i.test(value)) url.searchParams.set(key, value);
+    }
+    link.value = url.href;
+    const share = typeof navigator.share === 'function';
+    const clipboard = typeof navigator.clipboard?.writeText === 'function';
+    if (share || clipboard) {
+      button.hidden = false;
+      button.textContent = share ? 'Share link' : 'Copy link';
+      button.addEventListener('click', async () => {
+        status.textContent = '';
+        try {
+          if (share) {
+            await navigator.share({ title: 'Baseplate downloads', url: link.value });
+            return;
+          }
+          await navigator.clipboard.writeText(link.value);
+          status.textContent = 'Link copied. Open it on your computer.';
+        } catch (error) {
+          if (share && error?.name === 'AbortError') return;
+          link.focus();
+          link.select();
+          status.textContent = 'Select and copy the link to open it on your computer.';
+        }
+      });
+    }
+  }
+
   /* ── Subscription management (Stripe Customer Portal) ────────────────
      Point every "billing portal" link at the configured portal URL. Until it's set, hide
      the link and reveal the support fallback so the answer is never a dead link. */
