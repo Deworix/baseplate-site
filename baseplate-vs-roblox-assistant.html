@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>Baseplate vs Roblox Assistant (2026) — an honest comparison</title>
-<meta name="description" content="Roblox Assistant and official MCP already build and playtest. Compare where Baseplate adds a project workspace and reusable checks. Updated September 2026.">
+<meta name="description" content="Compare Roblox Assistant, official Studio MCP, Team Test logs and Baseplate's reusable regression checks. Updated November 2026.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://baseplatedev.com/baseplate-vs-roblox-assistant.html">
 <meta property="og:title" content="Baseplate vs Roblox Assistant (2026)">
-<meta property="og:description" content="The built-in Assistant plays your game now too. Here is the honest read on where each one actually wins.">
+<meta property="og:description" content="See what Roblox Studio already offers and when a workspace for repeatable checks can help on your next update.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://baseplatedev.com/baseplate-vs-roblox-assistant.html">
 <meta property="og:image" content="https://baseplatedev.com/og.jpg">
@@ -41,7 +41,7 @@
       "@type": "Article",
       "headline": "Baseplate vs Roblox Assistant (2026): an honest comparison",
       "datePublished": "2026-07-28",
-      "dateModified": "2026-09-29",
+      "dateModified": "2026-11-14",
       "author": {
         "@type": "Organization",
         "name": "Baseplate",
@@ -98,30 +98,32 @@
 </nav>
 
 <main class="legal-wrap">
-  <p class="eyebrow"><span class="eyebrow-dot"></span>Comparison · September 29, 2026</p>
+  <p class="eyebrow"><span class="eyebrow-dot"></span>Comparison · November 14, 2026</p>
   <h1>Baseplate vs Roblox Assistant: where the extra workspace helps</h1>
   <p class="lede">Roblox already offers capable AI tools. Assistant can build and playtest, and external clients can use Studio’s built-in MCP server. Baseplate needs to earn its place through the workflow around those tools.</p>
-  <div class="guide-note"><p>Written by the Baseplate team from current public documentation. This is a workflow comparison, not a benchmark of model quality.</p></div>
+  <div class="guide-note"><p>Written by the Baseplate team. The comparison uses Roblox's published documentation and an example from our own game fixture.</p></div>
   <div class="legal-prose">
     <h2>What Roblox already provides</h2>
     <p>The <a href="https://create.roblox.com/docs/studio/mcp" rel="noopener nofollow">official Studio MCP server</a> supports script editing, Luau execution, playtests, console output, screenshots and keyboard/mouse input. It also exposes exploration and playtest subagents. You can connect an external AI client directly.</p>
-    <p>Roblox’s <a href="https://create.roblox.com/docs/ai/accelerated-workflows" rel="noopener nofollow">AI workflow documentation</a> describes both external clients and Assistant, including support for bringing API keys. Your own AI is therefore not an exclusive Baseplate capability.</p>
+    <p>External clients can also call <a href="https://create.roblox.com/docs/studio/mcp-open-cloud" rel="noopener nofollow">Open Cloud from Studio MCP</a> without pasting an API key. The place must belong to a published game, you choose permissions for that game, and some endpoints still need a different route.</p>
+    <p><a href="https://devforum.roblox.com/t/team-test-output-and-remote-logs/4989734" rel="noopener nofollow">Team Test remote logs</a> let you show teammates' client output in Studio. The Team Test log API can retrieve recent client or server messages during the session. Use it to identify which participant saw an error.</p>
     <h2>What Baseplate adds</h2>
     <div class="vs-wrap"><table class="vs-table">
       <thead><tr><th>Need</th><th>Roblox tooling</th><th>Baseplate</th></tr></thead>
       <tbody>
       <tr><td>Write and test scripts</td><td>Assistant or an external client via official MCP</td><td>Supported agent CLIs with Studio feedback</td></tr>
       <tr><td>Daily project work</td><td>Studio and your chosen client</td><td>Agent tiles, task board, Rojo files and Studio status together</td></tr>
-      <tr><td>Repeatable checks</td><td>Build a workflow with the available tools</td><td>Regression recipes, per-step results and baseline history</td></tr>
+      <tr><td>Repeatable checks</td><td>Use playtest tools and capture the observations you need</td><td>Reuse a Regression Lab recipe and review per-step results and baseline history</td></tr>
       <tr><td>Cost</td><td>Check current Roblox and chosen provider limits</td><td>Free, $4.99/month Pro or $12.99/month Studio, plus your AI account</td></tr>
       </tbody>
     </table></div>
     <h2>Start with the built-in tools when they fit</h2>
     <p>If Assistant or a terminal client connected to official MCP already handles your work, you may not need Baseplate. A separate app is useful when it reduces the effort of managing projects, reviewing changes and repeating checks between updates.</p>
     <h2>Try Baseplate on an existing game</h2>
-    <p>Make one small change and replay a test for a mechanic it touches. Compare the evidence and manual effort. Baseplate’s provider limits still apply, and passing a test only establishes the checks that actually ran.</p>
-    <p class="vs-note">Sources checked September 29, 2026: Roblox Creator Hub pages linked above. Features and limits can change. <a href="contact.html">Send a correction</a>. Baseplate is not affiliated with Roblox Corporation.</p>
-    <div class="guide-cta"><h2>Bring your game and your AI</h2><p>Try one agent, the Studio bridge and Regression Lab on the Free plan.</p><a class="btn btn-primary" href="index.html?utm_source=vs_assistant&amp;utm_medium=organic&amp;utm_campaign=compare_20260929#download">Download Baseplate free</a></div>
+    <p>Choose one player action that broke in the last update and record the expected result. Replay it before and after a small change. Compare how easily you can find the recorded result and repeat the check on the next revision.</p>
+    <p>In our demo game, touching checkpoint 3, returning to 1 and resetting first respawned the player in the wrong place. We tested the same sequence again in Studio with Baseplate Free after a manual guard change. <a href="https://baseplatedev.com/media/2026-10/baseplate-checkpoint023-20261016-9eeba114.mp4">Watch the recorded replay</a> or <a href="examples/checkpoint-regression.md">read the test and measurements</a>.</p>
+    <p class="vs-note">Sources checked November 14, 2026. <a href="contact.html">Send a correction</a>. Baseplate is an independent product.</p>
+    <div class="guide-cta"><h2>Bring one bug from your game</h2><p>Try one agent, the Studio bridge and Regression Lab on Free. Agent work uses your own supported CLI access and provider limits.</p><a class="btn btn-primary" href="index.html?utm_source=vs_assistant&amp;utm_medium=organic&amp;utm_campaign=compare_20260929#download">Download Baseplate free</a> <a class="btn btn-ghost" href="founding-10.html?utm_source=vs_assistant&amp;utm_medium=organic&amp;utm_campaign=compare_20260929#apply">Get free help with one bug</a></div>
   </div>
 </main>
 
@@ -140,7 +142,7 @@
      bar is present from the first paint rather than waiting on script. -->
 <aside class="mcta" aria-label="Get Baseplate">
   <span class="mcta-copy"><b>Build it with Baseplate</b><span>Free · no card · bring your own AI</span></span>
-  <a class="btn btn-primary btn-sm" href="index.html#download">Download free</a>
+  <a class="btn btn-primary btn-sm" href="index.html?utm_source=vs_assistant&amp;utm_medium=organic&amp;utm_campaign=compare_20260929#download">Download free</a>
 </aside>
 </body>
 </html>
