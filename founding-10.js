@@ -11,6 +11,7 @@
     map: { label: 'Understand my scripts and their connections', setup: 'Bring a local scripts folder or a saved game in Studio. A Map read needs no AI account or Open Cloud.' },
     verify: { label: 'Find what to check before my next update', setup: 'Bring your local scripts or a saved Studio game. Verify is a local scan; no AI account or Open Cloud is required. Live tests are a separate next step.' },
     playtest: { label: 'Reproduce one gameplay bug', setup: 'Bring a saved copy of your game and describe the player action that fails. We will help connect Studio, the Bridge and Studio MCP. An agent-powered fix uses your own supported AI CLI.' },
+    studio: { label: 'Get Roblox Studio connected in Baseplate', setup: 'Tell us your operating system, which AI CLI you use (if any), and the first Studio setup check that fails. A short error message is enough. Leave out tokens and private files.' },
   };
   goal.addEventListener('change', function () {
     requirements.textContent = goals[goal.value] ? goals[goal.value].setup : 'Choose one result. We will guide you through the setup it needs.';

@@ -78,6 +78,8 @@
   .guide-group { margin: 38px 0 0; }
   .guide-group > h2 { margin-bottom: 6px; }
   .guide-group > p.group-note { color: var(--faint); font-size: 14px; margin: 0 0 18px; }
+  .group-note a { color: var(--accent-2); text-decoration: underline; text-underline-offset: 3px; }
+  #studio-connection { scroll-margin-top: 84px; }
   .guide-index { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
   .guide-card {
     display: block; border: 1px solid var(--line-2); background: var(--surface-1);
@@ -115,6 +117,7 @@
   <section class="guide-group">
     <h2>Connect your agent to Studio</h2>
     <p class="group-note">Connect the AI CLI you use to your game. Your provider’s access and usage limits still apply.</p>
+    <p class="group-note">Already installed Baseplate? <a href="#studio-connection">Find the first Studio check that fails</a>.</p>
     <div class="guide-index">
       <a class="guide-card" href="claude-code-roblox-studio.html">
         <span class="card-tag">Setup</span>
@@ -132,6 +135,16 @@
         <p>Connect Cursor directly to Studio or use Baseplate's guided CLI workflow. Check missing tools and repeat one real test.</p>
       </a>
     </div>
+  </section>
+
+  <section class="guide-group legal-prose" id="studio-connection">
+    <h2>Baseplate can’t connect to Studio?</h2>
+    <ol>
+      <li><strong>Baseplate doesn’t show your game.</strong> In <strong>Baseplate → Studio</strong>, install or update the Bridge. Reopen Roblox Studio with a saved copy of your game, keep Baseplate open and allow the Bridge’s HTTP requests when Studio asks. If the game still doesn’t appear, check that Baseplate Bridge is enabled in Studio’s Manage Plugins, then use <strong>Recheck connection</strong>.</li>
+      <li><strong>Your game appears, but Play control isn’t ready.</strong> Confirm the game name and use <strong>Read game tree</strong> to check that Baseplate can read it. In Roblox Studio, open <strong>Assistant → … → Manage MCP Servers</strong> and enable Studio as an MCP server. In Baseplate, select <strong>Recheck connection</strong> and look for <strong>Play control verified</strong>. This check leaves the current Play state as it is. <a href="https://create.roblox.com/docs/studio/mcp#troubleshooting">Roblox’s MCP troubleshooting</a>.</li>
+      <li><strong>Play control is verified, but the agent can’t use it.</strong> Confirm the project and CLI in Baseplate. Use <strong>Prepare AI tools</strong> and open a new agent, which reads the current setup. For a missing CLI or a sign-in error, check the guide for your provider above.</li>
+    </ol>
+    <p>Still stuck? <a href="founding-10.html?utm_source=setup_guides&amp;utm_medium=owned_resource&amp;utm_campaign=studio_connection_20261114#apply">Ask for free setup help</a>. Choose <strong>Get Roblox Studio connected in Baseplate</strong> and tell us your operating system, CLI and the first message you see. Leave tokens, project files and player data out of the report.</p>
   </section>
 
   <section class="guide-group">
