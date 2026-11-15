@@ -13,7 +13,7 @@
   var goals = {
     map: { label: 'Understand my scripts and their connections', setup: 'Bring a local scripts folder or a saved game in Studio. A Map read needs no AI account or Open Cloud.' },
     verify: { label: 'Find what to check before my next update', setup: 'Bring your local scripts or a saved Studio game. Verify is a local scan; no AI account or Open Cloud is required. Live tests are a separate next step.' },
-    playtest: { label: 'Reproduce one gameplay bug', setup: 'Bring a saved copy of your game and describe the player action that fails. We will help connect Studio, the Bridge and Studio MCP. An agent-powered fix uses your own supported AI CLI.' },
+    playtest: { label: 'Reproduce one gameplay bug', setup: 'Start with the player action, the expected behavior and what actually happened. You can test the issue in a saved copy of your game. An agent-powered fix uses your own supported AI CLI.', example: 'For example, I reach checkpoint 3, cross checkpoint 1 again and reset. I expect to respawn at 3. I respawn at 1.' },
     datastore: { label: 'Diagnose a DataStore save or load problem', setup: 'Tell us when the value changes or goes missing and include the first relevant error if you have one. For a live save check, use a separate test experience with test data.', example: 'For example: I earn 100 coins and leave. On rejoin the balance is 0. Output shows a load error before the balance appears.' },
     studio: { label: 'Get Roblox Studio connected in Baseplate', setup: 'Tell us your operating system, which AI CLI you use (if any), and the first Studio setup check that fails. A short error message is enough. Leave out tokens and private files.' },
   };
@@ -22,8 +22,9 @@
     requirements.textContent = selected ? selected.setup : defaultRequirements;
     blocker.placeholder = selected && selected.example ? selected.example : defaultExample;
   }
-  if (new URLSearchParams(window.location.search).get('topic') === 'datastore') {
-    goal.value = 'datastore';
+  var topic = new URLSearchParams(window.location.search).get('topic');
+  if (topic === 'datastore' || topic === 'playtest') {
+    goal.value = topic;
   }
   updateRequirements();
   goal.addEventListener('change', updateRequirements);
