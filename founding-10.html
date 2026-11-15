@@ -46,10 +46,11 @@
     </section>
     <section class="f10-card" id="apply">
       <p class="eyebrow">Start with a message</p>
+      <noscript><p class="f10-note">To ask for help with JavaScript off, <a href="mailto:contact@baseplatedev.com?subject=Baseplate%20project%20help">email us</a> with what you expected and what happened.</p></noscript>
       <form class="f10-form" id="f10-form">
         <div class="hp" aria-hidden="true"><label>Company<input id="f10-company" tabindex="-1" autocomplete="off"></label></div>
         <label>Email<input id="f10-email" type="email" required autocomplete="email" placeholder="you@example.com"></label>
-        <label>What would help you first?<select id="f10-goal" required aria-describedby="f10-requirements"><option value="">Choose one result</option><option value="map">Understand my scripts and their connections</option><option value="verify">Find what to check before my next update</option><option value="playtest">Reproduce one gameplay bug</option><option value="studio">Get Roblox Studio connected in Baseplate</option></select></label>
+        <label>What would help you first?<select id="f10-goal" required aria-describedby="f10-requirements"><option value="">Choose one result</option><option value="map">Understand my scripts and their connections</option><option value="verify">Find what to check before my next update</option><option value="playtest">Reproduce one gameplay bug</option><option value="datastore">Diagnose a DataStore save or load problem</option><option value="studio">Get Roblox Studio connected in Baseplate</option></select></label>
         <p class="f10-note" id="f10-requirements" role="status">Choose one result. We will guide you through the setup it needs.</p>
         <label>What should happen, and what happens instead?<textarea id="f10-blocker" required maxlength="1800" placeholder="For example: after a player buys a sword, coins go down but the item never arrives. Or: I have scripts in Studio and do not know how to connect them to my AI."></textarea></label>
         <details class="f10-extra">
@@ -60,15 +61,15 @@
           </div>
         </details>
         <label class="f10-consent"><input id="f10-consent" type="checkbox" required><span>I agree that Baseplate may use these details to assess my request and contact me about this help. See the <a href="privacy.html">Privacy Policy</a>.</span></label>
-        <button class="btn btn-primary" id="f10-send" type="submit">Ask for free help</button>
+        <button class="btn btn-primary" id="f10-send" type="submit" disabled>Ask for free help</button>
         <div class="f10-result" id="f10-ok" role="status" hidden>Message received. We will reply by email with a suggested next step, or explain if this is outside what we can help with. No call has been booked.</div>
-        <div class="f10-result" id="f10-error" role="alert" hidden></div>
+        <div class="f10-result is-error" id="f10-error" role="alert" hidden>Could not send right now. <a href="mailto:contact@baseplatedev.com?subject=Baseplate%20project%20help">Email us instead</a>.</div>
       </form>
     </section>
   </div>
 </main>
 <footer class="footer"><div class="footer-inner"><div class="footer-brand"><span>Baseplate</span><span class="footer-tag">Mission control for building Roblox with AI agents.</span></div><div class="footer-links"><a href="index.html#pricing">Pricing</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="contact.html">Contact</a></div></div><p class="footer-legal">© 2026 Baseplate. Not affiliated with Roblox Corporation.</p></footer>
 <script src="funnel.js?v=20261016"></script>
-<script src="founding-10.js?v=20261114"></script>
+<script src="founding-10.js?v=20261115"></script>
 </body>
 </html>
