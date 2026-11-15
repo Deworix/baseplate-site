@@ -138,3 +138,6 @@
 .update-world[data-state=before] .checkpoint-beacon,.update-world[data-state=before] .course-player-after,.update-world[data-state=before] .course-return{opacity:0}.update-world[data-state=before] .course-player-before{opacity:1}.update-world[data-state=before] .uw-outcome{border-color:#e5b48b}.update-world[data-state=before] .uw-outcome-icon{color:#e5b48b}
 @media(prefers-reduced-motion:no-preference){.update-world[data-state=after] .course-player-after{animation:checkpoint-respawn .75s cubic-bezier(.2,.65,.3,1) both}.update-world[data-state=after] .course-return{animation:checkpoint-route .7s ease-out both}@keyframes checkpoint-respawn{from{opacity:0;transform:translateY(-15px)}to{opacity:1;transform:translateY(0)}}@keyframes checkpoint-route{from{opacity:0;stroke-dashoffset:35}to{opacity:1;stroke-dashoffset:0}}}
 @media(max-width:980px){.update-world{width:min(580px,100%);margin:auto}.uw-stage{min-height:0}}@media(max-width:480px){.uw-kind{display:none}.uw-scene{margin:5px -12px -15px}.uw-outcome b{font-size:16px}.uw-outcome small{font-size:11px}.uw-switch button{padding:8px;font-size:10px}}
+@media (max-width: 480px) {
+  .uw-footer { flex-wrap: wrap; }
+}
