@@ -41,7 +41,7 @@
       "@type": "Article",
       "headline": "Why AI-written Luau passes review but breaks in Studio",
       "datePublished": "2026-07-20",
-      "dateModified": "2026-07-27",
+      "dateModified": "2026-11-15",
       "author": { "@type": "Organization", "name": "Baseplate", "url": "https://baseplatedev.com/" },
       "publisher": { "@id": "https://baseplatedev.com/#organization" },
       "mainEntityOfPage": "https://baseplatedev.com/ai-written-luau-breaks-in-studio.html"
@@ -91,6 +91,7 @@
   .guide-cta { border:1px solid var(--accent-line); background:var(--accent-weak); border-radius:var(--r-plate); padding:24px; margin-top:42px; }
   .guide-cta h2 { margin-top:0; }
   .guide-cta .btn { margin-top:14px; }
+  #test-teleports { scroll-margin-top:98px; }
 </style>
 </head>
 <body class="has-mcta">
@@ -198,6 +199,18 @@ kill that target, and move all surviving players outside 200 studs.
 Verify that it retargets without waiting for the old destination, returns to spawn
 when nobody qualifies, creates only one movement job, and leaves Output clean.
 Do not report PASS until every assertion succeeds in a fresh rerun.</code></pre>
+
+    <section aria-labelledby="test-teleports">
+      <h2 id="test-teleports">Test a lobby-to-dungeon teleport in Studio</h2>
+      <p>Roblox Studio can test <code>TeleportAsync()</code> between places in the same experience in <strong>Test</strong> and <strong>Team Test</strong>. Use a private test experience with both places under the same <code>game.GameId</code>. Studio opens a new test server for the destination, so you can inspect both places without publishing your changes. <a href="https://create.roblox.com/docs/projects/teleport#test-teleports-in-studio">Roblox’s setup and limitations</a>.</p>
+      <ol>
+        <li><strong>In the lobby</strong>, use the same door or prompt a player would use. Record the expected destination <code>PlaceId</code>.</li>
+        <li><strong>In the destination server</strong>, confirm the actual <code>game.PlaceId</code>, the intended spawn and that the controls work. Save the destination Output alongside the observation.</li>
+        <li><strong>After a fix</strong>, repeat that route with the same test data. If the player stays in the lobby, record the origin Output and the result from your <code>TeleportInitFailed</code> handler, if it fires.</li>
+      </ol>
+      <p>For a first run, use a normal same-experience teleport. Roblox documents differences in <code>PrivateServerId</code> and <code>JobId</code> during testing. Keep balances and inventory in your server-owned data flow and use only non-sensitive values in <code>TeleportData</code>.</p>
+      <p><a href="founding-10.html?topic=playtest&amp;utm_source=runtime_guide&amp;utm_medium=help&amp;utm_campaign=studio_teleport_check#apply">Tell us where your teleport gets stuck for free written help →</a></p>
+    </section>
 
     <div class="guide-cta">
       <h2>Turn the checklist into a real Studio loop</h2>

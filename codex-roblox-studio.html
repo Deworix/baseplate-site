@@ -41,7 +41,7 @@
       "@type": "Article",
       "headline": "How to use Codex with Roblox Studio",
       "datePublished": "2026-07-28",
-      "dateModified": "2026-11-12",
+      "dateModified": "2026-11-15",
       "author": { "@type": "Organization", "name": "Baseplate", "url": "https://baseplatedev.com/" },
       "publisher": { "@id": "https://baseplatedev.com/#organization" },
       "mainEntityOfPage": "https://baseplatedev.com/codex-roblox-studio.html"
@@ -125,7 +125,7 @@
   <p class="eyebrow"><span class="eyebrow-dot"></span>Your first Codex task</p>
   <h1>How to use Codex with Roblox Studio</h1>
   <p class="lede">Start with a copy of your game and one player action you can repeat. Baseplate’s Guide takes you from choosing the project to connecting Codex and checking the change in Studio.</p>
-  <p class="setup-meta">Baseplate 0.23.1 · Updated 28 October 2026</p>
+  <p class="setup-meta">Baseplate 0.23.1 · Updated 15 November 2026</p>
   <ol class="setup-route" aria-label="Your first task in four steps">
     <li><a href="#choose-project"><span>01</span>Choose your game</a></li>
     <li><a href="#one-change"><span>02</span>Describe one change</a></li>
@@ -174,6 +174,7 @@ Explain the changed files and what the test did not cover.</code></pre>
       <div><dt>Sign-in or provider access fails</dt><dd>Finish the provider’s sign-in and check the displayed account or usage error. A Baseplate subscription does not include Codex access or remove provider limits.</dd></div>
       <div><dt>The agent describes a test but no test runs</dt><dd>Open <strong>Studio</strong> setup and follow its next missing connection. Check the selected game, Bridge and live Play control. Describing a test is not evidence that it ran.</dd></div>
       <div><dt>Studio logs a local 401</dt><dd>If you also use Claude Desktop on Windows, check the <a href="claude-code-roblox-studio.html#studio-mcp-401">reported Studio MCP token path issue</a>.</dd></div>
+      <div><dt>A teleport leaves the player in the lobby</dt><dd>Check the origin and destination separately using the <a href="ai-written-luau-breaks-in-studio.html#test-teleports">Studio teleport test checklist</a>.</dd></div>
       <div><dt>The local files changed but the game did not</dt><dd>For Rojo, check that its server and plugin use this project. For a Studio snapshot, check the actual edit in Studio and save the game there.</dd></div>
     </dl>
 
@@ -188,7 +189,7 @@ Explain the changed files and what the test did not cover.</code></pre>
       <h2>Bring one game. Start with one change.</h2>
       <p>The core one-agent workflow is included in Free. Use the Codex access you already have, or start with the local scan.</p>
       <a class="btn btn-primary" href="index.html?utm_source=codex_guide&amp;utm_medium=organic&amp;utm_campaign=first_result_20261028#download">Download Baseplate free</a>
-      <p><a href="founding-10.html?utm_source=codex_guide&amp;utm_medium=help&amp;utm_campaign=first_result_20261028">Want help with your own project? Request a free hands-on session →</a></p>
+      <p><a href="founding-10.html?utm_source=codex_guide&amp;utm_medium=help&amp;utm_campaign=first_result_20261028#apply">Stuck on one step? Ask for free written help →</a></p>
     </div>
   </div>
 </main>
