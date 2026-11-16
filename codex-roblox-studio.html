@@ -125,7 +125,7 @@
   <p class="eyebrow"><span class="eyebrow-dot"></span>Your first Codex task</p>
   <h1>How to use Codex with Roblox Studio</h1>
   <p class="lede">Start with a copy of your game and one player action you can repeat. Baseplate’s Guide takes you from choosing the project to connecting Codex and checking the change in Studio.</p>
-  <p class="setup-meta">Baseplate 0.23.1 · Updated 15 November 2026</p>
+  <p class="setup-meta">Baseplate 0.23.1 · Updated 16 November 2026</p>
   <ol class="setup-route" aria-label="Your first task in four steps">
     <li><a href="#choose-project"><span>01</span>Choose your game</a></li>
     <li><a href="#one-change"><span>02</span>Describe one change</a></li>
@@ -183,7 +183,14 @@ Explain the changed files and what the test did not cover.</code></pre>
       <p>In <strong>Guide</strong>, choose <strong>Find what to improve</strong>, add your project and use <strong>Open free local scan</strong>. Verify highlights risks and missing evidence. This local scan needs neither an AI account nor Open Cloud; its findings still need review and testing.</p>
     </section>
 
-    <details class="setup-advanced"><summary>Advanced: manual Codex MCP configuration</summary><p>Baseplate prepares its workspace connection for the session. For a separate manual CLI workflow, OpenAI documents user MCP configuration in <span class="mono">~/.codex/config.toml</span> and trusted project configuration in <span class="mono">.codex/config.toml</span>. Use the <a href="https://learn.chatgpt.com/docs/extend/mcp?surface=cli" target="_blank" rel="noopener noreferrer">official MCP configuration guide</a> for current commands. A fixed localhost URL copied from another setup may point at a different port or project.</p></details>
+    <details class="setup-advanced">
+      <summary>Connect Codex directly to Studio</summary>
+      <p>Baseplate prepares its own workspace connection when it opens Codex. For a standalone Codex session, run <code>codex mcp list</code> first. If <code>Roblox_Studio</code> is already listed, open a new Codex session and check which Studio game it can see.</p>
+      <p>If the entry is missing, open a saved copy in Studio. Under <strong>Assistant → … → Settings → MCP Servers</strong> (called <strong>Manage MCP Servers</strong> in some versions), enable Studio's MCP server. Open <strong>Quick Connect</strong> and select the Codex entry. Start a new session and ask it to call <code>list_roblox_studios</code>. It should name the copy you opened.</p>
+      <p>If Quick Connect is unavailable, Roblox documents this manual Windows PowerShell command. Keep the quotes around <code>'--'</code> so the npm shim passes the separator to Codex.</p>
+      <pre class="guide-code"><code>codex mcp add Roblox_Studio '--' cmd.exe /c 'cd /d %LOCALAPPDATA%\Roblox &amp;&amp; .\mcp.bat'</code></pre>
+      <p><a href="https://github.com/Roblox/roblox-studio-agent-plugin/blob/main/skills/roblox-get-started/references/connect.md#chatgpt-and-codex" target="_blank" rel="noopener noreferrer">Roblox's Windows and Mac setup</a> · <a href="https://learn.chatgpt.com/docs/extend/mcp?surface=cli" target="_blank" rel="noopener noreferrer">Codex MCP configuration</a></p>
+    </details>
 
     <div class="guide-cta">
       <h2>Bring one game. Start with one change.</h2>
