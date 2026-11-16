@@ -15,7 +15,7 @@
     verify: { label: 'Find what to check before my next update', setup: 'Bring your local scripts or a saved Studio game. Verify is a local scan; no AI account or Open Cloud is required. Live tests are a separate next step.' },
     playtest: { label: 'Reproduce one gameplay bug', setup: 'Start with the player action, the expected behavior and what actually happened. You can test the issue in a saved copy of your game. An agent-powered fix uses your own supported AI CLI.', example: 'For example, I reach checkpoint 3, cross checkpoint 1 again and reset. I expect to respawn at 3. I respawn at 1.' },
     datastore: { label: 'Diagnose a DataStore save or load problem', setup: 'Tell us when the value changes or goes missing and include the first relevant error if you have one. For a live save check, use a separate test experience with test data.', example: 'For example: I earn 100 coins and leave. On rejoin the balance is 0. Output shows a load error before the balance appears.' },
-    studio: { label: 'Get Roblox Studio connected in Baseplate', setup: 'Tell us your operating system, which AI CLI you use (if any), and the first Studio setup check that fails. A short error message is enough. Leave out tokens and private files.' },
+    studio: { label: 'Get Roblox Studio connected in Baseplate', setup: 'Tell us your operating system, which AI CLI you use (if any), and the first Studio setup check that fails. A short error message is enough. Leave out tokens and private files.', example: 'For example, Studio is open on Windows. Check setup still shows the bridge as disconnected. I use Claude Code.' },
   };
   function updateRequirements() {
     var selected = goals[goal.value];
@@ -23,7 +23,7 @@
     blocker.placeholder = selected && selected.example ? selected.example : defaultExample;
   }
   var topic = new URLSearchParams(window.location.search).get('topic');
-  if (topic === 'datastore' || topic === 'playtest') {
+  if (topic === 'datastore' || topic === 'playtest' || topic === 'studio') {
     goal.value = topic;
   }
   updateRequirements();
