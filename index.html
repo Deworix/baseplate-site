@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-VRbjvMdMrrLXdgpy9nDYxyxywfBQAR6kZGnA4B0PSts='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Eh8EQxVkog+YTCsDPfO99Kssr/rJlmPD5v9GEWigo2c='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src https://baseplate-license.baseplate-app.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>Baseplate — your own AI builds your Roblox game, one visible step at a time</title>
 <meta name="description" content="Build and update your Roblox game with your own AI. Follow its plan, review structural edits and test changes in Studio. Free to start.">
 <meta property="og:title" content="Baseplate — your AI builds your Roblox game. You stay in control.">
@@ -81,7 +81,7 @@
         "Remote Contract Compiler with validator and Studio fuzz-test generation",
         "Performance CI — runtime capture and deterministic release budgets",
         "Baseplate Verify — a local project health score and the shortest evidence-backed path to verified",
-        "Live Roblox Studio bridge with Rojo sync",
+        "Live Roblox Studio bridge, script snapshot import and optional Rojo sync",
         "Exploit Guard security audit of RemoteEvents",
         "Crew — multiple agents building in parallel",
         "Ship Gate release review, Economy and multiplayer simulators",
@@ -412,7 +412,7 @@
           </li>
           <li class="bp-bridge-game bp-bridge-game--rojo">
             <svg class="bp-bridge-icon" viewBox="0 0 24 24" width="23" height="23" aria-hidden="true"><rect fill="currentColor" x="5.05" y="5.05" width="13.9" height="13.9" rx="2.6" transform="rotate(45 12 12)"/><path fill="none" stroke="#13151c" stroke-width="1.5" d="M8 12h8m-4-4v8"/></svg>
-            <span><b>Rojo</b><small>Project file sync</small></span>
+            <span><b>Rojo</b><small>Optional · project file sync</small></span>
           </li>
           <li class="bp-bridge-game bp-bridge-game--cloud">
             <svg class="bp-bridge-icon" viewBox="0 0 24 24" width="23" height="23" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M8 18H6.5a4.5 4.5 0 0 1-.9-8.91 6.3 6.3 0 0 1 12.2 1.5A3.8 3.8 0 0 1 17.5 18H16m-7-2 3-3 3 3m-3-3v8"/></svg>
@@ -435,7 +435,7 @@
   <div class="loop-steps">
     <div class="loop-step"><span class="loop-num mono">01</span><h3>Playtest</h3><p>The agent runs your game through the live Studio bridge and watches the console — the same output you'd read, minus the squinting.</p></div>
     <div class="loop-step"><span class="loop-num mono">02</span><h3>Diagnose</h3><p>It reads the real stack trace, finds the cause in your Luau source, and explains it in plain language — not a cryptic dump.</p></div>
-    <div class="loop-step"><span class="loop-num mono">03</span><h3>Fix</h3><p>It edits <span class="mono">src/</span> directly. Rojo syncs the change into Studio the moment it's written.</p></div>
+    <div class="loop-step"><span class="loop-num mono">03</span><h3>Fix</h3><p>The agent edits your scripts. A connected Rojo project syncs changes to Studio. If your game lives in Studio, <a href="codex-roblox-studio.html#choose-project">import scripts from a saved copy</a>, then confirm the changes in Studio before testing.</p></div>
     <div class="loop-step"><span class="loop-num mono">04</span><h3>Verify</h3><p>Rerun the checks and inspect what passed or blocked the run. Replay the player action too: a clean console alone does not prove the gameplay works.</p></div>
   </div>
 </section>
