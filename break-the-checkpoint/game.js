@@ -90,11 +90,18 @@ $('replay-guard').addEventListener('click', async () => {
   }
   guarded = true; busy = false; render();
 });
-$('proof').addEventListener('toggle', () => {
+const proof = $('proof');
+proof.addEventListener('toggle', () => {
   const video = $('proof-video');
-  if ($('proof').open && !video.getAttribute('src')) video.src = 'https://baseplatedev.com/media/2026-10/baseplate-checkpoint023-20261016-9eeba114.mp4';
-  if (!$('proof').open) video.pause();
+  if (proof.open && !video.getAttribute('src')) video.src = 'https://baseplatedev.com/media/2026-10/baseplate-checkpoint023-20261016-9eeba114.mp4';
+  if (!proof.open) video.pause();
 });
+function openLinkedProof() {
+  if (location.hash === '#proof') proof.open = true;
+}
+$('jump-proof').addEventListener('click', () => { proof.open = true; });
+window.addEventListener('hashchange', openLinkedProof);
+openLinkedProof();
 function resultCard() {
   const canvas = document.createElement('canvas'); canvas.width = 1080; canvas.height = 1350;
   const ctx = canvas.getContext('2d');

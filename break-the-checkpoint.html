@@ -9,11 +9,11 @@
 <meta property="og:image" content="https://baseplatedev.com/break-the-checkpoint/cover.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="A checkpoint route with three empty move slots. Can you make the player lose progress?">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://baseplatedev.com/break-the-checkpoint/cover.png">
 <link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="icon" href="favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="manifest" href="site.webmanifest"><meta name="theme-color" content="#090d17">
-<link rel="stylesheet" href="break-the-checkpoint/style.css"><script type="module" src="break-the-checkpoint/game.js"></script>
+<link rel="stylesheet" href="break-the-checkpoint/style.css"><script type="module" src="break-the-checkpoint/game.js?v=20261116-proof"></script>
 </head><body>
 <header><a class="brand" href="index.html"><svg width="27" height="27" viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="2" width="36" height="36" rx="9" fill="none" stroke="currentColor" stroke-width="2.5"/><g fill="currentColor"><circle cx="12" cy="12" r="3"/><circle cx="28" cy="12" r="3"/><circle cx="12" cy="28" r="3"/><circle cx="28" cy="28" r="3"/></g></svg>Baseplate</a><span class="edition">BREAK THIS UPDATE / 01</span><a class="header-link" href="ship-or-skip.html">Six code-review calls ↗</a></header>
 <main>
-<section class="intro"><p class="eyebrow">A SMALL GAME. A REAL KIND OF BUG.</p><h1>You have <em>3 moves.</em><br>Break the checkpoint.</h1><p class="lede">Make the player respawn <strong>behind their furthest checkpoint.</strong> Pick checkpoints and use Reset. Can you find the losing route?</p></section>
+<section class="intro"><p class="eyebrow">A SMALL GAME. A REAL KIND OF BUG.</p><h1>You have <em>3 moves.</em><br>Break the checkpoint.</h1><p class="lede">Make the player respawn <strong>behind their furthest checkpoint.</strong> Pick checkpoints and use Reset. Can you find the losing route?</p><p class="fine"><a id="jump-proof" href="#proof">Skip to the real Studio test</a></p></section>
 <section id="arena" class="arena" aria-label="Checkpoint challenge">
 <div class="arena-top"><span class="simulation">BROWSER SIMULATION</span><span id="mode-label">Original rule</span></div>
 <div class="world"><svg id="world" viewBox="0 0 760 320" aria-hidden="true" data-position="0"><defs><pattern id="studs" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="16" cy="16" r="1.5" fill="#344364"/></pattern></defs><rect width="760" height="320" fill="url(#studs)"/><path class="track" d="M70 252 210 194 360 246 510 158 660 211"/>
@@ -34,7 +34,16 @@ end</code></pre><p class="fine">Same moves. This rule keeps the highest stage re
 <div class="share"><button type="button" id="save-card">Save my challenge card ↓</button><button type="button" id="copy-link">Challenge a developer ↗</button></div><p id="share-notice" role="status" aria-live="polite"></p>
 <div class="next-step"><p class="eyebrow">GOT A BUG IN YOUR OWN GAME?</p><h3>Turn your bug into a test you can repeat.</h3><p>Tell us what the player does, what you expect and what actually happens. We’ll reply by email with the first check to run on a copy of your game. It’s free and you can start with a short description.</p><a class="primary" href="founding-10.html?topic=playtest&amp;utm_source=checkpoint_challenge&amp;utm_medium=interactive_game&amp;utm_campaign=023_first_win#apply">Get help with a gameplay bug ↗</a></div></section>
 </section>
-<section class="evidence"><details id="proof"><summary>See the actual Roblox Studio result behind this challenge <span>↗</span></summary><p>Our own local scene, Baseplate 0.23 Free. The same gameplay test failed before a manual guard fix and passed after. This browser puzzle illustrates that behavior; it does not run Studio.</p><video id="proof-video" controls preload="none" poster="break-the-checkpoint/cover.png" aria-label="Real Baseplate and Roblox Studio checkpoint example"></video><p class="fine">Edited real captures. Session-only progress, not DataStore persistence or a whole-game correctness guarantee. <a href="https://github.com/Deworix/baseplate-site/blob/main/examples/checkpoint-regression.md" target="_blank" rel="noopener noreferrer">Get the test steps and guard ↗</a></p></details></section>
+<section class="evidence">
+  <details id="proof">
+    <summary>See the actual Roblox Studio result behind this challenge <span>↗</span></summary>
+    <p>In our own local game, Baseplate 0.23 Free replayed the same actions before and after a manual fix. The player respawned <strong>44.03 studs from checkpoint 3 before</strong> and <strong>4.71 studs away after</strong>. This scene passes within 8 studs.</p>
+    <video id="proof-video" controls preload="none" poster="break-the-checkpoint/cover.png" aria-label="Real Baseplate and Roblox Studio checkpoint example"></video>
+    <p class="fine">The recording covers checkpoint progress in one Studio session. <a href="https://github.com/Deworix/baseplate-site/blob/main/examples/checkpoint-regression.md" target="_blank" rel="noopener noreferrer">Get the test steps and guard ↗</a></p>
+    <p><a class="primary" href="founding-10.html?topic=playtest&amp;utm_source=checkpoint_proof&amp;utm_medium=owned_resource&amp;utm_campaign=023_first_win#apply">Get free help testing my game ↗</a></p>
+    <p class="fine"><a href="codex-roblox-studio.html?utm_source=checkpoint_proof&amp;utm_medium=owned_resource&amp;utm_campaign=023_first_win#choose-project">Set up a test yourself with Codex</a></p>
+  </details>
+</section>
 <noscript><p>This browser challenge needs JavaScript. <a href="https://github.com/Deworix/baseplate-site/blob/main/examples/checkpoint-regression.md">Use the written test steps instead.</a></p></noscript>
 </main><footer><span>Made by Baseplate. Not affiliated with Roblox.</span><span>No account, tracking or source upload.</span></footer>
 </body></html>
