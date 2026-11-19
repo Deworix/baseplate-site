@@ -153,7 +153,7 @@
     const clipboard = typeof navigator.clipboard?.writeText === 'function';
     if (share || clipboard) {
       button.hidden = false;
-      button.textContent = share ? 'Share link' : 'Copy link';
+      button.textContent = share ? 'Share download link' : 'Copy download link';
       button.addEventListener('click', async () => {
         status.textContent = '';
         try {
@@ -165,6 +165,7 @@
           status.textContent = 'Link copied. Open it on your computer.';
         } catch (error) {
           if (share && error?.name === 'AbortError') return;
+          link.closest('details').open = true;
           link.focus();
           link.select();
           status.textContent = 'Select and copy the link to open it on your computer.';

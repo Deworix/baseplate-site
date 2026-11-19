@@ -463,17 +463,16 @@ nav, header, section, footer { position: relative; z-index: 1; }
 .dl-note { color: var(--faint); font-size: 13px; max-width: 560px; margin: 22px auto 0; }
 .dl-note a { color: var(--dim); }
 .dl-handoff {
-  display: none; margin: 22px auto 0; padding: 13px 14px;
+  display: none; margin: 0 auto 24px; padding: 16px;
   max-width: 460px; text-align: left; border: 1px solid var(--line);
-  border-radius: var(--r-plate-sm); background: var(--panel); font-size: 13px;
+  border-radius: var(--r-plate-sm); background: var(--panel); font-size: 15px;
 }
-.dl-handoff summary { color: var(--accent-2); cursor: pointer; font-weight: 600; }
-.dl-handoff p { margin: 9px 0; color: var(--dim); }
-.dl-handoff label { display: block; color: var(--dim); margin-bottom: 5px; }
-.dl-handoff-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.dl-handoff-controls button[hidden] { display: none; }
-.dl-handoff-controls input {
-  flex: 1 1 180px; min-width: 0; width: 100%; padding: 9px 10px;
+.dl-handoff h3 { margin: 0; font-size: 18px; }
+.dl-handoff p { margin: 6px 0 12px; color: var(--dim); }
+.dl-handoff summary { padding: 10px 0; color: var(--accent-2); cursor: pointer; }
+.dl-handoff button[hidden] { display: none; }
+.dl-handoff input {
+  display: block; box-sizing: border-box; width: 100%; padding: 9px 10px;
   border: 1px solid var(--line-2); border-radius: var(--r-plate-sm);
   background: var(--surface-1); color: var(--text); font: inherit;
 }
